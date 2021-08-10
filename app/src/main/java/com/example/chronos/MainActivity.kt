@@ -30,17 +30,7 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(navController = navController)
                     }
                 }
-//                Surface(
-//                    color = MaterialTheme.colors.background,
-//                    modifier = Modifier.fillMaxSize()) {
-//                    Greeting("Android")
-//                }
             }
         }
     }
 }
-
-//@Composable
-//fun Greeting(name: String) {
-//    Text(text = "Hello $name!")
-//}
