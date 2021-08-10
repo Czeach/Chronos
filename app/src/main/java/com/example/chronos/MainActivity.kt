@@ -3,16 +3,13 @@ package com.example.chronos
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.chronos.navigation.Navigation
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.chronos.ui.theme.ChronosTheme
+import com.example.chronos.uis.home.HomeScreen
+import com.example.chronos.uis.splash.SplashScreen
+import com.example.chronos.utils.Screens
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,25 +17,30 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChronosTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    color = MaterialTheme.colors.background,
-                    modifier = Modifier.fillMaxSize()) {
-                    Greeting("Android")
+
+                val navController = rememberNavController()
+                
+                NavHost(navController = navController, startDestination = Screens.SplashScreen.route) {
+
+                    composable(route = Screens.SplashScreen.route) {
+                        SplashScreen(navController = navController)
+                    }
+
+                    composable(route = Screens.HomeScreen.route) {
+                        HomeScreen(navController = navController)
+                    }
                 }
+//                Surface(
+//                    color = MaterialTheme.colors.background,
+//                    modifier = Modifier.fillMaxSize()) {
+//                    Greeting("Android")
+//                }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-//@Preview(showBackground = true)
 //@Composable
-//fun DefaultPreview() {
-//    ChronosTheme {
-//        Greeting("Android")
-//    }
+//fun Greeting(name: String) {
+//    Text(text = "Hello $name!")
 //}
