@@ -6,6 +6,6 @@ sealed class Constants {
 
     companion object {
 
-        val base_ur = ""
+        val base_url = ""
     }
 }

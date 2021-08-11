@@ -1,4 +1,4 @@
 package com.example.chronos.network
 
-class ApiService {
+interface ChronosApi {
 }
