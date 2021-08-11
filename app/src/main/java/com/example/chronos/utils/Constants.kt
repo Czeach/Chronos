@@ -6,6 +6,6 @@ sealed class Constants {
 
     companion object {
 
-        val base_url = ""
+        val base_url = "https://timezone.abstractapi.com/v1/"
     }
 }
