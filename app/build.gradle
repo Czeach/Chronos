@@ -3,6 +3,13 @@ plugins {
     id 'kotlin-android'
 }
 
+def getApiKey() {
+    def keysProperties = new Properties()
+    keysProperties.load(project.rootProject.file("local.properties").newDataInputStream())
+    def ApiKey = keysProperties.getProperty("api_key", "")
+    return ApiKey
+}
+
 android {
     compileSdk 30
     buildToolsVersion "30.0.3"
@@ -24,6 +31,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "API_KEY", getApiKey())
+        }
+        debug {
+            buildConfigField("String", "API_KEY", getApiKey())
         }
     }
     compileOptions {
