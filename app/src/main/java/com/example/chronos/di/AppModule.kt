@@ -1,7 +1,7 @@
 package com.example.chronos.di
 
-import com.example.chronos.network.ChronosApi
-import com.example.chronos.network.ChronosRepository
+import com.example.chronos.network.ApiService
+import com.example.chronos.network.Repository
 import com.example.chronos.utils.Constants
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -19,13 +19,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideChronosRepo(api: ChronosApi) {
-        ChronosRepository(api)
+    fun provideRepository(apiService: ApiService) {
+        Repository(apiService)
     }
 
     @Singleton
     @Provides
-    fun provideChronosApi(): ChronosApi {
+    fun provideApiService(): ApiService {
 
         val gsonBuilder: GsonBuilder = GsonBuilder().serializeNulls()
 
@@ -34,6 +34,6 @@ object AppModule {
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))
             .build()
-            .create(ChronosApi::class.java)
+            .create(ApiService::class.java)
     }
 }

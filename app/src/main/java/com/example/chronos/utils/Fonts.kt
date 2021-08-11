@@ -4,7 +4,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.example.chronos.R
 
-sealed class Fonts {
+class Fonts {
 
     companion object {
         val lexendDeca = FontFamily(

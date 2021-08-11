@@ -5,7 +5,7 @@ import com.example.chronos.models.CurrentTime
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ChronosApi {
+interface ApiService {
 
     @GET("current_time")
     suspend fun getCurrentTime(
