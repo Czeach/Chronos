@@ -10,5 +10,9 @@ class Fonts {
         val lexendDeca = FontFamily(
             Font(R.font.lexend_deca_regular)
         )
+
+        val exo = FontFamily(
+            Font(R.font.exo_regular)
+        )
     }
 }

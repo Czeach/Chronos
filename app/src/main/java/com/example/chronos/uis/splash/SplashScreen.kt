@@ -29,7 +29,7 @@ fun SplashScreen(
     LaunchedEffect(key1 = true) {
         delay(3000)
         navController.navigate(Screens.HomeScreen.route) {
-            popUpTo(Screens.HomeScreen.route)
+            popUpTo(Screens.SplashScreen.route) { inclusive = true }
         }
     }
 
@@ -48,7 +48,7 @@ fun SplashScreen(
                     contentDescription = "chronos image",
                     modifier = Modifier
                         .align(CenterHorizontally)
-                        .size(100.dp, 100.dp)
+                        .size(120.dp, 120.dp)
                 )
             Spacer(
                 modifier = Modifier.height(25.dp)

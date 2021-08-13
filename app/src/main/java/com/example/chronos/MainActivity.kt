@@ -7,7 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.chronos.ui.theme.ChronosTheme
+import com.example.chronos.uis.convert.ConvertScreen
 import com.example.chronos.uis.home.HomeScreen
+import com.example.chronos.uis.search.SearchScreen
+import com.example.chronos.uis.settings.SettingsScreen
 import com.example.chronos.uis.splash.SplashScreen
 import com.example.chronos.utils.Screens
 
@@ -28,6 +31,15 @@ class MainActivity : ComponentActivity() {
 
                     composable(route = Screens.HomeScreen.route) {
                         HomeScreen(navController = navController)
+                    }
+                    composable(route = Screens.SearchScreen.route) {
+                        SearchScreen(navController = navController)
+                    }
+                    composable(route = Screens.ConvertScreen.route) {
+                        ConvertScreen(navController = navController)
+                    }
+                    composable(Screens.SettingsScreen.route) {
+                        SettingsScreen(navController = navController)
                     }
                 }
             }

@@ -19,9 +19,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRepository(apiService: ApiService) {
+    fun provideRepository(apiService: ApiService) =
         Repository(apiService)
-    }
 
     @Singleton
     @Provides
