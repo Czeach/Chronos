@@ -25,6 +25,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.example.chronos.R
 import com.example.chronos.utils.Fonts
+import com.example.chronos.utils.Screens
 
 @Composable
 fun HomeScreen(
@@ -92,7 +93,7 @@ fun HomeScreen(
                             .layoutId("settings")
                             .clickable(enabled = true,
                                 onClick = {
-                                    Toast.makeText(context, "Settings Click", Toast.LENGTH_SHORT).show()
+                                    navController.navigate(Screens.SettingsScreen.route)
                                 })
                 )
                 Box(modifier = Modifier
@@ -136,7 +137,7 @@ fun HomeScreen(
                             .shadow(elevation = 8.dp, shape = CircleShape)
                             .background(MaterialTheme.colors.secondaryVariant),
                     onClick = {
-                        Toast.makeText(context, "Fab clicked", Toast.LENGTH_SHORT).show()
+                        navController.navigate(Screens.SearchScreen.route)
                     }) {
                     Icon(painter = painterResource(id = R.drawable.chronos_btn),
                             contentDescription = "fab icon", modifier = Modifier.size(26.dp, 26.dp))
@@ -146,9 +147,7 @@ fun HomeScreen(
                         .layoutId("convert_time_bar")
                         .background(MaterialTheme.colors.surface)
                         .clickable(enabled = true, onClick = {
-                            Toast
-                                .makeText(context, "Convert timezone clicked", Toast.LENGTH_SHORT)
-                                .show()
+                            navController.navigate(Screens.ConvertScreen.route)
                         })) {
                     Text(
                         text = "Swipe Up to Convert Time Zone",
