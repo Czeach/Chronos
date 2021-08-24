@@ -1,17 +1,14 @@
 package com.example.chronos.uis.home
 
-import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import android.annotation.SuppressLint
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -26,12 +23,32 @@ import androidx.navigation.NavController
 import com.example.chronos.R
 import com.example.chronos.utils.Fonts
 import com.example.chronos.utils.Screens
+import java.text.SimpleDateFormat
+import java.util.*
 
+@SuppressLint("SimpleDateFormat")
 @Composable
-fun HomeScreen(
-    navController: NavController) {
+fun HomeScreen(navController: NavController) {
 
     val context = LocalContext.current
+
+    val timeFormatter = SimpleDateFormat("HH:mm")
+
+    var getTime by remember{ mutableStateOf(timeFormatter.format(Calendar.getInstance().time)) }
+    DisposableEffect(true) {
+        val timer = Timer()
+        val task = object : TimerTask() {
+            override fun run() {
+                getTime = timeFormatter.format(Calendar.getInstance().time)
+            }
+
+        }
+        timer.schedule(task, 0, 1000)
+
+        onDispose {
+            timer.cancel()
+        }
+    }
 
     val constrains = ConstraintSet {
         val settingsBtn = createRefFor("settings")
@@ -86,78 +103,82 @@ fun HomeScreen(
         }
     }
 
-    Surface(color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()) {
-            ConstraintLayout(constraintSet = constrains, modifier = Modifier.fillMaxSize()) {
-                Image(painter = painterResource(id = R.drawable.settings_btn), contentDescription = "settings button",
-                        modifier = Modifier
-                            .layoutId("settings")
-                            .clickable(enabled = true,
-                                onClick = {
-                                    navController.navigate(Screens.SettingsScreen.route)
-                                })
-                )
-                Box(modifier = Modifier
-                    .layoutId("clock_text")
-                    .wrapContentSize(align = Alignment.Center)) {
-                    Text(
-                        text = "Clock",
-                        color = MaterialTheme.colors.primary,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        fontFamily = Fonts.lexendDeca,
-                        fontWeight = FontWeight.W400,
-                    )
-                }
-                Box(modifier = Modifier
-                    .layoutId("time")
-                    .wrapContentSize(align = Alignment.Center)) {
-                    Text(
-                        text = "04:40",
-                        color = MaterialTheme.colors.secondaryVariant,
-                        fontSize = 60.sp,
-                        textAlign = TextAlign.Center,
-                        fontFamily = Fonts.lexendDeca,
-                        fontWeight = FontWeight.W400,
-                    )
-                }
-                Box(modifier = Modifier
-                    .layoutId("date")
-                    .wrapContentSize(align = Alignment.Center)) {
-                    Text(
-                        text = "Tue, 18 may",
-                        color = MaterialTheme.colors.primary,
-                        fontSize = 20.sp,
-                        textAlign = TextAlign.Center,
-                        fontFamily = Fonts.lexendDeca,
-                        fontWeight = FontWeight.W400,
-                    )
-                }
-                Box(modifier = Modifier.layoutId("line").background(color = MaterialTheme.colors.secondaryVariant))
-                FloatingActionButton(modifier = Modifier.layoutId("fab")
-                            .shadow(elevation = 8.dp, shape = CircleShape)
-                            .background(MaterialTheme.colors.secondaryVariant),
+    ConstraintLayout(constraintSet = constrains, modifier = Modifier
+        .fillMaxSize()
+        .background(color = MaterialTheme.colors.background)) {
+        Image(painter = painterResource(id = R.drawable.settings_btn), contentDescription = "settings button",
+            modifier = Modifier
+                .layoutId("settings")
+                .clickable(enabled = true,
                     onClick = {
-                        navController.navigate(Screens.SearchScreen.route)
-                    }) {
-                    Icon(painter = painterResource(id = R.drawable.chronos_btn),
-                            contentDescription = "fab icon", modifier = Modifier.size(26.dp, 26.dp))
-                }
-                Box(contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .layoutId("convert_time_bar")
-                        .background(MaterialTheme.colors.surface)
-                        .clickable(enabled = true, onClick = {
-                            navController.navigate(Screens.ConvertScreen.route)
-                        })) {
-                    Text(
-                        text = "Swipe Up to Convert Time Zone",
-                        color = MaterialTheme.colors.primary,
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                        fontFamily = Fonts.exo,
-                        fontWeight = FontWeight.W400
-                    )
-                }
-            }
+                        navController.navigate(Screens.SettingsScreen.route)
+                    }
+                )
+        )
+        Box(modifier = Modifier
+            .layoutId("clock_text")
+            .wrapContentSize(align = Alignment.Center)) {
+            Text(
+                text = "Clock",
+                color = MaterialTheme.colors.primary,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.lexendDeca,
+                fontWeight = FontWeight.W400,
+            )
+        }
+        Box(modifier = Modifier
+            .layoutId("time")
+            .wrapContentSize(align = Alignment.Center)) {
+            Text(
+                text = getTime,
+                color = MaterialTheme.colors.secondaryVariant,
+                fontSize = 60.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.lexendDeca,
+                fontWeight = FontWeight.W400,
+            )
+        }
+        Box(modifier = Modifier
+            .layoutId("date")
+            .wrapContentSize(align = Alignment.Center)) {
+            Text(
+                text = "Tue, 18 may",
+                color = MaterialTheme.colors.primary,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.lexendDeca,
+                fontWeight = FontWeight.W400,
+            )
+        }
+        Box(modifier = Modifier
+            .layoutId("line")
+            .background(color = MaterialTheme.colors.secondaryVariant))
+        FloatingActionButton(modifier = Modifier
+            .layoutId("fab")
+            .shadow(elevation = 8.dp, shape = CircleShape)
+            .background(MaterialTheme.colors.secondaryVariant),
+            onClick = {
+                navController.navigate(Screens.SearchScreen.route)
+            }) {
+            Icon(painter = painterResource(id = R.drawable.chronos_btn),
+                contentDescription = "fab icon", modifier = Modifier.size(26.dp, 26.dp))
+        }
+        Box(contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .layoutId("convert_time_bar")
+                .background(MaterialTheme.colors.surface)
+                .clickable(enabled = true, onClick = {
+                    navController.navigate(Screens.ConvertScreen.route)
+                })) {
+            Text(
+                text = "Convert Time Zone",
+                color = MaterialTheme.colors.primary,
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.exo,
+                fontWeight = FontWeight.W400
+            )
+        }
     }
 }
