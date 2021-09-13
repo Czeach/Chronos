@@ -32,14 +32,32 @@ fun HomeScreen(navController: NavController) {
 
     val context = LocalContext.current
 
+    val calendar = Calendar.getInstance()
     val timeFormatter = SimpleDateFormat("HH:mm")
+    val dateFormatter = SimpleDateFormat("EEE, d MMM")
 
-    var getTime by remember{ mutableStateOf(timeFormatter.format(Calendar.getInstance().time)) }
+    var getTime by remember{ mutableStateOf(timeFormatter.format(calendar.time)) }
     DisposableEffect(true) {
         val timer = Timer()
         val task = object : TimerTask() {
             override fun run() {
-                getTime = timeFormatter.format(Calendar.getInstance().time)
+                getTime = timeFormatter.format(calendar.time)
+            }
+
+        }
+        timer.schedule(task, 0, 1000)
+
+        onDispose {
+            timer.cancel()
+        }
+    }
+
+    var getDate by remember{ mutableStateOf(dateFormatter.format(calendar.time)) }
+    DisposableEffect(true) {
+        val timer = Timer()
+        val task = object : TimerTask() {
+            override fun run() {
+                getDate = dateFormatter.format(calendar.time)
             }
 
         }
@@ -51,50 +69,50 @@ fun HomeScreen(navController: NavController) {
     }
 
     val constrains = ConstraintSet {
-        val settingsBtn = createRefFor("settings")
-        val clockText = createRefFor("clock_text")
-        val time = createRefFor("time")
-        val date = createRefFor("date")
-        val line = createRefFor("line")
-        val fabBtn = createRefFor("fab")
-        val convertTimeBar = createRefFor("convert_time_bar")
+        val settingsBtnView = createRefFor("settings")
+        val clockTextView = createRefFor("clock_text")
+        val timeView = createRefFor("time")
+        val dateView = createRefFor("date")
+        val lineView = createRefFor("line")
+        val fabBtnView = createRefFor("fab")
+        val convertTimeBarView = createRefFor("convert_time_bar")
 
-        constrain(settingsBtn) {
+        constrain(settingsBtnView) {
             top.linkTo(parent.top, margin = 20.dp)
             end.linkTo(parent.end, margin = 20.dp)
             width = Dimension.value(20.dp)
             height = Dimension.value(20.dp)
         }
-        constrain(clockText) {
-            top.linkTo(settingsBtn.bottom, margin = 6.dp)
+        constrain(clockTextView) {
+            top.linkTo(settingsBtnView.bottom, margin = 6.dp)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
         }
-        constrain(time) {
-            top.linkTo(clockText.bottom, margin = 18.dp)
+        constrain(timeView) {
+            top.linkTo(clockTextView.bottom, margin = 18.dp)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
         }
-        constrain(date) {
-            top.linkTo(time.bottom)
+        constrain(dateView) {
+            top.linkTo(timeView.bottom)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
         }
-        constrain(line) {
-            top.linkTo(date.bottom, margin = 60.dp)
+        constrain(lineView) {
+            top.linkTo(dateView.bottom, margin = 60.dp)
             start.linkTo(parent.start, margin = 30.dp)
             end.linkTo(parent.end, margin = 30.dp)
             width = Dimension.fillToConstraints
             height = Dimension.value(0.5.dp)
         }
-        constrain(fabBtn) {
+        constrain(fabBtnView) {
             start.linkTo(parent.start)
             end.linkTo(parent.end)
-            bottom.linkTo(convertTimeBar.top, margin = 48.dp)
+            bottom.linkTo(convertTimeBarView.top, margin = 48.dp)
             height = Dimension.value(56.dp)
             width = Dimension.value(56.dp)
         }
-        constrain(convertTimeBar) {
+        constrain(convertTimeBarView) {
             start.linkTo(parent.start)
             end.linkTo(parent.end)
             bottom.linkTo(parent.bottom)
@@ -106,15 +124,12 @@ fun HomeScreen(navController: NavController) {
     ConstraintLayout(constraintSet = constrains, modifier = Modifier
         .fillMaxSize()
         .background(color = MaterialTheme.colors.background)) {
-        Image(painter = painterResource(id = R.drawable.settings_btn), contentDescription = "settings button",
+        Icon(painter = painterResource(id = R.drawable.settings), contentDescription = "settings button",
             modifier = Modifier
                 .layoutId("settings")
-                .clickable(enabled = true,
-                    onClick = {
-                        navController.navigate(Screens.SettingsScreen.route)
-                    }
-                )
-        )
+                .clickable(enabled = true) {
+                    navController.navigate(Screens.SettingsScreen.route)
+                })
         Box(modifier = Modifier
             .layoutId("clock_text")
             .wrapContentSize(align = Alignment.Center)) {
@@ -143,7 +158,7 @@ fun HomeScreen(navController: NavController) {
             .layoutId("date")
             .wrapContentSize(align = Alignment.Center)) {
             Text(
-                text = "Tue, 18 may",
+                text = getDate,
                 color = MaterialTheme.colors.primary,
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
