@@ -124,7 +124,7 @@ fun HomeScreen(navController: NavController) {
     ConstraintLayout(constraintSet = constrains, modifier = Modifier
         .fillMaxSize()
         .background(color = MaterialTheme.colors.background)) {
-        Icon(painter = painterResource(id = R.drawable.settings), contentDescription = "settings button",
+        Image(painter = painterResource(id = R.drawable.settings), contentDescription = "settings button",
             modifier = Modifier
                 .layoutId("settings")
                 .clickable(enabled = true) {
@@ -176,7 +176,7 @@ fun HomeScreen(navController: NavController) {
             onClick = {
                 navController.navigate(Screens.SearchScreen.route)
             }) {
-            Icon(painter = painterResource(id = R.drawable.chronos_btn),
+            Image(painter = painterResource(id = R.drawable.chronos_btn),
                 contentDescription = "fab icon", modifier = Modifier.size(26.dp, 26.dp))
         }
         Box(contentAlignment = Alignment.Center,
