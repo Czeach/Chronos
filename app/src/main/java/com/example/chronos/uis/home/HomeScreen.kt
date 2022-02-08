@@ -30,18 +30,16 @@ import java.util.*
 @Composable
 fun HomeScreen(navController: NavController) {
 
-    val context = LocalContext.current
+    val timeFormat = SimpleDateFormat("HH:mm")
+    val dateFormat = SimpleDateFormat("EEE, d MMM")
 
-    val calendar = Calendar.getInstance()
-    val timeFormatter = SimpleDateFormat("HH:mm")
-    val dateFormatter = SimpleDateFormat("EEE, d MMM")
+    var getTime by remember{ mutableStateOf(timeFormat.format(Date())) }
 
-    var getTime by remember{ mutableStateOf(timeFormatter.format(calendar.time)) }
     DisposableEffect(true) {
         val timer = Timer()
         val task = object : TimerTask() {
             override fun run() {
-                getTime = timeFormatter.format(calendar.time)
+                getTime = timeFormat.format(Date())
             }
 
         }
@@ -52,12 +50,12 @@ fun HomeScreen(navController: NavController) {
         }
     }
 
-    var getDate by remember{ mutableStateOf(dateFormatter.format(calendar.time)) }
+    var getDate by remember{ mutableStateOf(dateFormat.format(Date())) }
     DisposableEffect(true) {
         val timer = Timer()
         val task = object : TimerTask() {
             override fun run() {
-                getDate = dateFormatter.format(calendar.time)
+                getDate = dateFormat.format(Date())
             }
 
         }
