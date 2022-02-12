@@ -1,4 +1,4 @@
-package com.example.chronos.utils.models
+package com.example.chronos.network.models
 
 
 import kotlinx.serialization.SerialName
@@ -7,45 +7,45 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ConvertTime(
     @SerialName("base_location")
-    val baseLocation: BaseLocation?,
+    val baseLocation: BaseLocation,
     @SerialName("target_location")
-    val targetLocation: TargetLocation?
+    val targetLocation: TargetLocation
 ) {
     @Serializable
     data class BaseLocation(
-        val datetime: String?,
+        val datetime: String,
         @SerialName("gmt_offset")
-        val gmtOffset: Double?,
+        val gmtOffset: Double,
         @SerialName("is_dst")
-        val isDst: Boolean?,
-        val latitude: Double?,
-        val longitude: Double?,
+        val isDst: Boolean,
+        val latitude: Double,
+        val longitude: Double,
         @SerialName("requested_location")
-        val requestedLocation: String?,
+        val requestedLocation: String,
         @SerialName("timezone_abbreviation")
-        val timezoneAbbreviation: String?,
+        val timezoneAbbreviation: String,
         @SerialName("timezone_location")
-        val timezoneLocation: String?,
+        val timezoneLocation: String,
         @SerialName("timezone_name")
-        val timezoneName: String?
+        val timezoneName: String
     )
 
     @Serializable
     data class TargetLocation(
-        val datetime: String?,
+        val datetime: String,
         @SerialName("gmt_offset")
-        val gmtOffset: Double?,
+        val gmtOffset: Double,
         @SerialName("is_dst")
-        val isDst: Boolean?,
-        val latitude: Double?,
-        val longitude: Double?,
+        val isDst: Boolean,
+        val latitude: Double,
+        val longitude: Double,
         @SerialName("requested_location")
-        val requestedLocation: String?,
+        val requestedLocation: String,
         @SerialName("timezone_abbreviation")
-        val timezoneAbbreviation: String?,
+        val timezoneAbbreviation: String,
         @SerialName("timezone_location")
-        val timezoneLocation: String?,
+        val timezoneLocation: String,
         @SerialName("timezone_name")
-        val timezoneName: String?
+        val timezoneName: String
     )
 }

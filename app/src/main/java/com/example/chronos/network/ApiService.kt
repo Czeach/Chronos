@@ -1,7 +1,7 @@
 package com.example.chronos.network
 
-import com.example.chronos.utils.models.ConvertTime
-import com.example.chronos.utils.models.CurrentTime
+import com.example.chronos.network.models.ConvertTime
+import com.example.chronos.network.models.CurrentTime
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.features.*
@@ -10,9 +10,6 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.serialization.json.Json
-import retrofit2.http.GET
-import retrofit2.http.Query
 
 interface ApiService {
 
