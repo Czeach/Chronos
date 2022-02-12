@@ -1,4 +1,4 @@
-package com.example.chronos.uis.settings
+package com.example.chronos.presentation.settings
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme

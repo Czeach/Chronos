@@ -1,10 +1,9 @@
-package com.example.chronos.uis.search
+package com.example.chronos.presentation.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -25,10 +24,8 @@ import com.example.chronos.R
 import com.example.chronos.utils.Fonts
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
-import com.example.chronos.utils.Screens
 
 @Composable
 fun SearchScreen(navController: NavController) {

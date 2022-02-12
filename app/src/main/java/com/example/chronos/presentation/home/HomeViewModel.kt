@@ -1,4 +1,4 @@
-package com.example.chronos.uis.home
+package com.example.chronos.presentation.home
 
 import androidx.lifecycle.ViewModel
 

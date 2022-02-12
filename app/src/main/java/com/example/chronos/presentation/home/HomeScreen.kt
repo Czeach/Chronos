@@ -1,4 +1,4 @@
-package com.example.chronos.uis.home
+package com.example.chronos.presentation.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -22,7 +21,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.example.chronos.R
 import com.example.chronos.utils.Fonts
-import com.example.chronos.utils.Screens
+import com.example.chronos.presentation.navigation.Screens
 import java.text.SimpleDateFormat
 import java.util.*
 

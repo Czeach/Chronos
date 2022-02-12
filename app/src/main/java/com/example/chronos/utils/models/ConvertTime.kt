@@ -1,4 +1,4 @@
-package com.example.chronos.models
+package com.example.chronos.utils.models
 
 
 import kotlinx.serialization.SerialName

@@ -1,4 +1,4 @@
-package com.example.chronos.ui.theme
+package com.example.chronos.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

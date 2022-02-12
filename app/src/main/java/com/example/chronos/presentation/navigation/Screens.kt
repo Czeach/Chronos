@@ -1,4 +1,4 @@
-package com.example.chronos.utils
+package com.example.chronos.presentation.navigation
 
 sealed class Screens(val route: String) {
     object SplashScreen : Screens("SplashScreen")

@@ -1,4 +1,4 @@
-package com.example.chronos.uis.search
+package com.example.chronos.presentation.search
 
 import androidx.lifecycle.ViewModel
 

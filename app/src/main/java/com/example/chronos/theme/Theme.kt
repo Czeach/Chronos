@@ -1,4 +1,4 @@
-package com.example.chronos.ui.theme
+package com.example.chronos.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
