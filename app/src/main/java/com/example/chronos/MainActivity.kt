@@ -19,7 +19,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChronosTheme {
-                // A surface container using the 'background' color from the theme
 
                 val navController = rememberNavController()
                 
@@ -28,7 +27,6 @@ class MainActivity : ComponentActivity() {
                     composable(route = Screens.SplashScreen.route) {
                         SplashScreen(navController = navController)
                     }
-
                     composable(route = Screens.HomeScreen.route) {
                         HomeScreen(navController = navController)
                     }

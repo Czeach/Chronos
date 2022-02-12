@@ -7,3 +7,4 @@ sealed class Screens(val route: String) {
     object ConvertScreen: Screens("ConvertScreen")
     object SettingsScreen: Screens("Settings Screen")
 }
+

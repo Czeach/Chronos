@@ -33,13 +33,13 @@ fun HomeScreen(navController: NavController) {
     val timeFormat = SimpleDateFormat("HH:mm")
     val dateFormat = SimpleDateFormat("EEE, d MMM")
 
-    var getTime by remember{ mutableStateOf(timeFormat.format(Date())) }
+    var getTime by remember{ mutableStateOf(timeFormat.format(Calendar.getInstance().time)) }
 
     DisposableEffect(true) {
         val timer = Timer()
         val task = object : TimerTask() {
             override fun run() {
-                getTime = timeFormat.format(Date())
+                getTime = timeFormat.format(Calendar.getInstance().time)
             }
 
         }
@@ -50,12 +50,12 @@ fun HomeScreen(navController: NavController) {
         }
     }
 
-    var getDate by remember{ mutableStateOf(dateFormat.format(Date())) }
+    var getDate by remember{ mutableStateOf(dateFormat.format(Calendar.getInstance().time)) }
     DisposableEffect(true) {
         val timer = Timer()
         val task = object : TimerTask() {
             override fun run() {
-                getDate = dateFormat.format(Date())
+                getDate = dateFormat.format(Calendar.getInstance().time)
             }
 
         }
@@ -97,11 +97,11 @@ fun HomeScreen(navController: NavController) {
             end.linkTo(parent.end)
         }
         constrain(lineView) {
-            top.linkTo(dateView.bottom, margin = 60.dp)
+            top.linkTo(dateView.bottom, margin = 50.dp)
             start.linkTo(parent.start, margin = 30.dp)
             end.linkTo(parent.end, margin = 30.dp)
             width = Dimension.fillToConstraints
-            height = Dimension.value(0.5.dp)
+            height = Dimension.value(1.dp)
         }
         constrain(fabBtnView) {
             start.linkTo(parent.start)
