@@ -13,34 +13,16 @@ import io.ktor.http.*
 
 interface ApiService {
 
-    suspend fun getCurrentTime(): CurrentTime
+    suspend fun getCurrentTime(
+        api_key:String,
+        location: String
+    ): CurrentTime
 
-    suspend fun convertTime(): ConvertTime
+    suspend fun convertTime(
+        api_key: String,
+        base_location: String,
+        base_datetime: String,
+        target_location: String
+    ): ConvertTime
 
-    companion object {
-
-        fun build(): HttpClient{
-            return HttpClient(Android) {
-                install(Logging) {
-                    level = LogLevel.ALL
-                }
-                install(JsonFeature) {
-                    serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
-                        ignoreUnknownKeys = true
-                        isLenient = true
-                        encodeDefaults = true
-                    })
-                }
-                install(HttpTimeout) {
-                    requestTimeoutMillis = 15000L
-                    connectTimeoutMillis = 15000L
-                    socketTimeoutMillis = 15000L
-                }
-                defaultRequest {
-                    if (method != HttpMethod.Get) contentType(ContentType.Application.Json)
-                    accept(ContentType.Application.Json)
-                }
-            }
-        }
-    }
 }

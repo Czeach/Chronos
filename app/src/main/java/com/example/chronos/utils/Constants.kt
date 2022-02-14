@@ -12,21 +12,7 @@ class Constants() {
 
     companion object {
 
-        const val base_url = "https://timezone.abstractapi.com/v1/"
+        const val BASE_URL = "https://timezone.abstractapi.com/v1"
 
-    }
-}
-
-object TimeUtils {
-
-    @SuppressLint("SimpleDateFormat")
-    fun convertToRelativeTime(time: String): String {
-
-        val calendar = Calendar.getInstance()
-        val timeFormatter = SimpleDateFormat("dd-MM-yyyy hh:mm:ss")
-
-        val relativeTime = timeFormatter.format(calendar.time)
-
-        return  ""
     }
 }
