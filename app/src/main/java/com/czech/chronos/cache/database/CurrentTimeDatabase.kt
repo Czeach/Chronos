@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.czech.chronos.cache.CurrentTimeDao
 import com.czech.chronos.cache.model.CurrentTimeEntity
 
-@Database(entities = [CurrentTimeEntity::class], version = 1)
+@Database(entities = [CurrentTimeEntity::class], version = 1, exportSchema = false)
 abstract class CurrentTimeDatabase: RoomDatabase() {
 
     abstract fun currentTimeDao(): CurrentTimeDao

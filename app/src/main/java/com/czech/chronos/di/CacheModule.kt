@@ -17,8 +17,11 @@ object CacheModule {
     @Provides
     fun provideDatabase(app: BaseApplication): CurrentTimeDatabase {
         return Room
-            .databaseBuilder(app, CurrentTimeDatabase::class.java, CurrentTimeDatabase.DATABASE)
-            .build()
+            .databaseBuilder(
+                app,
+                CurrentTimeDatabase::class.java,
+                CurrentTimeDatabase.DATABASE
+            ).build()
     }
 
     @Singleton
