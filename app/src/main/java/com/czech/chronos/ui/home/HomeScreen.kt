@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -125,7 +126,7 @@ fun HomeScreen(
     ConstraintLayout(constraintSet = constrains, modifier = Modifier
         .fillMaxSize()
         .background(color = MaterialTheme.colorScheme.background)) {
-        Image(painter = painterResource(id = R.drawable.settings), contentDescription = "settings button",
+        Image(painter = painterResource(id = R.drawable.settings_btn), contentDescription = "settings button",
             modifier = Modifier
                 .layoutId("settings")
                 .clickable(true) {
@@ -169,21 +170,22 @@ fun HomeScreen(
         }
         Box(modifier = Modifier
             .layoutId("line")
-            .background(color = MaterialTheme.colorScheme.secondary))
+            .background(color = MaterialTheme.colorScheme.secondary)
+        )
         FloatingActionButton(modifier = Modifier
             .layoutId("fab")
-            .shadow(elevation = 8.dp, shape = CircleShape)
-            .background(MaterialTheme.colorScheme.secondary),
-            onClick = {
-                onFABClicked()
-            }) {
-            Image(painter = painterResource(id = R.drawable.chronos_btn),
+            .shadow(elevation = 8.dp, shape = CircleShape),
+            containerColor = MaterialTheme.colorScheme.secondary,
+            onClick = { onFABClicked() },
+        ) {
+            Image(painter = painterResource(
+                id = if (isSystemInDarkTheme()) R.drawable.chronos_btn_purple else R.drawable.chronos_btn_red),
                 contentDescription = "fab icon", modifier = Modifier.size(26.dp, 26.dp))
         }
         Box(contentAlignment = Alignment.Center,
             modifier = Modifier
                 .layoutId("convert_time_bar")
-                .background(MaterialTheme.colorScheme.surface)
+                .background(MaterialTheme.colorScheme.inverseSurface)
                 .clickable(true) {
                     onConvertClicked()
                 }) {

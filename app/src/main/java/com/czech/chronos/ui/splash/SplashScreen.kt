@@ -1,6 +1,8 @@
 package com.czech.chronos.ui.splash
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,7 +44,8 @@ fun SplashScreen(
         ) {
             Column {
                 Image(
-                    painter = painterResource(id = R.drawable.chronos_image),
+                    painter = painterResource(
+                        id = if (isSystemInDarkTheme()) R.drawable.chronos_image_red else R.drawable.chronos_image_purple),
                     contentDescription = "chronos image",
                     modifier = Modifier
                         .align(CenterHorizontally)
