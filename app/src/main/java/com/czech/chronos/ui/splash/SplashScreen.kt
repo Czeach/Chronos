@@ -16,22 +16,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.czech.chronos.R
 import com.czech.chronos.utils.Fonts
-import com.czech.chronos.ui.navigation.Screens
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    navController: NavController
+    onTimeOut: () -> Unit
 ) {
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(true) {
         delay(3000)
-        navController.navigate(Screens.HomeScreen.route) {
-            popUpTo(Screens.SplashScreen.route) { inclusive = true }
-        }
+        onTimeOut()
     }
 
     Surface(

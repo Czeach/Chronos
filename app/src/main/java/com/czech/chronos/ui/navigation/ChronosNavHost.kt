@@ -1,26 +1,40 @@
 package com.czech.chronos.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.czech.chronos.ui.convert.ConvertScreen
 import com.czech.chronos.ui.home.HomeScreen
 import com.czech.chronos.ui.search.SearchScreen
 import com.czech.chronos.ui.settings.SettingsScreen
 import com.czech.chronos.ui.splash.SplashScreen
 
-@Composable
-fun Navigation() {
 
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screens.SplashScreen.route) {
+@Composable
+fun ChronosNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    NavHost(
+        navController = navController,
+        startDestination = Screens.SplashScreen.route,
+        modifier = modifier
+    ) {
 
         composable(route = Screens.SplashScreen.route) {
-            SplashScreen(navController = navController)
+            SplashScreen {
+                navController.navigate(Screens.HomeScreen.route) {
+                    popUpTo(Screens.SplashScreen.route) { inclusive = true }
+                }
+            }
         }
         composable(route = Screens.HomeScreen.route) {
-            HomeScreen(navController = navController)
+            HomeScreen(
+                onSettingsClicked = { navController.navigate(Screens.SettingsScreen.route) },
+                onFABClicked = { navController.navigate(Screens.SearchScreen.route) },
+                onConvertClicked = { navController.navigate(Screens.ConvertScreen.route) })
         }
         composable(route = Screens.SearchScreen.route) {
             SearchScreen(navController = navController)
@@ -32,5 +46,4 @@ fun Navigation() {
             SettingsScreen(navController = navController)
         }
     }
-
 }

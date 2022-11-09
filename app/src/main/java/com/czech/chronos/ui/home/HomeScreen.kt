@@ -21,16 +21,17 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.NavController
 import com.czech.chronos.R
 import com.czech.chronos.utils.Fonts
-import com.czech.chronos.ui.navigation.Screens
 import java.text.SimpleDateFormat
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    onSettingsClicked: () -> Unit,
+    onFABClicked: () -> Unit,
+    onConvertClicked: () -> Unit) {
 
     val timeFormat = SimpleDateFormat("HH:mm")
     val dateFormat = SimpleDateFormat("EEE, d MMM")
@@ -127,8 +128,8 @@ fun HomeScreen(navController: NavController) {
         Image(painter = painterResource(id = R.drawable.settings), contentDescription = "settings button",
             modifier = Modifier
                 .layoutId("settings")
-                .clickable(enabled = true) {
-                    navController.navigate(Screens.SettingsScreen.route)
+                .clickable(true) {
+                    onSettingsClicked()
                 })
         Box(modifier = Modifier
             .layoutId("clock_text")
@@ -174,7 +175,7 @@ fun HomeScreen(navController: NavController) {
             .shadow(elevation = 8.dp, shape = CircleShape)
             .background(MaterialTheme.colorScheme.secondary),
             onClick = {
-                navController.navigate(Screens.SearchScreen.route)
+                onFABClicked()
             }) {
             Image(painter = painterResource(id = R.drawable.chronos_btn),
                 contentDescription = "fab icon", modifier = Modifier.size(26.dp, 26.dp))
@@ -183,9 +184,9 @@ fun HomeScreen(navController: NavController) {
             modifier = Modifier
                 .layoutId("convert_time_bar")
                 .background(MaterialTheme.colorScheme.surface)
-                .clickable(enabled = true, onClick = {
-                    navController.navigate(Screens.ConvertScreen.route)
-                })) {
+                .clickable(true) {
+                    onConvertClicked()
+                }) {
             Text(
                 text = "Convert Time Zone",
                 color = MaterialTheme.colorScheme.primary,
