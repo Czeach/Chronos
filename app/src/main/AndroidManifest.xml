@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.chronos">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".di.BaseApplication"
+        android:name="com.czech.chronos.di.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Chronos">
+        android:theme="@style/Theme.ChronosTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.czech.chronos.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Chronos.NoActionBar">
+            android:theme="@style/Theme.ChronosTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
