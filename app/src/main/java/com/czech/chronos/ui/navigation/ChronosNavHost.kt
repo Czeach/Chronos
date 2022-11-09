@@ -24,7 +24,9 @@ fun ChronosNavHost(
     ) {
 
         composable(route = Screens.SplashScreen.route) {
-            SplashScreen {
+            SplashScreen(
+                modifier = modifier
+            ) {
                 navController.navigate(Screens.HomeScreen.route) {
                     popUpTo(Screens.SplashScreen.route) { inclusive = true }
                 }
