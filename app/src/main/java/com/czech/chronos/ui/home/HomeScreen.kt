@@ -1,4 +1,4 @@
-package com.czech.chronos.presentation.home
+package com.czech.chronos.ui.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
@@ -24,7 +24,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.czech.chronos.R
 import com.czech.chronos.utils.Fonts
-import com.czech.chronos.presentation.navigation.Screens
+import com.czech.chronos.ui.navigation.Screens
 import java.text.SimpleDateFormat
 import java.util.*
 

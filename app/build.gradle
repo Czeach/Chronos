@@ -3,7 +3,6 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 def getApiKey() {
@@ -101,7 +100,7 @@ dependencies {
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
 
     // Coroutine Lifecycle Scopes
@@ -115,14 +114,11 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
-    //Ktor
-    implementation("io.ktor:ktor-client-core:1.6.5")
-    implementation("io.ktor:ktor-client-android:1.6.5")
-    implementation("io.ktor:ktor-client-serialization:1.6.5")
-    implementation("io.ktor:ktor-client-logging:1.6.5")
-
-    //Kotlin serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    // Retrofit & Gson
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
+    implementation "com.google.code.gson:gson:2.9.0"
 
     //Coil Image
     implementation("io.coil-kt:coil-compose:1.4.0")

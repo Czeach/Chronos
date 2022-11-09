@@ -1,4 +1,4 @@
-package com.czech.chronos.presentation.navigation
+package com.czech.chronos.ui.navigation
 
 sealed class Screens(val route: String) {
     object SplashScreen : Screens("SplashScreen")

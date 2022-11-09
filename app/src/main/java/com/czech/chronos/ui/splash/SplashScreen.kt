@@ -1,4 +1,4 @@
-package com.czech.chronos.presentation.splash
+package com.czech.chronos.ui.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.czech.chronos.R
 import com.czech.chronos.utils.Fonts
-import com.czech.chronos.presentation.navigation.Screens
+import com.czech.chronos.ui.navigation.Screens
 import kotlinx.coroutines.delay
 
 @Composable

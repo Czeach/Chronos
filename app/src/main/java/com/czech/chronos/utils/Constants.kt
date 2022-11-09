@@ -4,7 +4,7 @@ class Constants() {
 
     companion object {
 
-        const val BASE_URL = "https://timezone.abstractapi.com/v1"
+        const val BASE_URL = "https://timezone.abstractapi.com/v1/"
 
     }
 }

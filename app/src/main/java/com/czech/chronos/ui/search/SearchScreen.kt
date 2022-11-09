@@ -1,4 +1,4 @@
-package com.czech.chronos.presentation.search
+package com.czech.chronos.ui.search
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
