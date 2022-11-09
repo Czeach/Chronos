@@ -1,9 +1,10 @@
 package com.czech.chronos.di
 
 import androidx.room.Room
-import com.czech.chronos.cache.CurrentTimeDao
-import com.czech.chronos.cache.CurrentTimeDaoRepository
-import com.czech.chronos.cache.CurrentTimeDaoRepositoryImpl
+import com.czech.chronos.BaseApplication
+import com.czech.chronos.cache.dao.CurrentTimeDao
+import com.czech.chronos.cache.dao.CurrentTimeDaoRepository
+import com.czech.chronos.cache.dao.CurrentTimeDaoRepositoryImpl
 import com.czech.chronos.cache.database.CurrentTimeDatabase
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.czech.chronos.cache
+package com.czech.chronos.cache.dao
 
 import com.czech.chronos.cache.model.CurrentTimeEntity
 import javax.inject.Inject

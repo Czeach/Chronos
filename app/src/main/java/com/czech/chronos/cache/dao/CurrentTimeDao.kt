@@ -1,4 +1,4 @@
-package com.czech.chronos.cache
+package com.czech.chronos.cache.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
