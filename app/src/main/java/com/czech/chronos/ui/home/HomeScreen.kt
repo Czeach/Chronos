@@ -46,6 +46,7 @@ fun HomeScreen(
         onFABClicked = { onFABClicked() },
         onConvertClicked = { onConvertClicked() }
     )
+
 }
 
 @Composable
@@ -109,103 +110,97 @@ fun HomeFeatures(
         }
     }
 
-    Surface(
-        color = MaterialTheme.colorScheme.background,
+    ConstraintLayout(
+        constraintSet = constrains,
         modifier = Modifier
             .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
-        ConstraintLayout(
-            constraintSet = constrains,
+        Image(
+            painter = painterResource(id = R.drawable.settings_btn),
+            contentDescription = "settings button",
             modifier = Modifier
-                .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.settings_btn),
-                contentDescription = "settings button",
-                modifier = Modifier
-                    .layoutId("settings")
-                    .clickable(true) {
-                        onSettingsClicked()
-                    }
-            )
-            Box(
-                modifier = Modifier
+                .layoutId("settings")
+                .clickable(true) {
+                    onSettingsClicked()
+                }
+        )
+        Box(
+            modifier = Modifier
                 .layoutId("clock_text")
-            ) {
-                Text(
-                    text = "Clock",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center,
-                    fontFamily = Fonts.lexendDeca,
-                    fontWeight = FontWeight.W400,
-                )
-            }
-            Box(
-                modifier = Modifier
+        ) {
+            Text(
+                text = "Clock",
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.lexendDeca,
+                fontWeight = FontWeight.W400,
+            )
+        }
+        Box(
+            modifier = Modifier
                 .layoutId("time")
-            ) {
-                Text(
-                    text = timeText,
-                    color = MaterialTheme.colorScheme.secondary,
-                    fontSize = 60.sp,
-                    textAlign = TextAlign.Center,
-                    fontFamily = Fonts.lexendDeca,
-                    fontWeight = FontWeight.W400,
-                )
-            }
-            Box(
-                modifier = Modifier
+        ) {
+            Text(
+                text = timeText,
+                color = MaterialTheme.colorScheme.secondary,
+                fontSize = 60.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.lexendDeca,
+                fontWeight = FontWeight.W400,
+            )
+        }
+        Box(
+            modifier = Modifier
                 .layoutId("date")
-            ) {
-                Text(
-                    text = dateText,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Center,
-                    fontFamily = Fonts.lexendDeca,
-                    fontWeight = FontWeight.W400,
-                )
-            }
-            Box(
-                modifier = Modifier
+        ) {
+            Text(
+                text = dateText,
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.lexendDeca,
+                fontWeight = FontWeight.W400,
+            )
+        }
+        Box(
+            modifier = Modifier
                 .layoutId("line")
                 .background(color = MaterialTheme.colorScheme.secondary)
-            )
-            FloatingActionButton(
-                modifier = Modifier
+        )
+        FloatingActionButton(
+            modifier = Modifier
                 .layoutId("fab")
                 .shadow(elevation = 8.dp, shape = CircleShape),
-                containerColor = MaterialTheme.colorScheme.secondary,
-                onClick = { onFABClicked() },
-            ) {
-                Image(
-                    painter = painterResource(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            onClick = { onFABClicked() },
+        ) {
+            Image(
+                painter = painterResource(
                     id = if (isSystemInDarkTheme()) R.drawable.chronos_btn_purple else R.drawable.chronos_btn_red),
-                    contentDescription = "fab icon",
-                    modifier = Modifier
-                        .size(26.dp, 26.dp)
-                )
-            }
-            Box(
-                contentAlignment = Alignment.Center,
+                contentDescription = "fab icon",
                 modifier = Modifier
-                    .layoutId("convert_time_bar")
-                    .background(MaterialTheme.colorScheme.inverseSurface)
-                    .clickable(true) {
-                        onConvertClicked()
-                    }
-            ) {
-                Text(
-                    text = "Convert Time Zone",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center,
-                    fontFamily = Fonts.exo,
-                    fontWeight = FontWeight.W400
-                )
-            }
+                    .size(26.dp, 26.dp)
+            )
+        }
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .layoutId("convert_time_bar")
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .clickable(true) {
+                    onConvertClicked()
+                }
+        ) {
+            Text(
+                text = "Convert Time Zone",
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.exo,
+                fontWeight = FontWeight.W400
+            )
         }
     }
 }

@@ -14,19 +14,19 @@ import com.czech.chronos.ui.splash.SplashScreen
 
 @Composable
 fun ChronosNavHost(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.SplashScreen.route,
-        modifier = modifier
+        startDestination = Screens.SplashScreen.route
     ) {
 
+        fun onBackPressed() {
+            if (navController.previousBackStackEntry != null) navController.navigateUp()
+        }
+
         composable(route = Screens.SplashScreen.route) {
-            SplashScreen(
-                modifier = modifier
-            ) {
+            SplashScreen {
                 navController.navigate(Screens.HomeScreen.route) {
                     popUpTo(Screens.SplashScreen.route) { inclusive = true }
                 }
@@ -39,7 +39,9 @@ fun ChronosNavHost(
                 onConvertClicked = { navController.navigate(Screens.ConvertScreen.route) })
         }
         composable(route = Screens.SearchScreen.route) {
-            SearchScreen(navController = navController)
+            SearchScreen(
+                onBackPressed = { onBackPressed() }
+            )
         }
         composable(route = Screens.ConvertScreen.route) {
             ConvertScreen(navController = navController)

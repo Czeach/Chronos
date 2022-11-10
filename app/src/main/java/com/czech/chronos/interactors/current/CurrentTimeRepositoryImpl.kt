@@ -5,8 +5,10 @@ import com.czech.chronos.interactors.convert.CurrentTimeRepository
 import com.czech.chronos.network.ApiService
 import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.utils.DataState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class CurrentTimeRepositoryImpl @Inject constructor(
@@ -39,6 +41,6 @@ class CurrentTimeRepositoryImpl @Inject constructor(
                     )
                 )
             }
-        }
+        }.flowOn(Dispatchers.IO)
     }
 }

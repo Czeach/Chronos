@@ -1,6 +1,7 @@
 package com.czech.chronos.ui.splash
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -22,7 +23,6 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    modifier: Modifier = Modifier,
     onTimeOut: () -> Unit
 ) {
 
@@ -31,37 +31,33 @@ fun SplashScreen(
         onTimeOut()
     }
 
-    Surface(
-        color = MaterialTheme.colorScheme.background,
-        modifier = modifier.fillMaxSize()
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background),
+        contentAlignment = Center
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Center
-        ) {
-            Column {
-                Image(
-                    painter = painterResource(
-                        id = if (isSystemInDarkTheme()) R.drawable.chronos_image_red else R.drawable.chronos_image_purple),
-                    contentDescription = "chronos image",
-                    modifier = Modifier
-                        .align(CenterHorizontally)
-                        .size(120.dp, 120.dp)
-                )
+        Column {
+            Image(
+                painter = painterResource(
+                    id = if (isSystemInDarkTheme()) R.drawable.chronos_image_red else R.drawable.chronos_image_purple),
+                contentDescription = "chronos image",
+                modifier = Modifier
+                    .align(CenterHorizontally)
+                    .size(120.dp, 120.dp)
+            )
             Spacer(
                 modifier = Modifier.height(25.dp)
             )
-                Text(
-                    text = "Time is of the Essence",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center,
-                    fontFamily = Fonts.lexendDeca,
-                    fontWeight = FontWeight.W400,
-                )
-            }
+            Text(
+                text = "Time is of the Essence",
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = Fonts.lexendDeca,
+                fontWeight = FontWeight.W400,
+            )
         }
-
     }
 
 }

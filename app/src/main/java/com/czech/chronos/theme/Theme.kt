@@ -20,6 +20,9 @@ private val DarkColorScheme = darkColorScheme(
     surface = Navy700,
     inverseSurface = Purple200,
 
+    // Status bar
+    scrim = Navy900,
+
     // Constants
     secondaryContainer = Red500,
     inverseOnSurface = Navy700,
@@ -37,6 +40,9 @@ private val LightColorScheme = lightColorScheme(
     tertiary = Grey200,
     surface = White900,
     inverseSurface = Grey500,
+
+    // Status bar
+    scrim = White1100,
 
     // Constants
     secondaryContainer = Red500,
@@ -76,7 +82,7 @@ fun ChronosTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.surface.toArgb()
+            (view.context as Activity).window.statusBarColor = colorScheme.scrim.toArgb()
         }
     }
 

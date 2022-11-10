@@ -1,155 +1,200 @@
 package com.czech.chronos.ui.search
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.czech.chronos.utils.Fonts
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.navigation.NavController
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
+import com.czech.chronos.R
+import com.czech.chronos.network.models.CurrentTime
+import com.czech.chronos.utils.AppBar
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(navController: NavController) {
-//
-//    val constraints = ConstraintSet {
-//        val searchColumn = createRefFor("search_column")
-//        val backBtn = createRefFor("back")
-//        val searchBar = createRefFor("search_bar")
-//        val searchImageHolder = createRefFor("search_image_holder")
-//        val searchImage = createRefFor("search_image")
-//        val searchCityText = createRefFor("search_city")
-//
-//        constrain(searchColumn) {
-//            top.linkTo(parent.top, margin = 2.dp)
-//            start.linkTo(parent.start)
-//            end.linkTo(parent.end)
-//            width = Dimension.fillToConstraints
-//            height = Dimension.value(48.dp)
-//        }
-//        constrain(backBtn) {
-//            top.linkTo(searchColumn.top)
-//            bottom.linkTo(searchColumn.bottom)
-//            start.linkTo(searchColumn.start, margin = 24.dp)
-//        }
-//        constrain(searchBar) {
-//            top.linkTo(backBtn.top)
-//            bottom.linkTo(backBtn.bottom)
-//            start.linkTo(backBtn.end, margin = 16.dp)
-//        }
-//        constrain(searchImageHolder) {
-//            top.linkTo(searchColumn.bottom)
-//            bottom.linkTo(parent.bottom, margin = 16.dp)
-//            start.linkTo(parent.start)
-//            end.linkTo(parent.end)
-//            width = Dimension.wrapContent
-//            height = Dimension.wrapContent
-//        }
-//        constrain(searchImage) {
-//            top.linkTo(searchImageHolder.top)
-//            start.linkTo(searchImageHolder.start)
-//            end.linkTo(searchImageHolder.end)
-//        }
-//        constrain(searchCityText) {
-//            top.linkTo(searchImage.bottom, margin = 10.dp)
-//            start.linkTo(searchImage.start)
-//            end.linkTo(searchImage.end)
-//        }
-//    }
-//
-//    ConstraintLayout(constraintSet = constraints, modifier = Modifier
-//        .fillMaxSize()
-//        .background(color = MaterialTheme.colors.background)) {
-//
-//        ConstraintLayout(modifier = Modifier
-//            .layoutId("search_column")
-//            .background(color = MaterialTheme.colors.onBackground)) {}
-//
-//            Image(painter = painterResource(id = R.drawable.arrow_back),
-//                contentDescription = "back button",
-//                modifier = Modifier
-//                    .layoutId("back")
-//                    .clickable(enabled = true) {
-//
-//                    }
-//            )
-//
-//        SearchBar(
-//            hint = "Search Timezones...",
-//            modifier = Modifier.layoutId("search_bar")
-//        ) {
-//
-//        }
-//
-//        Box(contentAlignment = Alignment.Center,
-//            modifier = Modifier
-//                .layoutId("search_image_holder")){}
-//
-//            Image(painter = painterResource(id = R.drawable.search_image),
-//                contentDescription = "back button",
-//                modifier = Modifier
-//                    .layoutId("search_image")
-//            )
-//
-//            Text(
-//                text = "Search for a City",
-//                color = MaterialTheme.colors.primary,
-//                fontSize = 16.sp,
-//                textAlign = TextAlign.Center,
-//                fontFamily = Fonts.lexendDeca,
-//                fontWeight = FontWeight.W400,
-//                modifier = Modifier.layoutId("search_city")
-//            )
-//
-//    }
+fun SearchScreen(
+    onBackPressed: () -> Unit
+) {
+    val inputState = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
+    Scaffold(
+        topBar = {
+            AppBar(
+                title = {
+                        SearchBar(
+                            input = inputState,
+                        )
+                },
+                actions = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.cancel_btn),
+                            contentDescription = "back_button"
+                        )
+                    }
+                },
+                onBackPressed = { onBackPressed() }
+            )
+        }
+    ) { padding ->
+        EmptyListState(
+            padding = padding
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchBar(
+    input: MutableState<TextFieldValue>
+) {
+    TextField(
+        value = input.value,
+        onValueChange = {
+            input.value = it
+        },
+        placeholder = {
+            Text(
+                text = "Search..."
+            )
+        },
+        singleLine = true,
+        textStyle = TextStyle(
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 16.sp,
+            fontFamily = Fonts.lexendDeca,
+            fontWeight = FontWeight.W400
+        ),
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words,
+            imeAction = ImeAction.Search,
+            keyboardType = KeyboardType.Text
+        ),
+    )
 }
 
 @Composable
-fun SearchBar(modifier: Modifier = Modifier,
-              hint: String = "",
-              onSearch: (String) -> Unit = {}
+fun SearchResultList(
+    list: List<CurrentTime>,
 ) {
-    var searchInput by remember {
-        mutableStateOf("")
+    LazyColumn(
+        modifier = Modifier
+    ) {
+        items(
+            items = list
+        ) { data ->
+            SearchResultItem(
+                city = data.requestedLocation.toString(),
+                cityTime = data.datetime.toString(),
+                checked = false,
+                onCheckedChange = {}
+            )
+        }
     }
+}
 
-    var isHintDisplayed by remember {
-        mutableStateOf(hint != "")
-    }
-    
-    Box(modifier = modifier) {
+@Composable
+fun SearchResultItem(
+    city: String,
+    cityTime: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .height(50.dp)
+            .fillMaxWidth()
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Checkbox(
+                modifier = Modifier
+                    .padding(start = 6.dp),
+                checked = checked,
+                onCheckedChange = onCheckedChange,
+                colors = CheckboxDefaults.colors(
+                    checkedColor = MaterialTheme.colorScheme.outlineVariant,
+                    uncheckedColor = MaterialTheme.colorScheme.primary,
+                    checkmarkColor = MaterialTheme.colorScheme.scrim
+                )
+            )
+            Text(
+                text = city,
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 16.sp,
+                fontFamily = Fonts.exo,
+                fontWeight = FontWeight.W400,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 4.dp)
 
-        BasicTextField(
-            value = searchInput,
-            onValueChange = {
-                searchInput = it
-                onSearch(it)
-            },
-            maxLines = 1,
-            singleLine = true,
-            textStyle = TextStyle(
+            )
+            Text(
+                text = cityTime,
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 16.sp,
                 fontFamily = Fonts.lexendDeca,
-                fontWeight = FontWeight.W400),
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged {
-                    isHintDisplayed = !it.isFocused
-                }
-        )
-
-        if (isHintDisplayed) {
-            Text(
-                text = hint,
-                color = MaterialTheme.colorScheme.onPrimary
+                fontWeight = FontWeight.W400,
+                modifier = Modifier
+                    .padding(end = 14.dp)
             )
         }
+    }
+}
+
+@Composable
+fun EmptyListState(padding: PaddingValues) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)
+    ) {
+        Image(
+            painter = painterResource(
+                id = if (isSystemInDarkTheme()) R.drawable.search_img_dark else R.drawable.search_img_light),
+            contentDescription = "search_image",
+            modifier = Modifier
+        )
+        Spacer(
+            modifier = Modifier
+                .height(24.dp)
+        )
+        Text(
+            text = "Search for a city",
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 16.sp,
+            fontFamily = Fonts.lexendDeca,
+            fontWeight = FontWeight.W400,
+        )
     }
 }
