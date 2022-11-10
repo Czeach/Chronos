@@ -4,10 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +30,6 @@ import com.czech.chronos.utils.Fonts
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     onSettingsClicked: () -> Unit,
     onFABClicked: () -> Unit,
     onConvertClicked: () -> Unit,
@@ -48,8 +44,7 @@ fun HomeScreen(
         dateText = getDate.value,
         onSettingsClicked = { onSettingsClicked() },
         onFABClicked = { onFABClicked() },
-        onConvertClicked = { onConvertClicked() },
-        modifier = modifier.fillMaxSize()
+        onConvertClicked = { onConvertClicked() }
     )
 }
 
@@ -60,7 +55,6 @@ fun HomeFeatures(
     onSettingsClicked: () -> Unit,
     onFABClicked: () -> Unit,
     onConvertClicked: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     val constrains = ConstraintSet {
         val settingsBtnView = createRefFor("settings")
@@ -117,23 +111,28 @@ fun HomeFeatures(
 
     Surface(
         color = MaterialTheme.colorScheme.background,
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
         ConstraintLayout(
             constraintSet = constrains,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.background)
         ) {
-            Image(painter = painterResource(id = R.drawable.settings_btn), contentDescription = "settings button",
+            Image(
+                painter = painterResource(id = R.drawable.settings_btn),
+                contentDescription = "settings button",
                 modifier = Modifier
                     .layoutId("settings")
                     .clickable(true) {
                         onSettingsClicked()
-                    })
-            Box(modifier = Modifier
+                    }
+            )
+            Box(
+                modifier = Modifier
                 .layoutId("clock_text")
-                .wrapContentSize(align = Alignment.Center)) {
+            ) {
                 Text(
                     text = "Clock",
                     color = MaterialTheme.colorScheme.primary,
@@ -143,9 +142,10 @@ fun HomeFeatures(
                     fontWeight = FontWeight.W400,
                 )
             }
-            Box(modifier = Modifier
+            Box(
+                modifier = Modifier
                 .layoutId("time")
-                .wrapContentSize(align = Alignment.Center)) {
+            ) {
                 Text(
                     text = timeText,
                     color = MaterialTheme.colorScheme.secondary,
@@ -155,9 +155,10 @@ fun HomeFeatures(
                     fontWeight = FontWeight.W400,
                 )
             }
-            Box(modifier = Modifier
+            Box(
+                modifier = Modifier
                 .layoutId("date")
-                .wrapContentSize(align = Alignment.Center)) {
+            ) {
                 Text(
                     text = dateText,
                     color = MaterialTheme.colorScheme.primary,
@@ -167,27 +168,35 @@ fun HomeFeatures(
                     fontWeight = FontWeight.W400,
                 )
             }
-            Box(modifier = Modifier
+            Box(
+                modifier = Modifier
                 .layoutId("line")
                 .background(color = MaterialTheme.colorScheme.secondary)
             )
-            FloatingActionButton(modifier = Modifier
+            FloatingActionButton(
+                modifier = Modifier
                 .layoutId("fab")
                 .shadow(elevation = 8.dp, shape = CircleShape),
                 containerColor = MaterialTheme.colorScheme.secondary,
                 onClick = { onFABClicked() },
             ) {
-                Image(painter = painterResource(
+                Image(
+                    painter = painterResource(
                     id = if (isSystemInDarkTheme()) R.drawable.chronos_btn_purple else R.drawable.chronos_btn_red),
-                    contentDescription = "fab icon", modifier = Modifier.size(26.dp, 26.dp))
+                    contentDescription = "fab icon",
+                    modifier = Modifier
+                        .size(26.dp, 26.dp)
+                )
             }
-            Box(contentAlignment = Alignment.Center,
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .layoutId("convert_time_bar")
                     .background(MaterialTheme.colorScheme.inverseSurface)
                     .clickable(true) {
                         onConvertClicked()
-                    }) {
+                    }
+            ) {
                 Text(
                     text = "Convert Time Zone",
                     color = MaterialTheme.colorScheme.primary,
@@ -199,7 +208,4 @@ fun HomeFeatures(
             }
         }
     }
-
-
-
 }
