@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.czech.chronos.utils.Fonts
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -24,26 +25,30 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.czech.chronos.R
 import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.utils.AppBar
+import com.czech.chronos.utils.states.CurrentTimeState
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    viewModel: SearchViewModel
 ) {
-    val inputState = remember {
-        mutableStateOf(TextFieldValue(""))
-    }
-
     Scaffold(
         topBar = {
             AppBar(
                 title = {
                         SearchBar(
-                            input = inputState,
+                            input = viewModel.inputState,
                         )
                 },
                 actions = {
@@ -58,9 +63,53 @@ fun SearchScreen(
             )
         }
     ) { padding ->
-        EmptyListState(
-            padding = padding
-        )
+        Box(
+            modifier = Modifier
+                .padding(padding)
+                .padding(top = 12.dp)
+        ) {
+            if (viewModel.inputState.value.text.isNotEmpty()) {
+                LaunchedEffect(key1 = viewModel.inputState) {
+
+                    if (viewModel.inputState.value.text.isBlank()) return@LaunchedEffect
+
+                    delay(2000)
+
+                    viewModel.getCurrentTime(viewModel.inputState.value.text)
+
+                }
+                ObserveCurrentTime(
+                    viewModel = viewModel
+                )
+            } else {
+                EmptyListState()
+            }
+        }
+
+    }
+}
+
+@Composable
+fun ObserveCurrentTime(
+    viewModel: SearchViewModel
+) {
+    when (val state = viewModel.currentTimeState.collectAsState().value) {
+        is CurrentTimeState.Loading -> {
+
+        }
+        is CurrentTimeState.Success -> {
+            SearchResultItem(
+                city = state.data?.requestedLocation.toString(),
+                cityTime = state.data?.datetime.toString(),
+                checked = false,
+                onCheckedChange = {}
+            )
+        }
+        is CurrentTimeState.Error -> {
+
+        }
+        else -> {
+        }
     }
 }
 
@@ -91,7 +140,7 @@ fun SearchBar(
         ),
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
-            imeAction = ImeAction.Search,
+            imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Text
         ),
     )
@@ -107,12 +156,12 @@ fun SearchResultList(
         items(
             items = list
         ) { data ->
-            SearchResultItem(
-                city = data.requestedLocation.toString(),
-                cityTime = data.datetime.toString(),
-                checked = false,
-                onCheckedChange = {}
-            )
+//            SearchResultItem(
+//                city = data.requestedLocation.toString(),
+//                cityTime = data.datetime.toString(),
+//                checked = false,
+//                onCheckedChange = {}
+//            )
         }
     }
 }
@@ -171,13 +220,12 @@ fun SearchResultItem(
 }
 
 @Composable
-fun EmptyListState(padding: PaddingValues) {
+fun EmptyListState() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(padding)
     ) {
         Image(
             painter = painterResource(

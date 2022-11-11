@@ -2,12 +2,14 @@ package com.czech.chronos.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.czech.chronos.ui.convert.ConvertScreen
 import com.czech.chronos.ui.home.HomeScreen
 import com.czech.chronos.ui.search.SearchScreen
+import com.czech.chronos.ui.search.SearchViewModel
 import com.czech.chronos.ui.settings.SettingsScreen
 import com.czech.chronos.ui.splash.SplashScreen
 
@@ -39,8 +41,10 @@ fun ChronosNavHost(
                 onConvertClicked = { navController.navigate(Screens.ConvertScreen.route) })
         }
         composable(route = Screens.SearchScreen.route) {
+            val viewModel = hiltViewModel<SearchViewModel>()
             SearchScreen(
-                onBackPressed = { onBackPressed() }
+                onBackPressed = { onBackPressed() },
+                viewModel = viewModel
             )
         }
         composable(route = Screens.ConvertScreen.route) {

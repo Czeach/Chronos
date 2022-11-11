@@ -26,7 +26,8 @@ class CurrentTimeRepositoryImpl @Inject constructor(
             try {
                 when (response.isSuccessful) {
                     true -> {
-                        if (currentTimeData == null) emit(DataState.data(message = "No result for $location"))
+                        if (currentTimeData == null)
+                            emit(DataState.data(message = "No result for $location"))
 
                         emit(DataState.data(data = currentTimeData))
                     }
