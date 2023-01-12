@@ -2,39 +2,33 @@ package com.czech.chronos.ui.search
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import com.czech.chronos.utils.Fonts
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.unit.sp
 import com.czech.chronos.R
 import com.czech.chronos.network.models.CurrentTime
+import com.czech.chronos.network.models.PlacePredictions
 import com.czech.chronos.utils.AppBar
+import com.czech.chronos.utils.Fonts
 import com.czech.chronos.utils.states.CurrentTimeState
-import kotlinx.coroutines.GlobalScope
+import com.czech.chronos.utils.states.PredictionsState
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,7 +42,7 @@ fun SearchScreen(
             AppBar(
                 title = {
                         SearchBar(
-                            input = viewModel.inputState,
+                            input = viewModel.inputState
                         )
                 },
                 actions = {
@@ -73,12 +67,12 @@ fun SearchScreen(
 
                     if (viewModel.inputState.value.text.isBlank()) return@LaunchedEffect
 
-                    delay(2000)
+                    delay(1000)
 
-                    viewModel.getCurrentTime(viewModel.inputState.value.text)
+                    viewModel.getCityPredictions(viewModel.inputState.value.text)
 
                 }
-                ObserveCurrentTime(
+                ObserveCityPredictions(
                     viewModel = viewModel
                 )
             } else {
@@ -86,6 +80,25 @@ fun SearchScreen(
             }
         }
 
+    }
+}
+
+@Composable
+fun ObserveCityPredictions(
+    viewModel: SearchViewModel
+) {
+    when (val state = viewModel.predictionsState.value) {
+        is PredictionsState.Loading -> {
+
+        }
+        is PredictionsState.Success -> {
+            PredictionsResultList(
+                state.data
+            )
+        }
+        else -> {
+
+        }
     }
 }
 
@@ -163,6 +176,45 @@ fun SearchResultList(
 //                onCheckedChange = {}
 //            )
         }
+    }
+}
+
+@Composable
+fun PredictionsResultList(
+    list: List<PlacePredictions.Prediction?>?
+) {
+    LazyColumn(
+        modifier = Modifier
+    ) {
+        items(
+            items = list!!
+        ) { predictions ->
+            PredictionsResultItem(
+                city = predictions?.description.toString()
+            )
+        }
+    }
+}
+
+@Composable
+fun PredictionsResultItem(
+    city: String
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(38.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = city,
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 16.sp,
+            fontFamily = Fonts.exo,
+            fontWeight = FontWeight.W500,
+            modifier = Modifier
+                .padding(start = 22.dp)
+        )
     }
 }
 
