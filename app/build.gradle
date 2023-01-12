@@ -3,13 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-}
-
-def getApiKey() {
-    def keysProperties = new Properties()
-    keysProperties.load(project.rootProject.file("local.properties").newDataInputStream())
-    def ApiKey = keysProperties.getProperty("api_key", "")
-    return ApiKey
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -33,10 +27,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "API_KEY", getApiKey())
         }
         debug {
-            buildConfigField("String", "API_KEY", getApiKey())
         }
     }
     compileOptions {
@@ -55,14 +47,18 @@ android {
 }
 
 dependencies {
-//    val composeBom = platform("androidx.compose:compose-bom:2022.10.00")
     implementation(platform("androidx.compose:compose-bom:2022.10.00"))
     androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
 
-    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.6.0")
 
     // Material Design 3
     implementation("androidx.compose.material3:material3")
+
+    // Google Places SDK
+    implementation("com.google.android.libraries.places:places:3.0.0")
+    implementation("com.google.maps.android:places-ktx:2.0.0")
 
     // Foundational components
     implementation("androidx.compose.foundation:foundation")
