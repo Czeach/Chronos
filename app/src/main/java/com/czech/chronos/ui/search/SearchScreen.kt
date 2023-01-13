@@ -56,6 +56,9 @@ fun SearchScreen(
                             input = viewModel.inputState,
                             hint = "Search...",
                             hideKeyboard = hideKeyboard,
+                            resetCurrentTime = {
+                                viewModel.currentTimeState.value = null
+                            },
                             onFocusClear = { hideKeyboard = false },
                             modifier = Modifier
                         )
@@ -73,11 +76,14 @@ fun SearchScreen(
                 if (viewModel.inputState.value.text.length > 2) {
                     LaunchedEffect(key1 = viewModel.predictionsState.value) {
 
-                        delay(700)
+                        delay(500)
 
                         viewModel.getCityPredictions(viewModel.inputState.value.text)
                     }
                     ObserveCityPredictions(
+                        viewModel = viewModel
+                    )
+                    ObserveCurrentTime(
                         viewModel = viewModel
                     )
                 }
@@ -90,6 +96,7 @@ fun SearchScreen(
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ObserveCityPredictions(
     viewModel: SearchViewModel
@@ -100,7 +107,11 @@ fun ObserveCityPredictions(
         }
         is PredictionsState.Success -> {
             PredictionsResultList(
-                state.data
+                state.data,
+                onItemClick = {
+                    viewModel.getCurrentTime(it)
+                    viewModel.predictionsState.value = null
+                }
             )
         }
         else -> {
@@ -118,12 +129,12 @@ fun ObserveCurrentTime(
 
         }
         is CurrentTimeState.Success -> {
-//            SearchResultItem(
-//                city = state.data?.requestedLocation.toString(),
-//                cityTime = state.data?.datetime.toString(),
-//                checked = false,
-//                onCheckedChange = {}
-//            )
+            SearchResultItem(
+                city = state.data?.requestedLocation.toString(),
+                cityTime = state.data?.datetime.toString(),
+                checked = false,
+                onCheckedChange = {}
+            )
         }
         is CurrentTimeState.Error -> {
 
@@ -138,6 +149,7 @@ fun ObserveCurrentTime(
 fun SearchBar(
     input: MutableState<TextFieldValue>,
     onFocusClear: () -> Unit = {},
+    resetCurrentTime: () -> Unit,
     hideKeyboard: Boolean = false,
     hint: String,
     modifier: Modifier
@@ -153,6 +165,7 @@ fun SearchBar(
         value = input.value,
         onValueChange = {
             input.value = it
+            resetCurrentTime()
         },
         modifier = modifier
             .fillMaxWidth()
@@ -226,7 +239,8 @@ fun SearchResultList(
 
 @Composable
 fun PredictionsResultList(
-    list: List<PlacePredictions.Prediction?>?
+    list: List<PlacePredictions.Prediction?>?,
+    onItemClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -235,7 +249,10 @@ fun PredictionsResultList(
             items = list!!
         ) { predictions ->
             PredictionsResultItem(
-                city = predictions?.description.toString()
+                city = predictions?.description.toString(),
+                onItemClick = {
+                    onItemClick(predictions?.description.toString())
+                }
             )
         }
     }
@@ -243,12 +260,16 @@ fun PredictionsResultList(
 
 @Composable
 fun PredictionsResultItem(
-    city: String
+    city: String,
+    onItemClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(38.dp),
+            .height(38.dp)
+            .clickable {
+                onItemClick()
+            },
         verticalArrangement = Arrangement.Center
     ) {
         Text(
