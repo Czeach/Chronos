@@ -65,8 +65,6 @@ fun SearchScreen(
                 if (viewModel.inputState.value.text.length > 2) {
                     LaunchedEffect(key1 = viewModel.predictionsState.value) {
 
-                    if (viewModel.inputState.value.text.isBlank()) return@LaunchedEffect
-
                         delay(700)
 
                         viewModel.getCityPredictions(viewModel.inputState.value.text)
