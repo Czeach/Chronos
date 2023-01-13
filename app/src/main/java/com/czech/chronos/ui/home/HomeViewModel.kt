@@ -2,18 +2,21 @@ package com.czech.chronos.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.czech.chronos.utils.DateUtil.shortDateFormat
+import com.czech.chronos.utils.DateUtil.timeFormat
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class HomeViewModel: ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val timer: Timer
+): ViewModel() {
 
-    private val timer = Timer()
-    private val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-    private val dateFormat = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
-    val getTime = MutableStateFlow(timeFormat.format(Calendar.getInstance().time))
-    val getDate = MutableStateFlow(dateFormat.format(Calendar.getInstance().time))
+    val getTime = MutableStateFlow("")
+    val getDate = MutableStateFlow("")
 
     init {
         updateTime()
@@ -36,7 +39,7 @@ class HomeViewModel: ViewModel() {
         val job = viewModelScope.launch {
             val task = object : TimerTask() {
                 override fun run() {
-                    getDate.value = dateFormat.format(Calendar.getInstance().time)
+                    getDate.value = shortDateFormat.format(Calendar.getInstance().time)
                 }
             }
             timer.schedule(task, 0, 1000)

@@ -7,6 +7,7 @@ import com.czech.chronos.utils.Constants
 import com.czech.chronos.utils.DataState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.net.ConnectException
 import javax.inject.Inject
 
 class PredictPlaceRepositoryImpl @Inject constructor(
@@ -37,6 +38,12 @@ class PredictPlaceRepositoryImpl @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
+                emit(
+                    DataState.error(
+                        message = e.message ?: "An error occurred"
+                    )
+                )
+            } catch (e: ConnectException) {
                 emit(
                     DataState.error(
                         message = e.message ?: "An error occurred"
