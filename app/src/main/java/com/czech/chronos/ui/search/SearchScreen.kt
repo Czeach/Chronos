@@ -18,7 +18,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.czech.chronos.R
@@ -30,7 +29,7 @@ import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
 import kotlinx.coroutines.delay
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
@@ -63,19 +62,21 @@ fun SearchScreen(
                 .padding(top = 12.dp)
         ) {
             if (viewModel.inputState.value.text.isNotEmpty()) {
-                LaunchedEffect(key1 = viewModel.inputState) {
+                if (viewModel.inputState.value.text.length > 2) {
+                    LaunchedEffect(key1 = viewModel.predictionsState.value) {
 
                     if (viewModel.inputState.value.text.isBlank()) return@LaunchedEffect
 
-                    delay(1000)
+                        delay(700)
 
-                    viewModel.getCityPredictions(viewModel.inputState.value.text)
-
+                        viewModel.getCityPredictions(viewModel.inputState.value.text)
+                    }
+                    ObserveCityPredictions(
+                        viewModel = viewModel
+                    )
                 }
-                ObserveCityPredictions(
-                    viewModel = viewModel
-                )
             } else {
+                viewModel.predictionsState.value = null
                 EmptyListState()
             }
         }
@@ -87,7 +88,7 @@ fun SearchScreen(
 fun ObserveCityPredictions(
     viewModel: SearchViewModel
 ) {
-    when (val state = viewModel.predictionsState.value) {
+    when (val state = viewModel.predictionsState.collectAsState().value) {
         is PredictionsState.Loading -> {
 
         }
@@ -111,12 +112,12 @@ fun ObserveCurrentTime(
 
         }
         is CurrentTimeState.Success -> {
-            SearchResultItem(
-                city = state.data?.requestedLocation.toString(),
-                cityTime = state.data?.datetime.toString(),
-                checked = false,
-                onCheckedChange = {}
-            )
+//            SearchResultItem(
+//                city = state.data?.requestedLocation.toString(),
+//                cityTime = state.data?.datetime.toString(),
+//                checked = false,
+//                onCheckedChange = {}
+//            )
         }
         is CurrentTimeState.Error -> {
 

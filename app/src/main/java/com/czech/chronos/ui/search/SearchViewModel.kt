@@ -25,7 +25,7 @@ class SearchViewModel @Inject constructor(
 
     val inputState = mutableStateOf(TextFieldValue(""))
     val currentTimeState = MutableStateFlow<CurrentTimeState?>(null)
-    val predictionsState = MutableLiveData<PredictionsState?>(null)
+    val predictionsState = MutableStateFlow<PredictionsState?>(null)
 
     fun getCityPredictions(input: String) {
         viewModelScope.launch {
