@@ -21,7 +21,12 @@ class ConvertTimeRepositoryImpl @Inject constructor(
         return flow {
             emit(DataState.loading())
 
-            val response = apiService.convertTime(BuildConfig.API_KEY, baseLocation, baseDatetime, targetLocation)
+            val response = apiService.convertTime(
+                BuildConfig.API_KEY,
+                baseLocation,
+                baseDatetime,
+                targetLocation
+            )
 
             val convertTimeData = response.body()
 

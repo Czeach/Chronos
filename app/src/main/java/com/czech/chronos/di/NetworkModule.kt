@@ -4,7 +4,10 @@ import com.czech.chronos.interactors.convert.ConvertTimeRepositoryImpl
 import com.czech.chronos.interactors.convert.CurrentTimeRepository
 import com.czech.chronos.interactors.current.ConvertTimeRepository
 import com.czech.chronos.interactors.current.CurrentTimeRepositoryImpl
+import com.czech.chronos.interactors.place.PredictPlaceRepository
+import com.czech.chronos.interactors.place.PredictPlaceRepositoryImpl
 import com.czech.chronos.network.ApiService
+import com.czech.chronos.network.PlacesApiService
 import com.czech.chronos.utils.Constants
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
@@ -52,6 +55,13 @@ object NetworkModule {
     }
 
     @[Provides Singleton]
+    fun providePlacesApiService(
+        retrofit: Retrofit
+    ): PlacesApiService {
+        return retrofit.create(PlacesApiService::class.java)
+    }
+
+    @[Provides Singleton]
     fun provideApiService(
         retrofit: Retrofit
     ): ApiService {
@@ -73,6 +83,15 @@ object NetworkModule {
     ): ConvertTimeRepository {
         return ConvertTimeRepositoryImpl(
             apiService = apiService
+        )
+    }
+
+    @[Provides Singleton]
+    fun providePredictPlaceRepository(
+        placesApiService: PlacesApiService
+    ): PredictPlaceRepository {
+        return PredictPlaceRepositoryImpl(
+            placesApiService = placesApiService
         )
     }
 
