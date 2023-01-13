@@ -33,7 +33,7 @@ fun HomeScreen(
     onSettingsClicked: () -> Unit,
     onFABClicked: () -> Unit,
     onConvertClicked: () -> Unit,
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel
 ) {
 
     val getTime = viewModel.getTime.collectAsState()

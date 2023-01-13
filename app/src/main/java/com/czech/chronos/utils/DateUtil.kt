@@ -1,26 +1,29 @@
 package com.czech.chronos.utils
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.lang.NullPointerException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
+@SuppressLint("SimpleDateFormat")
 object DateUtil {
 
-    @SuppressLint("SimpleDateFormat")
-    private val timeFormat = SimpleDateFormat("HH:mm")
+    val timeFormat = SimpleDateFormat("HH:mm")
+    val shortDateFormat = SimpleDateFormat("EEE, d MMM")
+    val longDateFormat = SimpleDateFormat("EEE, d MMM yyyy")
 
-    @SuppressLint("SimpleDateFormat")
-    private val shortDateFormat = SimpleDateFormat("EEE, d MMM")
 
-//    private val longDateFormat = SimpleDateFormat("EEE, d MMM YYYY")
+    fun timeFromTimeZone(timeZone: String): String {
+        val calendar = Calendar.getInstance()
+        val date = calendar.time
 
-    fun stringToTime(string: String): Date {
-        return timeFormat.parse(string) ?:throw NullPointerException("Could not convert date string to Date object.")
-    }
-
-    fun stringToDate(string: String): Date {
-        return shortDateFormat.parse(string) ?:throw NullPointerException("Could not convert date string to Date object.")
+        timeFormat.timeZone = TimeZone.getTimeZone(timeZone)
+        return timeFormat.format(date)
     }
 
 }

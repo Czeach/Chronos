@@ -1,6 +1,8 @@
 package com.czech.chronos.ui.search
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -38,6 +40,7 @@ import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
 import kotlinx.coroutines.delay
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,6 +99,7 @@ fun SearchScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ObserveCityPredictions(
@@ -120,6 +124,7 @@ fun ObserveCityPredictions(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ObserveCurrentTime(
     viewModel: SearchViewModel
@@ -129,9 +134,10 @@ fun ObserveCurrentTime(
 
         }
         is CurrentTimeState.Success -> {
+            viewModel.updateTimeFromServer(state.data?.timezoneLocation.toString())
             SearchResultItem(
                 city = state.data?.requestedLocation.toString(),
-                cityTime = state.data?.datetime.toString(),
+                cityTime = viewModel.timeState.collectAsState().value.toString(),
                 checked = false,
                 onCheckedChange = {}
             )
@@ -218,26 +224,6 @@ fun SearchBar(
 }
 
 @Composable
-fun SearchResultList(
-    list: List<CurrentTime>,
-) {
-    LazyColumn(
-        modifier = Modifier
-    ) {
-        items(
-            items = list
-        ) { data ->
-//            SearchResultItem(
-//                city = data.requestedLocation.toString(),
-//                cityTime = data.datetime.toString(),
-//                checked = false,
-//                onCheckedChange = {}
-//            )
-        }
-    }
-}
-
-@Composable
 fun PredictionsResultList(
     list: List<PlacePredictions.Prediction?>?,
     onItemClick: (String) -> Unit
@@ -281,6 +267,26 @@ fun PredictionsResultItem(
             modifier = Modifier
                 .padding(start = 22.dp)
         )
+    }
+}
+
+@Composable
+fun SearchResultList(
+    list: List<CurrentTime>,
+) {
+    LazyColumn(
+        modifier = Modifier
+    ) {
+        items(
+            items = list
+        ) { data ->
+//            SearchResultItem(
+//                city = data.requestedLocation.toString(),
+//                cityTime = data.datetime.toString(),
+//                checked = false,
+//                onCheckedChange = {}
+//            )
+        }
     }
 }
 

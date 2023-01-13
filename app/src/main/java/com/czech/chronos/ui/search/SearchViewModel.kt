@@ -1,20 +1,33 @@
 package com.czech.chronos.ui.search
 
+import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.czech.chronos.interactors.convert.CurrentTimeRepository
 import com.czech.chronos.interactors.place.PredictPlaceRepository
+import com.czech.chronos.utils.DateUtil.timeFormat
+import com.czech.chronos.utils.DateUtil.timeFromTimeZone
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 import javax.inject.Inject
 
+@SuppressLint("SimpleDateFormat")
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    private val timer: Timer,
     private val currentTimeRepository: CurrentTimeRepository,
     private val predictPlaceRepository: PredictPlaceRepository
 ): ViewModel() {
@@ -22,6 +35,20 @@ class SearchViewModel @Inject constructor(
     var inputState = mutableStateOf(TextFieldValue(""))
     val predictionsState = MutableStateFlow<PredictionsState?>(null)
     val currentTimeState = MutableStateFlow<CurrentTimeState?>(null)
+
+    val timeState = MutableStateFlow("")
+
+    fun updateTimeFromServer(timezone: String) {
+        val job = viewModelScope.launch {
+            val task = object : TimerTask() {
+                override fun run() {
+                    timeState.value = timeFromTimeZone(timezone)
+                }
+            }
+            timer.schedule(task, 0, 1000)
+        }
+        job.cancel()
+    }
 
     fun getCityPredictions(input: String) {
         viewModelScope.launch {
