@@ -4,7 +4,6 @@ package com.czech.chronos.network.models
 import com.google.gson.annotations.SerializedName
 
 data class CurrentTime(
-    val datetime: String?,
     @SerializedName("gmt_offset")
     val gmtOffset: Int?,
     @SerializedName("is_dst")
@@ -18,5 +17,6 @@ data class CurrentTime(
     @SerializedName("timezone_location")
     val timezoneLocation: String?,
     @SerializedName("timezone_name")
-    val timezoneName: String?
+    val timezoneName: String?,
+    val checked: Boolean = false
 )

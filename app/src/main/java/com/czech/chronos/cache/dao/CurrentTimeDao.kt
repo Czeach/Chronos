@@ -9,12 +9,15 @@ import com.czech.chronos.cache.model.CurrentTimeEntity
 @Dao
 interface CurrentTimeDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCurrentTime(currentTime: CurrentTimeEntity)
 
     @Query("SELECT * FROM current_times")
     suspend fun getAllCurrentTimes(): List<CurrentTimeEntity>
 
-    @Query("DELETE FROM current_times WHERE id = :id" )
-    suspend fun deleteCurrentTime(id: Int)
+    @Query("SELECT EXISTS (SELECT 1 FROM current_times WHERE requestedLocation = :location)")
+    suspend fun exists(location: String): Boolean
+
+    @Query("DELETE FROM current_times WHERE requestedLocation = :location" )
+    suspend fun deleteCurrentTime(location: String)
 }
