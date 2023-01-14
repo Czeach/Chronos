@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -38,10 +39,13 @@ import com.czech.chronos.utils.AppBar
 import com.czech.chronos.utils.Fonts
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
+import com.czech.chronos.utils.toCurrentTimeEntity
 import kotlinx.coroutines.delay
 
 @RequiresApi(Build.VERSION_CODES.O)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition",
+    "UnrememberedMutableState"
+)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
@@ -75,6 +79,7 @@ fun SearchScreen(
                 .padding(padding)
                 .padding(top = 12.dp)
         ) {
+
             if (viewModel.inputState.value.text.isNotEmpty()) {
                 if (viewModel.inputState.value.text.length > 2) {
                     LaunchedEffect(key1 = viewModel.predictionsState.value) {
@@ -124,22 +129,40 @@ fun ObserveCityPredictions(
     }
 }
 
+@SuppressLint("UnrememberedMutableState")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ObserveCurrentTime(
     viewModel: SearchViewModel
 ) {
+
+
+
     when (val state = viewModel.currentTimeState.collectAsState().value) {
         is CurrentTimeState.Loading -> {
 
         }
         is CurrentTimeState.Success -> {
+            viewModel.isCurrentTimeInDB(state.data?.requestedLocation.toString())
+            var checkedState: Boolean by mutableStateOf(viewModel.isInDB.collectAsState().value)
+
             viewModel.updateTimeFromServer(state.data?.timezoneLocation.toString())
             SearchResultItem(
                 city = state.data?.requestedLocation.toString(),
-                cityTime = viewModel.timeState.collectAsState().value.toString(),
-                checked = false,
-                onCheckedChange = {}
+                cityTime = viewModel.timeState.collectAsState().value,
+                checked = checkedState,
+                onCheckedChange = { newValue ->
+                    checkedState = newValue
+                    when (checkedState) {
+                        true -> {
+                            viewModel.insertCurrentTimeIntoDB(state.data?.toCurrentTimeEntity()!!, checkedState)
+                            viewModel.inputState.value = TextFieldValue("")
+                        }
+                        false -> {
+                            viewModel.deleteCurrentTimeFromDB(state.data?.requestedLocation.toString())
+                        }
+                    }
+                }
             )
         }
         is CurrentTimeState.Error -> {

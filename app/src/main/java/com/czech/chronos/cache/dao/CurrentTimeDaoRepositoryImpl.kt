@@ -15,7 +15,11 @@ class CurrentTimeDaoRepositoryImpl @Inject constructor(
         return currentTimeDao.getAllCurrentTimes()
     }
 
-    override suspend fun deleteCurrentTime(id: Int) {
-        currentTimeDao.deleteCurrentTime(id)
+    override suspend fun exists(location: String): Boolean {
+        return currentTimeDao.exists(location)
+    }
+
+    override suspend fun deleteCurrentTime(location: String) {
+        currentTimeDao.deleteCurrentTime(location)
     }
 }

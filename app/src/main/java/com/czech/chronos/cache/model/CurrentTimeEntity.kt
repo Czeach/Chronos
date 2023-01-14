@@ -8,14 +8,14 @@ import androidx.room.PrimaryKey
 data class CurrentTimeEntity(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val datetime: String,
-    val gmtOffset: Int,
-    val isDst: Boolean,
-    val latitude: Double,
-    val longitude: Double,
-    val requestedLocation: String,
-    val timezoneAbbreviation: String,
-    val timezoneLocation: String,
-    val timezoneName: String
+    val id: Int?,
+    val gmtOffset: Int?,
+    val isDst: Boolean?,
+    val latitude: Double?,
+    val longitude: Double?,
+    val requestedLocation: String?,
+    val timezoneAbbreviation: String?,
+    val timezoneLocation: String?,
+    val timezoneName: String?,
+    var checked: Boolean
 )

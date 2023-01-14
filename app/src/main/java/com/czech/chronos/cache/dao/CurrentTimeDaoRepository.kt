@@ -8,5 +8,7 @@ interface CurrentTimeDaoRepository {
 
     suspend fun getAllCurrentTimes(): List<CurrentTimeEntity>
 
-    suspend fun deleteCurrentTime(id: Int)
+    suspend fun exists(location: String): Boolean
+
+    suspend fun deleteCurrentTime(location: String)
 }

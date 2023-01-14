@@ -8,12 +8,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.czech.chronos.cache.dao.CurrentTimeDaoRepository
+import com.czech.chronos.cache.model.CurrentTimeEntity
 import com.czech.chronos.interactors.convert.CurrentTimeRepository
 import com.czech.chronos.interactors.place.PredictPlaceRepository
+import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.utils.DateUtil.timeFormat
 import com.czech.chronos.utils.DateUtil.timeFromTimeZone
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
+import com.czech.chronos.utils.toCurrentTimeEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -29,7 +33,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val timer: Timer,
     private val currentTimeRepository: CurrentTimeRepository,
-    private val predictPlaceRepository: PredictPlaceRepository
+    private val predictPlaceRepository: PredictPlaceRepository,
+    private val currentTimeDaoRepository: CurrentTimeDaoRepository
 ): ViewModel() {
 
     var inputState = mutableStateOf(TextFieldValue(""))
@@ -37,6 +42,7 @@ class SearchViewModel @Inject constructor(
     val currentTimeState = MutableStateFlow<CurrentTimeState?>(null)
 
     val timeState = MutableStateFlow("")
+    val isInDB = MutableStateFlow(false)
 
     fun updateTimeFromServer(timezone: String) {
         val job = viewModelScope.launch {
@@ -65,6 +71,25 @@ class SearchViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    fun insertCurrentTimeIntoDB(currentTime: CurrentTimeEntity, checked: Boolean) {
+        viewModelScope.launch {
+            currentTime.checked = checked
+            currentTimeDaoRepository.insertCurrentTime(currentTime)
+        }
+    }
+
+    fun deleteCurrentTimeFromDB(location: String) {
+        viewModelScope.launch {
+            currentTimeDaoRepository.deleteCurrentTime(location)
+        }
+    }
+
+    fun isCurrentTimeInDB(location: String) {
+        viewModelScope.launch {
+            isInDB.value = currentTimeDaoRepository.exists(location)
         }
     }
 
