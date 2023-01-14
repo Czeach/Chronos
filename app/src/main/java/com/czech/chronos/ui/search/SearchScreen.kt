@@ -42,10 +42,9 @@ import com.czech.chronos.utils.states.PredictionsState
 import com.czech.chronos.utils.toCurrentTimeEntity
 import kotlinx.coroutines.delay
 
+
+@SuppressLint("StateFlowValueCalledInComposition")
 @RequiresApi(Build.VERSION_CODES.O)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition",
-    "UnrememberedMutableState"
-)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
@@ -79,7 +78,6 @@ fun SearchScreen(
                 .padding(padding)
                 .padding(top = 12.dp)
         ) {
-
             if (viewModel.inputState.value.text.isNotEmpty()) {
                 if (viewModel.inputState.value.text.length > 2) {
                     LaunchedEffect(key1 = viewModel.predictionsState.value) {
@@ -95,6 +93,12 @@ fun SearchScreen(
                         viewModel = viewModel
                     )
                 }
+            }
+            if (viewModel.currentTimeFromDB.value.isNotEmpty()) {
+                SearchResultList(
+                    list = viewModel.currentTimeFromDB.collectAsState().value,
+                    viewModel = viewModel
+                )
             } else {
                 viewModel.predictionsState.value = null
                 EmptyListState()
@@ -105,7 +109,6 @@ fun SearchScreen(
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ObserveCityPredictions(
     viewModel: SearchViewModel
@@ -293,22 +296,28 @@ fun PredictionsResultItem(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SearchResultList(
     list: List<CurrentTime>,
+    viewModel: SearchViewModel
 ) {
     LazyColumn(
         modifier = Modifier
     ) {
         items(
-            items = list
+            items = list,
+            key = { it.requestedLocation.toString() }
         ) { data ->
-//            SearchResultItem(
-//                city = data.requestedLocation.toString(),
-//                cityTime = data.datetime.toString(),
-//                checked = false,
-//                onCheckedChange = {}
-//            )
+            viewModel.updateTimeFromServer(data.timezoneLocation.toString())
+            SearchResultItem(
+                city = data.requestedLocation.toString(),
+                cityTime = viewModel.timeState.collectAsState().value,
+                checked = data.checked,
+                onCheckedChange = { checked ->
+                    if (!checked) viewModel.deleteCurrentTimeFromDB(data.requestedLocation.toString())
+                }
+            )
         }
     }
 }

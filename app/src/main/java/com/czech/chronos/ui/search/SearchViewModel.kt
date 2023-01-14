@@ -18,6 +18,7 @@ import com.czech.chronos.utils.DateUtil.timeFromTimeZone
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
 import com.czech.chronos.utils.toCurrentTimeEntity
+import com.czech.chronos.utils.toCurrentTimeList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -43,6 +44,11 @@ class SearchViewModel @Inject constructor(
 
     val timeState = MutableStateFlow("")
     val isInDB = MutableStateFlow(false)
+    val currentTimeFromDB = MutableStateFlow(listOf<CurrentTime>())
+
+    init {
+        getCurrentTimeListFromDB()
+    }
 
     fun updateTimeFromServer(timezone: String) {
         val job = viewModelScope.launch {
@@ -90,6 +96,12 @@ class SearchViewModel @Inject constructor(
     fun isCurrentTimeInDB(location: String) {
         viewModelScope.launch {
             isInDB.value = currentTimeDaoRepository.exists(location)
+        }
+    }
+
+    fun getCurrentTimeListFromDB() {
+        viewModelScope.launch {
+            currentTimeFromDB.value = currentTimeDaoRepository.getAllCurrentTimes().toCurrentTimeList()
         }
     }
 

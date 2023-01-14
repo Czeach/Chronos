@@ -1,6 +1,7 @@
 package com.czech.chronos.utils
 
 import com.czech.chronos.cache.model.CurrentTimeEntity
+import com.czech.chronos.network.models.ConvertTime
 import com.czech.chronos.network.models.CurrentTime
 
 fun CurrentTime.toCurrentTimeEntity(): CurrentTimeEntity {
@@ -30,4 +31,8 @@ fun CurrentTimeEntity.toCurrentTime(): CurrentTime {
         timezoneName = timezoneName,
         checked = checked
     )
+}
+
+fun List<CurrentTimeEntity>.toCurrentTimeList(): List<CurrentTime> {
+    return map { it.toCurrentTime() }
 }
