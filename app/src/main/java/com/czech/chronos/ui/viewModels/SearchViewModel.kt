@@ -1,11 +1,10 @@
-package com.czech.chronos.ui.search
+package com.czech.chronos.ui.viewModels
 
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.czech.chronos.cache.dao.CurrentTimeDaoRepository
@@ -13,18 +12,13 @@ import com.czech.chronos.cache.model.CurrentTimeEntity
 import com.czech.chronos.interactors.convert.CurrentTimeRepository
 import com.czech.chronos.interactors.place.PredictPlaceRepository
 import com.czech.chronos.network.models.CurrentTime
-import com.czech.chronos.utils.DateUtil.timeFormat
 import com.czech.chronos.utils.DateUtil.timeFromTimeZone
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
-import com.czech.chronos.utils.toCurrentTimeEntity
 import com.czech.chronos.utils.toCurrentTimeList
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
 
@@ -32,7 +26,6 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val timer: Timer,
     private val currentTimeRepository: CurrentTimeRepository,
     private val predictPlaceRepository: PredictPlaceRepository,
     private val currentTimeDaoRepository: CurrentTimeDaoRepository
@@ -42,7 +35,7 @@ class SearchViewModel @Inject constructor(
     val predictionsState = MutableStateFlow<PredictionsState?>(null)
     val currentTimeState = MutableStateFlow<CurrentTimeState?>(null)
 
-    val timeState = MutableStateFlow("")
+    val timeFromTimeZoneState = MutableStateFlow("")
     val isInDB = MutableStateFlow(false)
     val currentTimeFromDB = MutableStateFlow(listOf<CurrentTime>())
 
@@ -51,15 +44,13 @@ class SearchViewModel @Inject constructor(
     }
 
     fun updateTimeFromServer(timezone: String) {
-        val job = viewModelScope.launch {
-            val task = object : TimerTask() {
-                override fun run() {
-                    timeState.value = timeFromTimeZone(timezone)
-                }
+        viewModelScope.launch {
+            delay(1000)
+            while (true) {
+                timeFromTimeZoneState.value = timeFromTimeZone(timezone)
+                delay(1000)
             }
-            timer.schedule(task, 0, 1000)
         }
-        job.cancel()
     }
 
     fun getCityPredictions(input: String) {
