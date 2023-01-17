@@ -7,23 +7,23 @@ import java.lang.NullPointerException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SimpleDateFormat")
 object DateUtil {
 
     val timeFormat = SimpleDateFormat("HH:mm")
     val shortDateFormat = SimpleDateFormat("EEE, d MMM")
-    val longDateFormat = SimpleDateFormat("EEE, d MMM yyyy")
 
 
     fun timeFromTimeZone(timeZone: String): String {
-        val calendar = Calendar.getInstance()
-        val date = calendar.time
+        val timeZoneTime = ZonedDateTime.now(ZoneId.of(timeZone))
 
-        timeFormat.timeZone = TimeZone.getTimeZone(timeZone)
-        return timeFormat.format(date)
+        return timeZoneTime.format(DateTimeFormatter.ofPattern("HH:mm"))
     }
 
 }

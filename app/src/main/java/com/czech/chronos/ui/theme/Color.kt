@@ -1,4 +1,4 @@
-package com.czech.chronos.theme
+package com.czech.chronos.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
