@@ -1,11 +1,11 @@
-package com.czech.chronos.cache.dao
+package com.czech.chronos.room.dao
 
-import com.czech.chronos.cache.model.CurrentTimeEntity
+import com.czech.chronos.room.CurrentTimeEntity
 import javax.inject.Inject
 
-class CurrentTimeDaoRepositoryImpl @Inject constructor(
+class CurrentTimeDaoUseCaseImpl @Inject constructor(
     private val currentTimeDao: CurrentTimeDao
-): CurrentTimeDaoRepository {
+): CurrentTimeDaoUseCase {
 
     override suspend fun insertCurrentTime(currentTime: CurrentTimeEntity) {
         currentTimeDao.insertCurrentTime(currentTime)

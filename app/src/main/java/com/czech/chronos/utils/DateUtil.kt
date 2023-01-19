@@ -16,7 +16,7 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 object DateUtil {
 
-    val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+    val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     val shortDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("EEE, d MMM")
     val longDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy")
 

@@ -1,7 +1,6 @@
 package com.czech.chronos.utils
 
-import com.czech.chronos.cache.model.CurrentTimeEntity
-import com.czech.chronos.network.models.ConvertTime
+import com.czech.chronos.room.CurrentTimeEntity
 import com.czech.chronos.network.models.CurrentTime
 
 fun CurrentTime.toCurrentTimeEntity(): CurrentTimeEntity {

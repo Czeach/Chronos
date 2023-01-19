@@ -7,11 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.czech.chronos.cache.dao.CurrentTimeDaoRepository
-import com.czech.chronos.cache.model.CurrentTimeEntity
-import com.czech.chronos.interactors.convert.CurrentTimeRepository
-import com.czech.chronos.interactors.place.PredictPlaceRepository
+import com.czech.chronos.room.dao.CurrentTimeDaoUseCase
+import com.czech.chronos.room.CurrentTimeEntity
 import com.czech.chronos.network.models.CurrentTime
+import com.czech.chronos.repositories.ChronosRepository
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
 import com.czech.chronos.utils.toCurrentTimeList
@@ -25,9 +24,8 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val currentTimeRepository: CurrentTimeRepository,
-    private val predictPlaceRepository: PredictPlaceRepository,
-    private val currentTimeDaoRepository: CurrentTimeDaoRepository
+    private val chronosRepository: ChronosRepository,
+    private val currentTimeDaoUseCase: CurrentTimeDaoUseCase
 ): ViewModel() {
 
     var inputState = mutableStateOf(TextFieldValue(""))
@@ -43,7 +41,7 @@ class SearchViewModel @Inject constructor(
 
     fun getCityPredictions(input: String) {
         viewModelScope.launch {
-            predictPlaceRepository.predictPlace(input).collect {
+            chronosRepository.predictPlace(input).collect {
                 when {
                     it.isLoading -> {
                         predictionsState.value = PredictionsState.Loading
@@ -62,31 +60,31 @@ class SearchViewModel @Inject constructor(
     fun insertCurrentTimeIntoDB(currentTime: CurrentTimeEntity, checked: Boolean) {
         viewModelScope.launch {
             currentTime.checked = checked
-            currentTimeDaoRepository.insertCurrentTime(currentTime)
+            currentTimeDaoUseCase.insertCurrentTime(currentTime)
         }
     }
 
     fun deleteCurrentTimeFromDB(location: String) {
         viewModelScope.launch {
-            currentTimeDaoRepository.deleteCurrentTime(location)
+            currentTimeDaoUseCase.deleteCurrentTime(location)
         }
     }
 
     fun isCurrentTimeInDB(location: String) {
         viewModelScope.launch {
-            isInDB.value = currentTimeDaoRepository.exists(location)
+            isInDB.value = currentTimeDaoUseCase.exists(location)
         }
     }
 
     fun getCurrentTimeListFromDB() {
         viewModelScope.launch {
-            currentTimeFromDB.value = currentTimeDaoRepository.getAllCurrentTimes().toCurrentTimeList()
+            currentTimeFromDB.value = currentTimeDaoUseCase.getAllCurrentTimes().toCurrentTimeList()
         }
     }
 
     fun getCurrentTime(location: String) {
         viewModelScope.launch {
-            currentTimeRepository.getCurrentTime(location).collect {
+            chronosRepository.getCurrentTime(location).collect {
                 when {
                     it.isLoading -> {
                         currentTimeState.value = CurrentTimeState.Loading
