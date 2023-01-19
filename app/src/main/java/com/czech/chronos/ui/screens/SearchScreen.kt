@@ -123,29 +123,28 @@ fun ObserveCurrentTime(
         }
         is CurrentTimeState.Success -> {
             viewModel.isCurrentTimeInDB(state.data?.requestedLocation.toString())
-            viewModel.updateTimeFromServer(state.data?.timezoneLocation.toString())
 
             var checkedState: Boolean by mutableStateOf(viewModel.isInDB.collectAsState().value)
 
-            val time by viewModel.timeFromTimeZoneState.collectAsState()
-
-            SearchResultItem(
-                city = state.data?.requestedLocation.toString(),
-                cityTime = time,
-                checked = checkedState,
-                onCheckedChange = { newValue ->
-                    checkedState = newValue
-                    when (checkedState) {
-                        true -> {
-                            viewModel.insertCurrentTimeIntoDB(state.data?.toCurrentTimeEntity()!!, checkedState)
-                            viewModel.inputState.value = TextFieldValue("")
-                        }
-                        false -> {
-                            viewModel.deleteCurrentTimeFromDB(state.data?.requestedLocation.toString())
+            if (state.data != null) {
+                SearchResultItem(
+                    data = state.data,
+                    checked = checkedState,
+                    onCheckedChange = { newValue ->
+                        checkedState = newValue
+                        when (checkedState) {
+                            true -> {
+                                viewModel.insertCurrentTimeIntoDB(state.data.toCurrentTimeEntity(), checkedState)
+                                viewModel.inputState.value = TextFieldValue("")
+                            }
+                            false -> {
+                                viewModel.deleteCurrentTimeFromDB(state.data.requestedLocation.toString())
+                            }
                         }
                     }
-                }
-            )
+                )
+            }
+
         }
         is CurrentTimeState.Error -> {
 

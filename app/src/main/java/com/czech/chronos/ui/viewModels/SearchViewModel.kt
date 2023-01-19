@@ -12,7 +12,6 @@ import com.czech.chronos.cache.model.CurrentTimeEntity
 import com.czech.chronos.interactors.convert.CurrentTimeRepository
 import com.czech.chronos.interactors.place.PredictPlaceRepository
 import com.czech.chronos.network.models.CurrentTime
-import com.czech.chronos.utils.DateUtil.timeFromTimeZone
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
 import com.czech.chronos.utils.toCurrentTimeList
@@ -35,22 +34,11 @@ class SearchViewModel @Inject constructor(
     val predictionsState = MutableStateFlow<PredictionsState?>(null)
     val currentTimeState = MutableStateFlow<CurrentTimeState?>(null)
 
-    val timeFromTimeZoneState = MutableStateFlow("")
     val isInDB = MutableStateFlow(false)
     val currentTimeFromDB = MutableStateFlow(listOf<CurrentTime>())
 
     init {
         getCurrentTimeListFromDB()
-    }
-
-    fun updateTimeFromServer(timezone: String) {
-        viewModelScope.launch {
-            delay(1000)
-            while (true) {
-                timeFromTimeZoneState.value = timeFromTimeZone(timezone)
-                delay(1000)
-            }
-        }
     }
 
     fun getCityPredictions(input: String) {

@@ -10,7 +10,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -18,7 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.ui.viewModels.SearchViewModel
+import com.czech.chronos.utils.DateUtil
 import com.czech.chronos.utils.Fonts
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @RequiresApi(Build.VERSION_CODES.O)
@@ -27,24 +33,23 @@ fun SearchResultList(
     list: List<CurrentTime>,
     viewModel: SearchViewModel
 ) {
+
+
+
     LazyColumn(
         modifier = Modifier
     ) {
         items(
             items = list,
         ) { data ->
-//            viewModel.updateTimeFromServer(data.timezoneLocation.toString())
-//
-//            val time by viewModel.timeFromTimeZoneState.collectAsState()
-//
-//            SearchResultItem(
-//                city = data.requestedLocation.toString(),
-//                cityTime = time,
-//                checked = data.checked,
-//                onCheckedChange = { checked ->
-//                    if (!checked) viewModel.deleteCurrentTimeFromDB(data.requestedLocation.toString())
-//                }
-//            )
+
+            SearchResultItem(
+                data = data,
+                checked = data.checked,
+                onCheckedChange = { checked ->
+                    if (!checked) viewModel.deleteCurrentTimeFromDB(data.requestedLocation.toString())
+                }
+            )
         }
     }
 }
@@ -52,11 +57,27 @@ fun SearchResultList(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SearchResultItem(
-    city: String,
-    cityTime: String,
+    data: CurrentTime,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
+
+    val timeFormatter = remember { DateUtil.timeFormat }
+
+    var localTime by remember {
+        mutableStateOf(
+            ZonedDateTime.now(ZoneId.of(data.timezoneLocation))
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            while (true) {
+                localTime = ZonedDateTime.now(ZoneId.of(data.timezoneLocation))
+                delay(1000L)
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -81,7 +102,7 @@ fun SearchResultItem(
                 )
             )
             Text(
-                text = city,
+                text = data.requestedLocation.toString(),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 16.sp,
                 fontFamily = Fonts.exo,
@@ -92,7 +113,7 @@ fun SearchResultItem(
 
             )
             Text(
-                text = cityTime,
+                text = timeFormatter.format(localTime),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 16.sp,
                 fontFamily = Fonts.lexendDeca,
