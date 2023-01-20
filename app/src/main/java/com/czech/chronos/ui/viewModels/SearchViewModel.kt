@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.czech.chronos.room.dao.CurrentTimeDaoUseCase
+import com.czech.chronos.room.useCases.CurrentTimeDaoUseCase
 import com.czech.chronos.room.CurrentTimeEntity
 import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.repositories.ChronosRepository

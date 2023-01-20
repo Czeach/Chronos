@@ -2,9 +2,9 @@ package com.czech.chronos.di
 
 import androidx.room.Room
 import com.czech.chronos.BaseApplication
-import com.czech.chronos.room.dao.CurrentTimeDao
-import com.czech.chronos.room.dao.CurrentTimeDaoUseCase
-import com.czech.chronos.room.dao.CurrentTimeDaoUseCaseImpl
+import com.czech.chronos.room.CurrentTimeDao
+import com.czech.chronos.room.useCases.CurrentTimeDaoUseCase
+import com.czech.chronos.room.useCases.CurrentTimeDaoUseCaseImpl
 import com.czech.chronos.room.CurrentTimeDatabase
 import dagger.Module
 import dagger.Provides

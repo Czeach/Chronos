@@ -2,7 +2,6 @@ package com.czech.chronos.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.czech.chronos.room.dao.CurrentTimeDao
 
 @Database(entities = [CurrentTimeEntity::class], version = 1, exportSchema = true)
 abstract class CurrentTimeDatabase: RoomDatabase() {

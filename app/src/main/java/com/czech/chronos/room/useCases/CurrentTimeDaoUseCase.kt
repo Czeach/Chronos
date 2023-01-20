@@ -1,4 +1,4 @@
-package com.czech.chronos.room.dao
+package com.czech.chronos.room.useCases
 
 import com.czech.chronos.room.CurrentTimeEntity
 

@@ -33,12 +33,7 @@ fun SearchResultList(
     list: List<CurrentTime>,
     viewModel: SearchViewModel
 ) {
-
-
-
-    LazyColumn(
-        modifier = Modifier
-    ) {
+    LazyColumn {
         items(
             items = list,
         ) { data ->
@@ -59,6 +54,7 @@ fun SearchResultList(
 fun SearchResultItem(
     data: CurrentTime,
     checked: Boolean,
+    modifier: Modifier = Modifier,
     onCheckedChange: (Boolean) -> Unit,
 ) {
 
@@ -80,18 +76,18 @@ fun SearchResultItem(
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(50.dp)
             .fillMaxWidth()
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
         ) {
             Checkbox(
-                modifier = Modifier
+                modifier = modifier
                     .padding(start = 6.dp),
                 checked = checked,
                 onCheckedChange = onCheckedChange,
@@ -107,7 +103,7 @@ fun SearchResultItem(
                 fontSize = 16.sp,
                 fontFamily = Fonts.exo,
                 fontWeight = FontWeight.W400,
-                modifier = Modifier
+                modifier = modifier
                     .weight(1f)
                     .padding(start = 4.dp)
 
@@ -118,7 +114,7 @@ fun SearchResultItem(
                 fontSize = 16.sp,
                 fontFamily = Fonts.lexendDeca,
                 fontWeight = FontWeight.W400,
-                modifier = Modifier
+                modifier = modifier
                     .padding(end = 14.dp)
             )
         }
