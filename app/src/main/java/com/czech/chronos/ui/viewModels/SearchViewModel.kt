@@ -67,6 +67,7 @@ class SearchViewModel @Inject constructor(
     fun deleteCurrentTimeFromDB(location: String) {
         viewModelScope.launch {
             currentTimeDaoUseCase.deleteCurrentTime(location)
+            getCurrentTimeListFromDB()
         }
     }
 

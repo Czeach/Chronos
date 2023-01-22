@@ -31,18 +31,21 @@ import java.time.ZonedDateTime
 @Composable
 fun SearchResultList(
     list: List<CurrentTime>,
-    viewModel: SearchViewModel
+    onCheckedChange: (Boolean, CurrentTime) -> Unit,
 ) {
     LazyColumn {
         items(
             items = list,
         ) { data ->
-
+            var checked by remember {
+                mutableStateOf(data.checked)
+            }
             SearchResultItem(
                 data = data,
-                checked = data.checked,
-                onCheckedChange = { checked ->
-                    data.checked = checked
+                checked = checked,
+                onCheckedChange = { newValue ->
+                    checked = newValue
+                    onCheckedChange(newValue, data)
                 }
             )
         }
@@ -54,8 +57,8 @@ fun SearchResultList(
 fun SearchResultItem(
     data: CurrentTime,
     checked: Boolean,
-    modifier: Modifier = Modifier,
     onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     val timeFormatter = remember { DateUtil.timeFormat }

@@ -18,7 +18,7 @@ import com.czech.chronos.utils.toCurrentTimeEntity
 import kotlinx.coroutines.*
 
 
-@SuppressLint("StateFlowValueCalledInComposition")
+@SuppressLint("StateFlowValueCalledInComposition", "UnrememberedMutableState")
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,7 +76,9 @@ fun SearchScreen(
             if (viewModel.currentTimeFromDB.value.isNotEmpty()) {
                 SearchResultList(
                     list = viewModel.currentTimeFromDB.collectAsState().value,
-                    viewModel = viewModel
+                    onCheckedChange = { checked, item ->
+                        if (!checked) viewModel.deleteCurrentTimeFromDB(item.requestedLocation.toString())
+                    }
                 )
             } else {
                 viewModel.predictionsState.value = null
