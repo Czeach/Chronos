@@ -8,9 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,13 +36,14 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     onSettingsClicked: () -> Unit,
     onFABClicked: () -> Unit,
     onConvertClicked: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel
 ) {
 
     val timeFormatter = remember { DateUtil.timeFormat }
@@ -71,13 +70,23 @@ fun HomeScreen(
         }
     }
 
+    viewModel.getSavedLocationsFromDB()
 
-    HomeFeatures(
-        timeText = time,
-        dateText = date,
-        onSettingsClicked = { onSettingsClicked() },
-        onFABClicked = { onFABClicked() },
-        onConvertClicked = { onConvertClicked() }
-    )
+    Scaffold { padding ->
+        HomeFeatures(
+            timeText = time,
+            dateText = date,
+            onSettingsClicked = { onSettingsClicked() },
+            onFABClicked = { onFABClicked() },
+            onConvertClicked = { onConvertClicked() },
+            locations = viewModel.savedLocations.collectAsState().value,
+            modifier = Modifier
+                .padding(padding)
+        )
+    }
+
+
+
+
 }
 

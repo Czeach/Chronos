@@ -13,6 +13,7 @@ import com.czech.chronos.ui.screens.SearchScreen
 import com.czech.chronos.ui.viewModels.SearchViewModel
 import com.czech.chronos.ui.settings.SettingsScreen
 import com.czech.chronos.ui.splash.SplashScreen
+import com.czech.chronos.ui.viewModels.HomeViewModel
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -37,10 +38,13 @@ fun ChronosNavHost(
             }
         }
         composable(route = Screens.HomeScreen.route) {
+            val viewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(
                 onSettingsClicked = { navController.navigate(Screens.SettingsScreen.route) },
                 onFABClicked = { navController.navigate(Screens.SearchScreen.route) },
-                onConvertClicked = { navController.navigate(Screens.ConvertScreen.route) })
+                onConvertClicked = { navController.navigate(Screens.ConvertScreen.route) },
+                viewModel = viewModel
+            )
         }
         composable(route = Screens.SearchScreen.route) {
             val viewModel = hiltViewModel<SearchViewModel>()

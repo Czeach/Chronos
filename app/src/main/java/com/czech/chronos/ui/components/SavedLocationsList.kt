@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -16,14 +17,19 @@ import com.czech.chronos.utils.Fonts
 
 @Composable
 fun SavedLocationsList(
-	list: List<CurrentTime>
+	list: List<CurrentTime>,
+	modifier: Modifier = Modifier
 ) {
-	LazyColumn {
+	LazyColumn(
+		modifier = modifier
+			.layoutId("locations")
+	) {
 		items(
 			items = list
 		) { data ->
 			SavedLocationsItem(
-				data = data
+				data = data,
+				modifier = modifier
 			)
 		}
 	}
@@ -32,7 +38,7 @@ fun SavedLocationsList(
 @Composable
 fun SavedLocationsItem(
 	data: CurrentTime,
-	modifier: Modifier = Modifier,
+	modifier: Modifier,
 ) {
 
 	Box(
@@ -53,7 +59,7 @@ fun SavedLocationsItem(
 					.padding(start = 10.dp)
 			) {
 				Text(
-					text = "Hong Kong",
+					text = data.requestedLocation.toString(),
 					color = MaterialTheme.colorScheme.inversePrimary,
 					fontSize = 16.sp,
 					fontFamily = Fonts.exo,
@@ -63,7 +69,7 @@ fun SavedLocationsItem(
 				)
 
 				Text(
-					text = "7 hours ahead",
+					text = "",
 					color = MaterialTheme.colorScheme.tertiary,
 					fontSize = 10.sp,
 					fontFamily = Fonts.exo,
@@ -73,7 +79,7 @@ fun SavedLocationsItem(
 				)
 			}
 			Text(
-				text = "03:36 AM",
+				text = "",
 				color = MaterialTheme.colorScheme.tertiary,
 				fontSize = 24.sp,
 				fontFamily = Fonts.lexendDeca,

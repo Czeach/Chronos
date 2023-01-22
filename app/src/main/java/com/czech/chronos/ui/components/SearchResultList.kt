@@ -42,7 +42,7 @@ fun SearchResultList(
                 data = data,
                 checked = data.checked,
                 onCheckedChange = { checked ->
-                    if (!checked) viewModel.deleteCurrentTimeFromDB(data.requestedLocation.toString())
+                    data.checked = checked
                 }
             )
         }

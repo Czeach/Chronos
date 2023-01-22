@@ -1,5 +1,8 @@
 package com.czech.chronos.ui.components
 
+import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,7 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -25,8 +28,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.czech.chronos.R
+import com.czech.chronos.network.models.CurrentTime
+import com.czech.chronos.ui.viewModels.HomeViewModel
 import com.czech.chronos.utils.Fonts
 
+@SuppressLint("StateFlowValueCalledInComposition")
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeFeatures(
     timeText: String,
@@ -34,6 +41,8 @@ fun HomeFeatures(
     onSettingsClicked: () -> Unit,
     onFABClicked: () -> Unit,
     onConvertClicked: () -> Unit,
+    locations : List<CurrentTime>,
+    modifier: Modifier
 ) {
     val constrains = ConstraintSet {
         val settingsBtnView = createRefFor("settings")
@@ -41,6 +50,7 @@ fun HomeFeatures(
         val timeView = createRefFor("time")
         val dateView = createRefFor("date")
         val lineView = createRefFor("line")
+        val locations = createRefFor("locations")
         val fabBtnView = createRefFor("fab")
         val convertTimeBarView = createRefFor("convert_time_bar")
 
@@ -72,6 +82,14 @@ fun HomeFeatures(
             width = Dimension.fillToConstraints
             height = Dimension.value(1.dp)
         }
+        constrain(locations) {
+            top.linkTo(lineView.bottom)
+            bottom.linkTo(convertTimeBarView.top)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            width = Dimension.fillToConstraints
+            height = Dimension.fillToConstraints
+        }
         constrain(fabBtnView) {
             start.linkTo(parent.start)
             end.linkTo(parent.end)
@@ -90,21 +108,22 @@ fun HomeFeatures(
 
     ConstraintLayout(
         constraintSet = constrains,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
     ) {
+
         Image(
             painter = painterResource(id = R.drawable.settings_btn),
             contentDescription = "settings button",
-            modifier = Modifier
+            modifier = modifier
                 .layoutId("settings")
                 .clickable(true) {
                     onSettingsClicked()
                 }
         )
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .layoutId("clock_text")
         ) {
             Text(
@@ -117,7 +136,7 @@ fun HomeFeatures(
             )
         }
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .layoutId("time")
         ) {
             Text(
@@ -130,7 +149,7 @@ fun HomeFeatures(
             )
         }
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .layoutId("date")
         ) {
             Text(
@@ -143,12 +162,17 @@ fun HomeFeatures(
             )
         }
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .layoutId("line")
                 .background(color = MaterialTheme.colorScheme.secondary)
         )
+        if (locations.isNotEmpty()) {
+            SavedLocationsList(
+                list = locations
+            )
+        }
         FloatingActionButton(
-            modifier = Modifier
+            modifier = modifier
                 .layoutId("fab")
                 .shadow(elevation = 8.dp, shape = CircleShape),
             containerColor = MaterialTheme.colorScheme.secondary,
@@ -158,13 +182,13 @@ fun HomeFeatures(
                 painter = painterResource(
                     id = if (isSystemInDarkTheme()) R.drawable.chronos_btn_purple else R.drawable.chronos_btn_red),
                 contentDescription = "fab icon",
-                modifier = Modifier
+                modifier = modifier
                     .size(26.dp, 26.dp)
             )
         }
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier
+            modifier = modifier
                 .layoutId("convert_time_bar")
                 .background(MaterialTheme.colorScheme.inverseSurface)
                 .clickable(true) {
