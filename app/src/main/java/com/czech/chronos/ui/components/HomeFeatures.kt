@@ -83,7 +83,7 @@ fun HomeFeatures(
             height = Dimension.value(1.dp)
         }
         constrain(locations) {
-            top.linkTo(lineView.bottom)
+            top.linkTo(lineView.bottom, margin = 12.dp)
             bottom.linkTo(convertTimeBarView.top)
             start.linkTo(parent.start)
             end.linkTo(parent.end)

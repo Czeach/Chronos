@@ -90,8 +90,8 @@ class SearchViewModel @Inject constructor(
                     it.isLoading -> {
                         currentTimeState.value = CurrentTimeState.Loading
                     }
-                    it.data == null -> {
-                        currentTimeState.value = CurrentTimeState.Error(message = "")
+                    it.data == null-> {
+                        currentTimeState.value = CurrentTimeState.Error(message = it.message.toString())
                     }
                     else -> {
                         it.data.let { data ->

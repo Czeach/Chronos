@@ -63,6 +63,10 @@ fun SearchResultItem(
 
     val timeFormatter = remember { DateUtil.timeFormat }
 
+    if (data.timezoneLocation.isNullOrEmpty()) {
+
+    }
+
     var localTime by remember {
         mutableStateOf(
             ZonedDateTime.now(ZoneId.of(data.timezoneLocation))
