@@ -1,6 +1,7 @@
 package com.czech.chronos.ui.components
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,8 +22,9 @@ import com.czech.chronos.utils.Fonts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.*
+import kotlin.math.absoluteValue
+import kotlin.time.toKotlinDuration
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -69,12 +71,33 @@ fun SavedLocationsItem(
 		}
 	}
 
+	val userTime = LocalDateTime.now()
+	val hourDiff = Duration.between(userTime, ZonedDateTime.now(ZoneId.of(data.timezoneLocation))).toHours().toInt()
+
+	var difference by remember {
+		mutableStateOf("$hourDiff HOURS AHEAD")
+	}
+
+	when {
+		hourDiff == 0 -> {
+			difference = "NO DIFFERENCE"
+		}
+		hourDiff == -1 -> {
+			difference = "${hourDiff.absoluteValue} HOUR BEHIND"
+		}
+		hourDiff < -1 -> {
+			difference = "${hourDiff.absoluteValue} HOURS BEHIND"
+		}
+		hourDiff == 1 -> {
+			difference = "$hourDiff HOUR AHEAD"
+		}
+	}
+
 	Box(
 		modifier = modifier
 			.padding(bottom = 6.dp)
 			.fillMaxWidth()
 			.wrapContentHeight()
-			.background(MaterialTheme.colorScheme.inverseOnSurface)
 			.padding(start = 18.dp, end = 18.dp, top = 8.dp, bottom = 8.dp)
 	) {
 		Row(
@@ -97,7 +120,7 @@ fun SavedLocationsItem(
 				)
 
 				Text(
-					text = "7 hours ahead",
+					text = difference,
 					color = MaterialTheme.colorScheme.tertiary,
 					fontSize = 12.sp,
 					fontFamily = Fonts.exo,
