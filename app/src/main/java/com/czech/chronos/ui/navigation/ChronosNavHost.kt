@@ -7,7 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.czech.chronos.ui.convert.ConvertScreen
+import com.czech.chronos.ui.screens.ConvertScreen
 import com.czech.chronos.ui.screens.HomeScreen
 import com.czech.chronos.ui.screens.SearchScreen
 import com.czech.chronos.ui.viewModels.SearchViewModel

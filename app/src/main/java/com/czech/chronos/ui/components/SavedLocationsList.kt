@@ -1,9 +1,7 @@
 package com.czech.chronos.ui.components
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,7 +22,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.time.*
 import kotlin.math.absoluteValue
-import kotlin.time.toKotlinDuration
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -34,7 +31,7 @@ fun SavedLocationsList(
 ) {
 	LazyColumn(
 		modifier = modifier
-			.layoutId("locations")
+			.layoutId("locations_list")
 	) {
 		items(
 			items = list
@@ -118,13 +115,12 @@ fun SavedLocationsItem(
 					fontWeight = FontWeight.W400,
 					modifier = modifier
 				)
-
 				Text(
 					text = difference,
 					color = MaterialTheme.colorScheme.tertiary,
 					fontSize = 12.sp,
 					fontFamily = Fonts.exo,
-					fontWeight = FontWeight.W400,
+					fontWeight = FontWeight.W500,
 					modifier = modifier
 						.padding(top = 1.dp)
 				)

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,7 +30,6 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.czech.chronos.R
 import com.czech.chronos.network.models.CurrentTime
-import com.czech.chronos.ui.viewModels.HomeViewModel
 import com.czech.chronos.utils.Fonts
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -40,7 +40,7 @@ fun HomeFeatures(
     dateText: String,
     onSettingsClicked: () -> Unit,
     onFABClicked: () -> Unit,
-    onConvertClicked: () -> Unit,
+    openBottomSheet: () -> Unit,
     locations : List<CurrentTime>,
     modifier: Modifier
 ) {
@@ -50,7 +50,7 @@ fun HomeFeatures(
         val timeView = createRefFor("time")
         val dateView = createRefFor("date")
         val lineView = createRefFor("line")
-        val locations = createRefFor("locations")
+        val locationsList = createRefFor("locations_list")
         val fabBtnView = createRefFor("fab")
         val convertTimeBarView = createRefFor("convert_time_bar")
 
@@ -82,8 +82,8 @@ fun HomeFeatures(
             width = Dimension.fillToConstraints
             height = Dimension.value(1.dp)
         }
-        constrain(locations) {
-            top.linkTo(lineView.bottom, margin = 12.dp)
+        constrain(locationsList) {
+            top.linkTo(lineView.bottom)
             bottom.linkTo(convertTimeBarView.top)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
@@ -112,7 +112,6 @@ fun HomeFeatures(
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
     ) {
-
         Image(
             painter = painterResource(id = R.drawable.settings_btn),
             contentDescription = "settings button",
@@ -192,7 +191,7 @@ fun HomeFeatures(
                 .layoutId("convert_time_bar")
                 .background(MaterialTheme.colorScheme.inverseSurface)
                 .clickable(true) {
-                    onConvertClicked()
+                    openBottomSheet()
                 }
         ) {
             Text(
@@ -201,7 +200,7 @@ fun HomeFeatures(
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,
                 fontFamily = Fonts.exo,
-                fontWeight = FontWeight.W400
+                fontWeight = FontWeight.W400,
             )
         }
     }
