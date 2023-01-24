@@ -1,7 +1,9 @@
 package com.czech.chronos.ui.components
 
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -98,6 +100,9 @@ fun ConvertBottomSheetContent(
 	var time by remember {
 		mutableStateOf("")
 	}
+	var date by remember {
+		mutableStateOf("")
+	}
 
 	val timePicker = TimePickerDialog(
 		context,
@@ -112,6 +117,20 @@ fun ConvertBottomSheetContent(
 		0,
 		0,
 		true,
+	)
+
+	val datePicker = DatePickerDialog(
+		context,
+		{_: DatePicker, year: Int, month: Int, day: Int ->
+			val dayString = if (day < 10) "0$day" else day.toString()
+			val monthString = if (month < 10) "0$month" else month.toString()
+			val yearString = year.toString()
+
+			date = "$dayString/$monthString/$yearString"
+		},
+		2000,
+		1,
+		1
 	)
 
 	ConstraintLayout(
@@ -221,8 +240,16 @@ fun ConvertBottomSheetContent(
 				modifier = Modifier.width(16.dp)
 			)
 			TextField(
-				value = "25/01/2023",
-				onValueChange = {},
+				value = date,
+				onValueChange = { newValue ->
+					date = newValue
+				},
+				placeholder = {
+					Text(
+						text = "dd/mm/yyyy"
+					)
+				},
+				enabled = false,
 				singleLine = true,
 				maxLines = 1,
 				textStyle = TextStyle(
@@ -236,9 +263,15 @@ fun ConvertBottomSheetContent(
 					containerColor = MaterialTheme.colorScheme.inverseSurface.copy(blue = 0.90F),
 					focusedIndicatorColor = Color.Transparent,
 					unfocusedIndicatorColor = Color.Transparent,
+					disabledIndicatorColor = Color.Transparent,
 				),
 				modifier = Modifier
 					.weight(1.2F)
+					.clickable(
+						onClick = {
+							datePicker.show()
+						}
+					)
 			)
 		}
 		Text(
