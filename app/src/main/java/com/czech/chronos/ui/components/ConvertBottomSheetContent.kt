@@ -1,13 +1,21 @@
 package com.czech.chronos.ui.components
 
+import android.app.TimePickerDialog
+import android.content.Context
+import android.widget.TimePicker
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -17,12 +25,13 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.czech.chronos.R
 import com.czech.chronos.utils.Fonts
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun ConvertBottomSheetContent(
+	context: Context,
 	modifier: Modifier = Modifier
 ) {
 
@@ -85,6 +94,25 @@ fun ConvertBottomSheetContent(
 			height = Dimension.value(60.dp)
 		}
 	}
+
+	var time by remember {
+		mutableStateOf("")
+	}
+
+	val timePicker = TimePickerDialog(
+		context,
+		{_: TimePicker, hour: Int, minute:Int ->
+
+			val hourString = if (hour < 10) "0$hour" else hour.toString()
+			val minuteString = if (minute < 10) "0$minute" else minute.toString()
+
+			time = "$hourString:$minuteString"
+
+		},
+		0,
+		0,
+		true,
+	)
 
 	ConstraintLayout(
 		constraintSet = constrains,
@@ -155,8 +183,16 @@ fun ConvertBottomSheetContent(
 				.layoutId("date_input")
 		) {
 			TextField(
-				value = "17:37",
-				onValueChange = {},
+				value = time,
+				onValueChange = { newValue ->
+					time = newValue
+				},
+				placeholder = {
+					Text(
+						text = "00:00"
+					)
+				},
+				enabled = false,
 				singleLine = true,
 				maxLines = 1,
 				textStyle = TextStyle(
@@ -170,9 +206,16 @@ fun ConvertBottomSheetContent(
 					containerColor = MaterialTheme.colorScheme.inverseSurface.copy(blue = 0.90F),
 					focusedIndicatorColor = Color.Transparent,
 					unfocusedIndicatorColor = Color.Transparent,
+					disabledIndicatorColor = Color.Transparent,
+					cursorColor = Color.Transparent
 				),
 				modifier = Modifier
 					.weight(1F)
+					.clickable(
+						onClick = {
+							timePicker.show()
+						}
+					)
 			)
 			Spacer(
 				modifier = Modifier.width(16.dp)

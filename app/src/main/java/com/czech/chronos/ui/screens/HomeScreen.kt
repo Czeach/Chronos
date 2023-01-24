@@ -11,6 +11,7 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.czech.chronos.ui.components.ConvertBottomSheetContent
 import com.czech.chronos.ui.components.HomeFeatures
@@ -32,6 +33,8 @@ fun HomeScreen(
     viewModel: HomeViewModel
 ) {
 
+    val context = LocalContext.current
+
     val bottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded},
@@ -45,6 +48,7 @@ fun HomeScreen(
         sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
         sheetContent = {
             ConvertBottomSheetContent(
+                context = context,
                 modifier = Modifier
                     .defaultMinSize(minHeight = 1.dp)
             )
