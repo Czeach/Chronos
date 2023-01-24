@@ -8,6 +8,7 @@ import android.widget.TimePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -106,6 +107,7 @@ fun ConvertBottomSheetContent(
 
 	val timePicker = TimePickerDialog(
 		context,
+		if (isSystemInDarkTheme()) R.style.PickerThemeDark else R.style.PickerThemeLight,
 		{_: TimePicker, hour: Int, minute:Int ->
 
 			val hourString = if (hour < 10) "0$hour" else hour.toString()
@@ -121,6 +123,7 @@ fun ConvertBottomSheetContent(
 
 	val datePicker = DatePickerDialog(
 		context,
+		if (isSystemInDarkTheme()) R.style.PickerThemeDark else R.style.PickerThemeLight,
 		{_: DatePicker, year: Int, month: Int, day: Int ->
 			val dayString = if (day < 10) "0$day" else day.toString()
 			val monthString = if (month < 10) "0$month" else month.toString()
