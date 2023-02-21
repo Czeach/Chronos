@@ -7,33 +7,38 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.czech.chronos.R
+import com.czech.chronos.network.models.PlacePredictions
 import com.czech.chronos.utils.Fonts
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConvertBottomSheetContent(
+	time: MutableState<TextFieldValue>,
+	date: MutableState<TextFieldValue>,
+	homeInput: MutableState<TextFieldValue>,
+	targetInput: MutableState<TextFieldValue>,
+	homePredictions:  List<PlacePredictions.Prediction?>?,
+	targetPredictions:  List<PlacePredictions.Prediction?>?,
+	onHomePredictionClick: (String) -> Unit,
+	onTargetPredictionClick: (String) -> Unit,
 	context: Context,
 	modifier: Modifier = Modifier
 ) {
@@ -48,6 +53,8 @@ fun ConvertBottomSheetContent(
 		val targetLocText = createRefFor("target_location_text")
 		val targetLocInput = createRefFor("target_location_input")
 		val convertButton = createRefFor("convert_button")
+		val homePrediction = createRefFor("home_prediction")
+		val targetPrediction = createRefFor("target_prediction")
 
 		constrain(header) {
 			top.linkTo(parent.top, margin = 46.dp)
@@ -62,6 +69,14 @@ fun ConvertBottomSheetContent(
 		constrain(homeLocText) {
 			top.linkTo(subHeader.bottom, margin = 36.dp)
 			start.linkTo(parent.start, margin = 34.dp)
+		}
+		constrain(homePrediction) {
+			start.linkTo(homeLocInput.start)
+			end.linkTo(homeLocInput.end)
+			top.linkTo(parent.top, margin = 4.dp)
+			bottom.linkTo(homeLocInput.top)
+			height = Dimension.fillToConstraints
+			width = Dimension.fillToConstraints
 		}
 		constrain(homeLocInput) {
 			top.linkTo(homeLocText.bottom, margin = 8.dp)
@@ -83,6 +98,13 @@ fun ConvertBottomSheetContent(
 			top.linkTo(dateInput.bottom, margin = 20.dp)
 			start.linkTo(dateText.start)
 		}
+
+		constrain(targetPrediction) {
+			start.linkTo(targetLocInput.start)
+			end.linkTo(targetLocInput.end)
+			bottom.linkTo(targetLocInput.top)
+			width = Dimension.fillToConstraints
+		}
 		constrain(targetLocInput) {
 			top.linkTo(targetLocText.bottom, margin = 8.dp)
 			start.linkTo(dateInput.start)
@@ -98,13 +120,6 @@ fun ConvertBottomSheetContent(
 		}
 	}
 
-	var time by remember {
-		mutableStateOf("")
-	}
-	var date by remember {
-		mutableStateOf("")
-	}
-
 	val timePicker = TimePickerDialog(
 		context,
 		if (isSystemInDarkTheme()) R.style.PickerThemeDark else R.style.PickerThemeLight,
@@ -113,7 +128,7 @@ fun ConvertBottomSheetContent(
 			val hourString = if (hour < 10) "0$hour" else hour.toString()
 			val minuteString = if (minute < 10) "0$minute" else minute.toString()
 
-			time = "$hourString:$minuteString"
+			time.value = TextFieldValue("$hourString:$minuteString")
 
 		},
 		0,
@@ -129,7 +144,7 @@ fun ConvertBottomSheetContent(
 			val monthString = if (month < 10) "0$month" else month.toString()
 			val yearString = year.toString()
 
-			date = "$dayString/$monthString/$yearString"
+			date.value = TextFieldValue("$dayString/$monthString/$yearString")
 		},
 		2000,
 		1,
@@ -171,9 +186,28 @@ fun ConvertBottomSheetContent(
 			modifier = Modifier
 				.layoutId("home_location_text")
 		)
+		if (homePredictions?.isNotEmpty() == true) {
+			PredictionsResultList(
+				list = homePredictions,
+				onItemClick = onHomePredictionClick,
+				modifier = Modifier
+					.layoutId("home_prediction")
+					.background(MaterialTheme.colorScheme.inverseSurface)
+			)
+		}
+
 		TextField(
-			value = "London, UK",
-			onValueChange = {},
+			value = homeInput.value,
+			onValueChange = { newValue ->
+				homeInput.value = newValue
+			},
+			placeholder = {
+				Text(
+					text = "Enter Location",
+					fontSize = 13.sp,
+					color = MaterialTheme.colorScheme.primary,
+				)
+			},
 			singleLine = true,
 			maxLines = 1,
 			textStyle = TextStyle(
@@ -192,7 +226,7 @@ fun ConvertBottomSheetContent(
 				.layoutId("home_location_input")
 		)
 		Text(
-			text = "Enter Time and Date",
+			text = "Enter time and date",
 			color = MaterialTheme.colorScheme.primary,
 			fontSize = 14.sp,
 			fontFamily = Fonts.exo,
@@ -205,13 +239,15 @@ fun ConvertBottomSheetContent(
 				.layoutId("date_input")
 		) {
 			TextField(
-				value = time,
+				value = time.value,
 				onValueChange = { newValue ->
-					time = newValue
+					time.value = newValue
 				},
 				placeholder = {
 					Text(
-						text = "00:00"
+						text = "00:00",
+						fontSize = 13.sp,
+						color = MaterialTheme.colorScheme.primary,
 					)
 				},
 				enabled = false,
@@ -243,13 +279,15 @@ fun ConvertBottomSheetContent(
 				modifier = Modifier.width(16.dp)
 			)
 			TextField(
-				value = date,
+				value = date.value,
 				onValueChange = { newValue ->
-					date = newValue
+					date.value = newValue
 				},
 				placeholder = {
 					Text(
-						text = "dd/mm/yyyy"
+						text = "dd/mm/yyyy",
+						fontSize = 13.sp,
+						color = MaterialTheme.colorScheme.primary,
 					)
 				},
 				enabled = false,
@@ -277,6 +315,7 @@ fun ConvertBottomSheetContent(
 					)
 			)
 		}
+
 		Text(
 			text = "Enter Target Location",
 			color = MaterialTheme.colorScheme.primary,
@@ -286,9 +325,27 @@ fun ConvertBottomSheetContent(
 			modifier = Modifier
 				.layoutId("target_location_text")
 		)
+		if (targetPredictions?.isNotEmpty() == true) {
+			PredictionsResultList(
+				list = targetPredictions,
+				onItemClick = onTargetPredictionClick,
+				modifier = Modifier
+					.layoutId("target_prediction")
+					.background(MaterialTheme.colorScheme.inverseSurface)
+			)
+		}
 		TextField(
-			value = "Tokyo, Japan",
-			onValueChange = {},
+			value = targetInput.value,
+			onValueChange = { newValue ->
+				targetInput.value = newValue
+			},
+			placeholder = {
+				Text(
+					text = "Enter location",
+					fontSize = 13.sp,
+					color = MaterialTheme.colorScheme.primary,
+				)
+			},
 			singleLine = true,
 			maxLines = 1,
 			textStyle = TextStyle(

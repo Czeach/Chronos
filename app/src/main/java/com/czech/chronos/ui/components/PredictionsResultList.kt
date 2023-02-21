@@ -17,10 +17,11 @@ import com.czech.chronos.utils.Fonts
 @Composable
 fun PredictionsResultList(
     list: List<PlacePredictions.Prediction?>?,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
     ) {
         items(
             items = list!!
