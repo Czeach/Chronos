@@ -1,4 +1,4 @@
-package com.czech.chronos.ui.viewModels
+package com.czech.chronos.ui.screens.home
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -11,7 +11,6 @@ import com.czech.chronos.network.models.PlacePredictions
 import com.czech.chronos.repositories.ChronosRepository
 import com.czech.chronos.room.useCases.CurrentTimeDaoUseCase
 import com.czech.chronos.utils.states.HomePredictionsState
-import com.czech.chronos.utils.states.PredictionsState
 import com.czech.chronos.utils.states.TargetPredictionsState
 import com.czech.chronos.utils.toCurrentTimeList
 import dagger.hilt.android.lifecycle.HiltViewModel

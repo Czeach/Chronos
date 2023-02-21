@@ -10,10 +10,10 @@ import androidx.navigation.compose.composable
 import com.czech.chronos.ui.screens.ConvertScreen
 import com.czech.chronos.ui.screens.HomeScreen
 import com.czech.chronos.ui.screens.SearchScreen
-import com.czech.chronos.ui.viewModels.SearchViewModel
+import com.czech.chronos.ui.screens.search.SearchViewModel
 import com.czech.chronos.ui.settings.SettingsScreen
 import com.czech.chronos.ui.splash.SplashScreen
-import com.czech.chronos.ui.viewModels.HomeViewModel
+import com.czech.chronos.ui.screens.home.HomeViewModel
 
 
 @RequiresApi(Build.VERSION_CODES.O)

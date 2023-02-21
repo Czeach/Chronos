@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.czech.chronos.ui.components.*
-import com.czech.chronos.ui.viewModels.SearchViewModel
+import com.czech.chronos.ui.screens.search.SearchViewModel
 import com.czech.chronos.utils.AppBar
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState

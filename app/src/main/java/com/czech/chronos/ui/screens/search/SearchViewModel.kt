@@ -1,4 +1,4 @@
-package com.czech.chronos.ui.viewModels
+package com.czech.chronos.ui.screens.search
 
 import android.annotation.SuppressLint
 import android.os.Build
