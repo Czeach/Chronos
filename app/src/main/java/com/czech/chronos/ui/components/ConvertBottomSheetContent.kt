@@ -144,7 +144,7 @@ fun ConvertBottomSheetContent(
 			val monthString = if (month < 10) "0$month" else month.toString()
 			val yearString = year.toString()
 
-			date.value = TextFieldValue("$dayString/$monthString/$yearString")
+			date.value = TextFieldValue("$yearString-$monthString-$dayString")
 		},
 		2000,
 		1,
@@ -285,7 +285,7 @@ fun ConvertBottomSheetContent(
 				},
 				placeholder = {
 					Text(
-						text = "dd/mm/yyyy",
+						text = "yyyy-mm-dd",
 						fontSize = 13.sp,
 						color = MaterialTheme.colorScheme.primary,
 					)

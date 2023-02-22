@@ -10,7 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.czech.chronos.room.useCases.CurrentTimeDaoUseCase
 import com.czech.chronos.room.CurrentTimeEntity
 import com.czech.chronos.network.models.CurrentTime
-import com.czech.chronos.repositories.ChronosRepository
+import com.czech.chronos.repositories.current.CurrentTimeRepository
+import com.czech.chronos.repositories.places.PlacesRepository
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
 import com.czech.chronos.utils.toCurrentTimeList
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val chronosRepository: ChronosRepository,
+    private val placesRepository: PlacesRepository,
+    private val currentTimeRepository: CurrentTimeRepository,
     private val currentTimeDaoUseCase: CurrentTimeDaoUseCase
 ): ViewModel() {
 
@@ -41,7 +43,7 @@ class SearchViewModel @Inject constructor(
 
     fun getCityPredictions(input: String) {
         viewModelScope.launch {
-            chronosRepository.predictPlace(input).collect {
+            placesRepository.predictPlace(input).collect {
                 when {
                     it.isLoading -> {
                         predictionsState.value = PredictionsState.Loading
@@ -85,7 +87,7 @@ class SearchViewModel @Inject constructor(
 
     fun getCurrentTime(location: String) {
         viewModelScope.launch {
-            chronosRepository.getCurrentTime(location).collect {
+            currentTimeRepository.getCurrentTime(location).collect {
                 when {
                     it.isLoading -> {
                         currentTimeState.value = CurrentTimeState.Loading
