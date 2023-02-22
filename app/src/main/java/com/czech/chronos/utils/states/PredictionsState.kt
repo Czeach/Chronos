@@ -8,3 +8,15 @@ sealed class PredictionsState {
     data class Error(val message: String) : PredictionsState()
     object Loading : PredictionsState()
 }
+
+sealed class HomePredictionsState {
+    data class Success(val data: List<PlacePredictions.Prediction?>?) : HomePredictionsState()
+    data class Error(val message: String) : HomePredictionsState()
+    object Loading : HomePredictionsState()
+}
+
+sealed class TargetPredictionsState {
+    data class Success(val data: List<PlacePredictions.Prediction?>?) : TargetPredictionsState()
+    data class Error(val message: String) : TargetPredictionsState()
+    object Loading : TargetPredictionsState()
+}

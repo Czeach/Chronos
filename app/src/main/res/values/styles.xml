@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PickerThemeDark" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/navy700</item>
+        <item name="android:windowBackground">@color/white500</item>
+    </style>
+
+    <style name="PickerThemeLight" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/grey900</item>
+        <item name="android:windowBackground">@color/white500</item>
+    </style>
+
+</resources>

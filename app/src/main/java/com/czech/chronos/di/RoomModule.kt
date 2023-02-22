@@ -2,10 +2,10 @@ package com.czech.chronos.di
 
 import androidx.room.Room
 import com.czech.chronos.BaseApplication
-import com.czech.chronos.cache.dao.CurrentTimeDao
-import com.czech.chronos.cache.dao.CurrentTimeDaoRepository
-import com.czech.chronos.cache.dao.CurrentTimeDaoRepositoryImpl
-import com.czech.chronos.cache.database.CurrentTimeDatabase
+import com.czech.chronos.room.CurrentTimeDao
+import com.czech.chronos.room.useCases.CurrentTimeDaoUseCase
+import com.czech.chronos.room.useCases.CurrentTimeDaoUseCaseImpl
+import com.czech.chronos.room.CurrentTimeDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @[Module InstallIn(SingletonComponent::class)]
-object CacheModule {
+object RoomModule {
 
     @[Singleton Provides]
     fun provideDatabase(app: BaseApplication): CurrentTimeDatabase {
@@ -33,8 +33,8 @@ object CacheModule {
     @[Singleton Provides]
     fun provideCurrentTimeDaoRepository(
         currentTimeDao: CurrentTimeDao
-    ): CurrentTimeDaoRepository {
-        return CurrentTimeDaoRepositoryImpl(
+    ): CurrentTimeDaoUseCase {
+        return CurrentTimeDaoUseCaseImpl(
             currentTimeDao = currentTimeDao
         )
     }

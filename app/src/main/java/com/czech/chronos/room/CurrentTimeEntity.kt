@@ -1,6 +1,5 @@
-package com.czech.chronos.cache.model
+package com.czech.chronos.room
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

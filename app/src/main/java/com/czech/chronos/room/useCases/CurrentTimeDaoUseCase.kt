@@ -1,8 +1,8 @@
-package com.czech.chronos.cache.dao
+package com.czech.chronos.room.useCases
 
-import com.czech.chronos.cache.model.CurrentTimeEntity
+import com.czech.chronos.room.CurrentTimeEntity
 
-interface CurrentTimeDaoRepository {
+interface CurrentTimeDaoUseCase {
 
     suspend fun insertCurrentTime(currentTime: CurrentTimeEntity)
 

@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.czech.chronos.ui.components.*
-import com.czech.chronos.ui.viewModels.SearchViewModel
+import com.czech.chronos.ui.screens.search.SearchViewModel
 import com.czech.chronos.utils.AppBar
 import com.czech.chronos.utils.states.CurrentTimeState
 import com.czech.chronos.utils.states.PredictionsState
@@ -18,7 +18,7 @@ import com.czech.chronos.utils.toCurrentTimeEntity
 import kotlinx.coroutines.*
 
 
-@SuppressLint("StateFlowValueCalledInComposition")
+@SuppressLint("StateFlowValueCalledInComposition", "UnrememberedMutableState")
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,7 +76,9 @@ fun SearchScreen(
             if (viewModel.currentTimeFromDB.value.isNotEmpty()) {
                 SearchResultList(
                     list = viewModel.currentTimeFromDB.collectAsState().value,
-                    viewModel = viewModel
+                    onCheckedChange = { checked, item ->
+                        if (!checked) viewModel.deleteCurrentTimeFromDB(item.requestedLocation.toString())
+                    }
                 )
             } else {
                 viewModel.predictionsState.value = null
@@ -123,29 +125,28 @@ fun ObserveCurrentTime(
         }
         is CurrentTimeState.Success -> {
             viewModel.isCurrentTimeInDB(state.data?.requestedLocation.toString())
-            viewModel.updateTimeFromServer(state.data?.timezoneLocation.toString())
 
             var checkedState: Boolean by mutableStateOf(viewModel.isInDB.collectAsState().value)
 
-            val time by viewModel.timeFromTimeZoneState.collectAsState()
-
-            SearchResultItem(
-                city = state.data?.requestedLocation.toString(),
-                cityTime = time,
-                checked = checkedState,
-                onCheckedChange = { newValue ->
-                    checkedState = newValue
-                    when (checkedState) {
-                        true -> {
-                            viewModel.insertCurrentTimeIntoDB(state.data?.toCurrentTimeEntity()!!, checkedState)
-                            viewModel.inputState.value = TextFieldValue("")
-                        }
-                        false -> {
-                            viewModel.deleteCurrentTimeFromDB(state.data?.requestedLocation.toString())
+            if (state.data != null) {
+                SearchResultItem(
+                    data = state.data,
+                    checked = checkedState,
+                    onCheckedChange = { newValue ->
+                        checkedState = newValue
+                        when (checkedState) {
+                            true -> {
+                                viewModel.insertCurrentTimeIntoDB(state.data.toCurrentTimeEntity(), checkedState)
+                                viewModel.inputState.value = TextFieldValue("")
+                            }
+                            false -> {
+                                viewModel.deleteCurrentTimeFromDB(state.data.requestedLocation.toString())
+                            }
                         }
                     }
-                }
-            )
+                )
+            }
+
         }
         is CurrentTimeState.Error -> {
 

@@ -1,15 +1,10 @@
 package com.czech.chronos.di
 
-import com.czech.chronos.interactors.convert.ConvertTimeRepositoryImpl
-import com.czech.chronos.interactors.convert.CurrentTimeRepository
-import com.czech.chronos.interactors.current.ConvertTimeRepository
-import com.czech.chronos.interactors.current.CurrentTimeRepositoryImpl
-import com.czech.chronos.interactors.place.PredictPlaceRepository
-import com.czech.chronos.interactors.place.PredictPlaceRepositoryImpl
 import com.czech.chronos.network.ApiService
 import com.czech.chronos.network.PlacesApiService
+import com.czech.chronos.repositories.ChronosRepository
+import com.czech.chronos.repositories.ChronosRepositoryImpl
 import com.czech.chronos.utils.Constants
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +17,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @[Module InstallIn(SingletonComponent::class)]
-object NetworkModule {
+object RetrofitModule {
 
     @[Provides Singleton]
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
@@ -66,33 +61,6 @@ object NetworkModule {
         retrofit: Retrofit
     ): ApiService {
         return retrofit.create(ApiService::class.java)
-    }
-
-    @[Provides Singleton]
-    fun provideCurrentTimeRepository(
-        apiService: ApiService
-    ): CurrentTimeRepository {
-        return CurrentTimeRepositoryImpl(
-            apiService = apiService
-        )
-    }
-
-    @[Provides Singleton]
-    fun provideConvertTimeRepository(
-        apiService: ApiService
-    ): ConvertTimeRepository {
-        return ConvertTimeRepositoryImpl(
-            apiService = apiService
-        )
-    }
-
-    @[Provides Singleton]
-    fun providePredictPlaceRepository(
-        placesApiService: PlacesApiService
-    ): PredictPlaceRepository {
-        return PredictPlaceRepositoryImpl(
-            placesApiService = placesApiService
-        )
     }
 
 }

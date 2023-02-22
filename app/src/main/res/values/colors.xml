@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="navy500">#FF2B3A51</color>
-    <color name="navy700">#FF1A2331</color>
-    <color name="purple_200">#FF6E819D</color>
-    <color name="purple_500">#FF7B61FF</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="white200">#FFF9F9F9</color>
-    <color name="white500">#FFE5E5E5</color>
-    <color name="grey200">#FFE5E5E5</color>
-    <color name="red200">#FFF44669</color>
-    <color name="red500">#FF984267</color>
-    <color name="teal_200">#FF48C38A</color>
-    <color name="yellow200">#FFF5C23E</color>
+    <color name="navy500">#2B3A51</color>
+    <color name="navy700">#1A2331</color>
+    <color name="navy900">#0E1520</color>
+    <color name="purple200">#6E819D</color>
+    <color name="purple500">#6647FF</color>
+    <color name="purple300">#7B61FF</color>
+    <color name="red200">#F44669</color>
+    <color name="red500">#984267</color>
+    <color name="white200">#F9F9F9</color>
+    <color name="white500">#E5E5E5</color>
+    <color name="white900">#949AA6</color>
+    <color name="white1100">#6C7077</color>
+    <color name="grey200">#8B8585</color>
+    <color name="grey500">#C2C2C2</color>
+    <color name="grey900">#5E5E5E</color>
+    <color name="teal200">#48C38A</color>
+    <color name="yellow200">#F5C23E</color>
 </resources>

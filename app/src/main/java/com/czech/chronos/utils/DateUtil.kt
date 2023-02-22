@@ -16,14 +16,8 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 object DateUtil {
 
-    val timeFormat = SimpleDateFormat("HH:mm")
-    val shortDateFormat = SimpleDateFormat("EEE, d MMM")
-
-
-    fun timeFromTimeZone(timeZone: String): String {
-        val timeZoneTime = ZonedDateTime.now(ZoneId.of(timeZone))
-
-        return timeZoneTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-    }
+    val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+    val shortDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("EEE, d MMM")
+    val longDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy")
 
 }

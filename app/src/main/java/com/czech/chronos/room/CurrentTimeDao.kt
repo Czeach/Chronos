@@ -1,10 +1,10 @@
-package com.czech.chronos.cache.dao
+package com.czech.chronos.room
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.czech.chronos.cache.model.CurrentTimeEntity
+import com.czech.chronos.room.CurrentTimeEntity
 
 @Dao
 interface CurrentTimeDao {
