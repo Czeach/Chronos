@@ -2,8 +2,6 @@ package com.czech.chronos.di
 
 import com.czech.chronos.network.ApiService
 import com.czech.chronos.network.PlacesApiService
-import com.czech.chronos.repositories.ChronosRepository
-import com.czech.chronos.repositories.ChronosRepositoryImpl
 import com.czech.chronos.utils.Constants
 import dagger.Module
 import dagger.Provides

@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.network.models.PlacePredictions
-import com.czech.chronos.repositories.ChronosRepository
+import com.czech.chronos.repositories.places.PlacesRepository
 import com.czech.chronos.room.useCases.CurrentTimeDaoUseCase
 import com.czech.chronos.utils.states.HomePredictionsState
 import com.czech.chronos.utils.states.TargetPredictionsState
@@ -24,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
 	private val currentTimeDaoUseCase: CurrentTimeDaoUseCase,
-	private val chronosRepository: ChronosRepository
+	private val placesRepository: PlacesRepository
 ): ViewModel() {
 
 	val savedLocations = MutableStateFlow(listOf<CurrentTime>())
@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
 
 	fun getHomePredictions(input: String) {
 		viewModelScope.launch {
-			chronosRepository.predictPlace(input).collect {
+			placesRepository.predictPlace(input).collect {
 				when {
 					it.isLoading -> {
 						homePredictionsState.value = HomePredictionsState.Loading
@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(
 	}
 	fun getTargetPredictions(input: String) {
 		viewModelScope.launch {
-			chronosRepository.predictPlace(input).collect {
+			placesRepository.predictPlace(input).collect {
 				when {
 					it.isLoading -> {
 						targetPredictionsState.value = TargetPredictionsState.Loading
