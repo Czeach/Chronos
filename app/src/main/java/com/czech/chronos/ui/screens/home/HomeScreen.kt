@@ -1,4 +1,4 @@
-package com.czech.chronos.ui.screens
+package com.czech.chronos.ui.screens.home
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -17,7 +17,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.czech.chronos.ui.components.ConvertBottomSheetContent
 import com.czech.chronos.ui.components.HomeFeatures
-import com.czech.chronos.ui.screens.home.HomeViewModel
 import com.czech.chronos.utils.DateUtil
 import com.czech.chronos.utils.states.HomePredictionsState
 import com.czech.chronos.utils.states.TargetPredictionsState
@@ -82,6 +81,13 @@ fun HomeScreen(
                     targetInput.value = TextFieldValue(location)
                     viewModel.targetPredictionsList.value = emptyList()
                     viewModel.targetPredictionsState.value = null
+                },
+                onConvertClicked = {
+                    time.value = TextFieldValue("")
+                    date.value = TextFieldValue("")
+                    homeInput.value = TextFieldValue("")
+                    targetInput.value = TextFieldValue("")
+                    onConvertClicked()
                 },
                 modifier = Modifier
                     .defaultMinSize(minHeight = 1.dp)

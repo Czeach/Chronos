@@ -8,14 +8,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.network.models.PlacePredictions
+import com.czech.chronos.repositories.convert.ConvertTimeRepository
 import com.czech.chronos.repositories.places.PlacesRepository
 import com.czech.chronos.room.useCases.CurrentTimeDaoUseCase
+import com.czech.chronos.utils.states.ConvertTimeState
 import com.czech.chronos.utils.states.HomePredictionsState
 import com.czech.chronos.utils.states.TargetPredictionsState
 import com.czech.chronos.utils.toCurrentTimeList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import java.util.*
 import javax.inject.Inject
 
@@ -24,7 +27,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
 	private val currentTimeDaoUseCase: CurrentTimeDaoUseCase,
-	private val placesRepository: PlacesRepository
+	private val placesRepository: PlacesRepository,
+	private val convertTimeRepository: ConvertTimeRepository
 ): ViewModel() {
 
 	val savedLocations = MutableStateFlow(listOf<CurrentTime>())
@@ -33,6 +37,7 @@ class HomeViewModel @Inject constructor(
 	var targetPredictionsList = mutableStateOf(listOf<PlacePredictions.Prediction?>())
 	val homePredictionsState = MutableStateFlow<HomePredictionsState?>(null)
 	val targetPredictionsState = MutableStateFlow<TargetPredictionsState?>(null)
+	val convertTimeState = MutableStateFlow<ConvertTimeState?>(null)
 
 	init {
 		getSavedLocationsFromDB()
@@ -73,6 +78,28 @@ class HomeViewModel @Inject constructor(
 					}
 					else -> {
 						targetPredictionsState.value = TargetPredictionsState.Success(data = it.data.predictions)
+					}
+				}
+			}
+		}
+	}
+
+	fun convertTime(homeLocation: String, dateTime: String, targetLocation: String) {
+		viewModelScope.launch {
+			convertTimeRepository.convertTime(
+				baseLocation = homeLocation,
+				baseDatetime = dateTime,
+				targetLocation = targetLocation
+			).collect {
+				when {
+					it.isLoading -> {
+						convertTimeState.value = ConvertTimeState.Loading
+					}
+					it.data == null -> {
+						convertTimeState.value = ConvertTimeState.Error(message = it.message.toString())
+					}
+					else -> {
+						convertTimeState.value = ConvertTimeState.Success(data = it.data)
 					}
 				}
 			}

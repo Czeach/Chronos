@@ -39,6 +39,7 @@ fun ConvertBottomSheetContent(
 	targetPredictions:  List<PlacePredictions.Prediction?>?,
 	onHomePredictionClick: (String) -> Unit,
 	onTargetPredictionClick: (String) -> Unit,
+	onConvertClicked: () -> Unit,
 	context: Context,
 	modifier: Modifier = Modifier
 ) {
@@ -160,7 +161,7 @@ fun ConvertBottomSheetContent(
 			.padding(bottom = 80.dp)
 	) {
 		Text(
-			text = "Convert Time Zone",
+			text = "Convert Timezone",
 			color = MaterialTheme.colorScheme.primary,
 			fontSize = 18.sp,
 			fontFamily = Fonts.lexendDeca,
@@ -366,7 +367,7 @@ fun ConvertBottomSheetContent(
 		Button(
 			modifier = Modifier
 				.layoutId("convert_button"),
-			onClick = {},
+			onClick = { onConvertClicked() },
 			colors = ButtonDefaults.buttonColors(
 				containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.65F)
 			),

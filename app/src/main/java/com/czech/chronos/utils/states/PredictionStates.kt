@@ -1,6 +1,5 @@
 package com.czech.chronos.utils.states
 
-import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.network.models.PlacePredictions
 
 sealed class PredictionsState {

@@ -32,15 +32,12 @@ class ConvertTimeRepositoryImpl @Inject constructor(
 			val convertTimeData = response.body()
 
 			try {
-				when (response.isSuccessful) {
-					true -> {
-						if (convertTimeData == null) emit(DataState.data(message = "Error converting from $baseLocation time to $targetLocation time"))
+				if (response.isSuccessful) {
+					if (convertTimeData == null) emit(DataState.data(message = "Error converting from $baseLocation time to $targetLocation time"))
 
-						emit(DataState.data(data = convertTimeData))
-					}
-					false -> {
-						emit(DataState.error(message = "Error ${response.code()}"))
-					}
+					emit(DataState.data(data = convertTimeData))
+				} else {
+					emit(DataState.error(message = "Error ${response.code()}"))
 				}
 			} catch (e: Exception) {
 				emit(
