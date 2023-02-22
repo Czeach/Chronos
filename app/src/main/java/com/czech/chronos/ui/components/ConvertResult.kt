@@ -31,7 +31,7 @@ fun ConvertResult(
 			start.linkTo(parent.start, margin = 36.dp)
 		}
 		constrain(buttonsColumn) {
-			bottom.linkTo(parent.bottom, margin = 100.dp)
+			bottom.linkTo(parent.bottom, margin = 120.dp)
 			start.linkTo(parent.start)
 			end.linkTo(parent.end)
 		}
@@ -87,7 +87,7 @@ fun ConvertResult(
 					.padding(start = 56.dp, end = 56.dp),
 				onClick = {},
 				colors = ButtonDefaults.buttonColors(
-					containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.65F)
+					containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.8F)
 				),
 				shape = RoundedCornerShape(10.dp)
 			) {
@@ -112,7 +112,7 @@ fun ConvertResult(
 					.padding(start = 56.dp, end = 56.dp),
 				onClick = {},
 				colors = ButtonDefaults.buttonColors(
-					containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.65F)
+					containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.8F)
 				),
 				shape = RoundedCornerShape(10.dp)
 			) {
