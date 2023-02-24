@@ -7,9 +7,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,9 +22,9 @@ import com.czech.chronos.utils.Fonts
 @Composable
 fun ConvertResult(
 	modifier: Modifier = Modifier,
-	date: String,
-	time: String,
-	gmtOffset: String
+	date: MutableState<String>,
+	time: MutableState<String>,
+	gmtOffset: MutableState<String>
 ) {
 
 	val constrains = ConstraintSet {
@@ -50,7 +52,7 @@ fun ConvertResult(
 				.layoutId("date_time")
 		) {
 			Text(
-				text = time,
+				text = time.value,
 				color = MaterialTheme.colorScheme.secondary,
 				fontSize = 60.sp,
 				textAlign = TextAlign.Center,
@@ -59,7 +61,7 @@ fun ConvertResult(
 				modifier = Modifier
 			)
 			Text(
-				text = date,
+				text = date.value,
 				color = MaterialTheme.colorScheme.primary,
 				fontSize = 20.sp,
 				textAlign = TextAlign.Center,
@@ -69,7 +71,7 @@ fun ConvertResult(
 					.padding(start = 4.dp)
 			)
 			Text(
-				text = gmtOffset,
+				text = gmtOffset.value,
 				color = MaterialTheme.colorScheme.primary,
 				fontSize = 20.sp,
 				textAlign = TextAlign.Center,

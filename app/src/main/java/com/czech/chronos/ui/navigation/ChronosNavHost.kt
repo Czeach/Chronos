@@ -6,14 +6,10 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.czech.chronos.ui.screens.ConvertScreen
-import com.czech.chronos.ui.screens.ConvertViewModel
 import com.czech.chronos.ui.screens.home.HomeScreen
 import com.czech.chronos.ui.screens.search.SearchScreen
 import com.czech.chronos.ui.screens.search.SearchViewModel
@@ -45,15 +41,13 @@ fun ChronosNavHost(
             }
         }
         composable(route = Screens.HomeScreen.route) {
-            val homeEntry = remember {
-                navController.getBackStackEntry(Screens.HomeScreen.route)
-            }
-            val viewModel = hiltViewModel<HomeViewModel>(homeEntry)
+
+            val viewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(
                 onSettingsClicked = { navController.navigate(Screens.SettingsScreen.route) },
                 onFABClicked = { navController.navigate(Screens.SearchScreen.route) },
-                onConvertClicked = { date_time, gmt_offset ->
-                    navController.navigate(Screens.ConvertScreen.route + "/$date_time" + "/$gmt_offset")
+                onConvertClicked = {
+                    navController.navigate(Screens.ConvertScreen.route)
                },
                 viewModel = viewModel
             )
@@ -65,21 +59,13 @@ fun ChronosNavHost(
                 viewModel = viewModel
             )
         }
-        composable(route = Screens.ConvertScreen.route + "/{date_time}" + "/{gmt_offset}",
-            arguments = listOf(
-                navArgument("date_time") {
-                    type = NavType.StringType
-                },
-                navArgument("gmt_offset") {
-                    type = NavType.IntType
-                }
-            )
-        ) {
+        composable(route = Screens.ConvertScreen.route) { backStackEntry ->
 
-            val convertEntry = remember {
-                navController.getBackStackEntry(Screens.ConvertScreen.route + "/{date_time}" + "/{gmt_offset}")
+            val homeEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Screens.HomeScreen.route)
             }
-            val viewModel = hiltViewModel<ConvertViewModel>(convertEntry)
+
+            val viewModel = hiltViewModel<HomeViewModel>(homeEntry)
             ConvertScreen(
                 onBackPressed = { onBackPressed() },
                 viewModel = viewModel

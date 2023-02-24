@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.czech.chronos.network.models.ConvertTime
@@ -39,6 +41,7 @@ class HomeViewModel @Inject constructor(
 	val homePredictionsState = MutableStateFlow<HomePredictionsState?>(null)
 	val targetPredictionsState = MutableStateFlow<TargetPredictionsState?>(null)
 	val convertTimeState = MutableStateFlow<ConvertTimeState?>(null)
+	var convertTimeResult = mutableStateOf<ConvertTime?>(null)
 
 	init {
 		getSavedLocationsFromDB()
