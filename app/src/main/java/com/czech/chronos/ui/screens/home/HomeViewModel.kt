@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.czech.chronos.network.models.ConvertTime
 import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.network.models.PlacePredictions
 import com.czech.chronos.repositories.convert.ConvertTimeRepository

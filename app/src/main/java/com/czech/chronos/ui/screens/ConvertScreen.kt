@@ -13,12 +13,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.czech.chronos.ui.components.AppBar
 import com.czech.chronos.ui.components.ConvertResult
+import com.czech.chronos.ui.screens.home.HomeViewModel
 import com.czech.chronos.utils.Fonts
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConvertScreen(
 	onBackPressed: () -> Unit,
+	viewModel: ConvertViewModel
 ) {
 
     Scaffold(
@@ -42,7 +44,10 @@ fun ConvertScreen(
 				.padding(padding)
 				.fillMaxSize()
 		) {
-			ConvertResult()
+			ConvertResult(
+				dateTime = viewModel.dateTime.value,
+				gmtOffset = viewModel.offset.value.toString()
+			)
 		}
 	}
 }

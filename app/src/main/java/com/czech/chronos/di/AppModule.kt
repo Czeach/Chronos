@@ -1,6 +1,7 @@
 package com.czech.chronos.di
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
 import com.czech.chronos.BaseApplication
 import dagger.Module
 import dagger.Provides
@@ -22,20 +23,8 @@ object AppModule {
         return app as BaseApplication
     }
 
-    @[Singleton Provides]
-    fun provideTimer(): Timer {
-        return Timer()
-    }
-
-    @[Singleton Provides]
-    fun provideCalender(): Calendar {
-        return Calendar.getInstance()
-    }
-
-    @[Singleton Provides]
-    fun provideDate(
-        calendar: Calendar
-    ): Date {
-        return calendar.time
-    }
+//    @[Singleton Provides]
+//    fun provideSavedState(): SavedStateHandle {
+//        return SavedStateHandle()
+//    }
 }

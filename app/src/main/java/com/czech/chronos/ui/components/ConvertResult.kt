@@ -19,7 +19,9 @@ import com.czech.chronos.utils.Fonts
 
 @Composable
 fun ConvertResult(
-	modifier: Modifier = Modifier
+	modifier: Modifier = Modifier,
+	dateTime: String,
+	gmtOffset: String
 ) {
 
 	val constrains = ConstraintSet {
@@ -47,7 +49,7 @@ fun ConvertResult(
 				.layoutId("date_time")
 		) {
 			Text(
-				text = "14:27",
+				text = dateTime,
 				color = MaterialTheme.colorScheme.secondary,
 				fontSize = 60.sp,
 				textAlign = TextAlign.Center,
@@ -56,7 +58,7 @@ fun ConvertResult(
 				modifier = Modifier
 			)
 			Text(
-				text = "Tuesday, 18 May 2021",
+				text = dateTime,
 				color = MaterialTheme.colorScheme.primary,
 				fontSize = 20.sp,
 				textAlign = TextAlign.Center,
@@ -66,7 +68,7 @@ fun ConvertResult(
 					.padding(start = 4.dp)
 			)
 			Text(
-				text = "GMT + 07:00",
+				text = gmtOffset,
 				color = MaterialTheme.colorScheme.primary,
 				fontSize = 20.sp,
 				textAlign = TextAlign.Center,
