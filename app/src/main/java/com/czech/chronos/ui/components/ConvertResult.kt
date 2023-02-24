@@ -20,7 +20,8 @@ import com.czech.chronos.utils.Fonts
 @Composable
 fun ConvertResult(
 	modifier: Modifier = Modifier,
-	dateTime: String,
+	date: String,
+	time: String,
 	gmtOffset: String
 ) {
 
@@ -49,7 +50,7 @@ fun ConvertResult(
 				.layoutId("date_time")
 		) {
 			Text(
-				text = dateTime,
+				text = time,
 				color = MaterialTheme.colorScheme.secondary,
 				fontSize = 60.sp,
 				textAlign = TextAlign.Center,
@@ -58,7 +59,7 @@ fun ConvertResult(
 				modifier = Modifier
 			)
 			Text(
-				text = dateTime,
+				text = date,
 				color = MaterialTheme.colorScheme.primary,
 				fontSize = 20.sp,
 				textAlign = TextAlign.Center,

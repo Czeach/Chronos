@@ -1,5 +1,7 @@
 package com.czech.chronos.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,8 +16,14 @@ import androidx.compose.ui.unit.sp
 import com.czech.chronos.ui.components.AppBar
 import com.czech.chronos.ui.components.ConvertResult
 import com.czech.chronos.ui.screens.home.HomeViewModel
+import com.czech.chronos.utils.DateUtil
 import com.czech.chronos.utils.Fonts
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConvertScreen(
@@ -44,8 +52,14 @@ fun ConvertScreen(
 				.padding(padding)
 				.fillMaxSize()
 		) {
+
+			val originalFormat = LocalDateTime.parse(viewModel.dateTime.value, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+			val time = originalFormat.format(DateUtil.timeFormat)
+			val date = originalFormat.format(DateUtil.longDateFormat)
+
 			ConvertResult(
-				dateTime = viewModel.dateTime.value,
+				date = date,
+				time = time,
 				gmtOffset = viewModel.offset.value.toString()
 			)
 		}
