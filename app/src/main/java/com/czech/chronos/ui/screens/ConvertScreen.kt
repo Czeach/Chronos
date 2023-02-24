@@ -52,21 +52,25 @@ fun ConvertScreen(
 		) {
 
 			if (viewModel.convertTimeResult.value != null) {
-				val originalFormat = LocalDateTime.parse(viewModel.convertTimeResult.value?.targetLocation?.datetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+				val data = viewModel.convertTimeResult.value?.targetLocation
+				val originalFormat = LocalDateTime.parse(data?.datetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 				val time = remember {
 					mutableStateOf(originalFormat.format(DateUtil.timeFormat))
 				}
 				val date = remember {
 					mutableStateOf(originalFormat.format(DateUtil.longDateFormat))
 				}
+				val city = remember {
+					mutableStateOf(data?.requestedLocation.toString())
+				}
 
-				val originalOffset = viewModel.convertTimeResult.value?.targetLocation?.gmtOffset?.toInt()
+				val originalOffset = data?.gmtOffset?.toInt()
 				val gmtOffset = remember {
 					mutableStateOf("")
 				}
 				if (originalOffset != null) {
 					when {
-						originalOffset < 0 && originalOffset > -10 -> {
+						originalOffset in -9..0 -> {
 							gmtOffset.value = "GMT - 0${originalOffset.absoluteValue}:00"
 						}
 						originalOffset < -9 -> {
@@ -84,6 +88,7 @@ fun ConvertScreen(
 				ConvertResult(
 					date = date,
 					time = time,
+					city = city,
 					gmtOffset = gmtOffset
 				)
 			}

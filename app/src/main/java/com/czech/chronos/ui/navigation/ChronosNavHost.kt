@@ -10,11 +10,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.czech.chronos.ui.screens.ConvertScreen
-import com.czech.chronos.ui.screens.home.HomeScreen
+import com.czech.chronos.ui.screens.HomeScreen
 import com.czech.chronos.ui.screens.search.SearchScreen
 import com.czech.chronos.ui.screens.search.SearchViewModel
-import com.czech.chronos.ui.settings.SettingsScreen
-import com.czech.chronos.ui.splash.SplashScreen
+import com.czech.chronos.ui.screens.SettingsScreen
+import com.czech.chronos.ui.screens.SplashScreen
 import com.czech.chronos.ui.screens.HomeViewModel
 
 

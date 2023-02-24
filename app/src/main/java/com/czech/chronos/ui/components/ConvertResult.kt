@@ -11,7 +11,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +23,7 @@ fun ConvertResult(
 	modifier: Modifier = Modifier,
 	date: MutableState<String>,
 	time: MutableState<String>,
+	city: MutableState<String>,
 	gmtOffset: MutableState<String>
 ) {
 
@@ -80,7 +80,16 @@ fun ConvertResult(
 				modifier = Modifier
 					.padding(start = 4.dp)
 			)
-
+			Text(
+				text = city.value,
+				color = MaterialTheme.colorScheme.primary,
+				fontSize = 20.sp,
+				textAlign = TextAlign.Center,
+				fontFamily = Fonts.lexendDeca,
+				fontWeight = FontWeight.W400,
+				modifier = Modifier
+					.padding(start = 4.dp)
+			)
 		}
 		Column(
 			modifier = Modifier
@@ -134,5 +143,4 @@ fun ConvertResult(
 			}
 		}
 	}
-
 }
