@@ -1,4 +1,4 @@
-package com.czech.chronos.ui.screens.home
+package com.czech.chronos.ui.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -19,7 +19,6 @@ import com.czech.chronos.utils.toCurrentTimeList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import java.util.*
 import javax.inject.Inject
 
@@ -39,6 +38,7 @@ class HomeViewModel @Inject constructor(
 	val homePredictionsState = MutableStateFlow<HomePredictionsState?>(null)
 	val targetPredictionsState = MutableStateFlow<TargetPredictionsState?>(null)
 	val convertTimeState = MutableStateFlow<ConvertTimeState?>(null)
+	var convertTimeResult = mutableStateOf<ConvertTime?>(null)
 
 	init {
 		getSavedLocationsFromDB()

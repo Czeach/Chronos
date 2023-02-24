@@ -28,6 +28,6 @@ fun AppBar(
 					contentDescription = "back_button"
 				)
 			}
-		},
+		}
 	)
 }

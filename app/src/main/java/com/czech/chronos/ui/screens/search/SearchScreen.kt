@@ -31,16 +31,16 @@ fun SearchScreen(
         topBar = {
             AppBar(
                 title = {
-                        SearchBar(
-                            input = viewModel.inputState,
-                            hint = "Search...",
-                            hideKeyboard = hideKeyboard,
-                            resetCurrentTime = {
-                                viewModel.currentTimeState.value = null
-                            },
-                            onFocusClear = { hideKeyboard = false },
-                            modifier = Modifier
-                        )
+                    SearchBar(
+                        input = viewModel.inputState,
+                        hint = "Search...",
+                        hideKeyboard = hideKeyboard,
+                        resetCurrentTime = {
+                            viewModel.currentTimeState.value = null
+                        },
+                        onFocusClear = { hideKeyboard = false },
+                        modifier = Modifier
+                    )
                 },
                 onBackPressed = { onBackPressed() }
             )
@@ -144,7 +144,6 @@ fun ObserveCurrentTime(
                     }
                 )
             }
-
         }
         is CurrentTimeState.Error -> {
 

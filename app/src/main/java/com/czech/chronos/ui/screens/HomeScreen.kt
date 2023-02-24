@@ -1,4 +1,4 @@
-package com.czech.chronos.ui.screens.home
+package com.czech.chronos.ui.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -34,7 +34,7 @@ import java.time.LocalDateTime
 fun HomeScreen(
     onSettingsClicked: () -> Unit,
     onFABClicked: () -> Unit,
-    onConvertClicked: (String, Int) -> Unit,
+    onConvertClicked: () -> Unit,
     viewModel: HomeViewModel
 ) {
 
@@ -97,8 +97,8 @@ fun HomeScreen(
                                 }
                                 is ConvertTimeState.Success -> {
                                     if (it.data != null) {
-                                        val target = it.data.targetLocation
-                                        onConvertClicked(target?.datetime.toString(), target?.gmtOffset?.toInt()!!)
+                                        viewModel.convertTimeResult.value = it.data
+                                        onConvertClicked()
                                     }
                                 }
                                 is ConvertTimeState.Error -> {
@@ -181,13 +181,6 @@ fun HomeScreen(
                 modifier = Modifier
                     .padding(padding)
             )
-
-//            ObserveConvertTime(
-//                viewModel = viewModel,
-//                navigateToResultScreen = {
-//                    onConvertClicked()
-//                }
-//            )
         }
     }
 }
