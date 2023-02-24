@@ -15,7 +15,7 @@ import com.czech.chronos.ui.screens.search.SearchScreen
 import com.czech.chronos.ui.screens.search.SearchViewModel
 import com.czech.chronos.ui.settings.SettingsScreen
 import com.czech.chronos.ui.splash.SplashScreen
-import com.czech.chronos.ui.screens.home.HomeViewModel
+import com.czech.chronos.ui.screens.HomeViewModel
 
 
 @SuppressLint("UnrememberedGetBackStackEntry")

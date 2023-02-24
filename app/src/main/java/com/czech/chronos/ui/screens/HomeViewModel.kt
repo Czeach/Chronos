@@ -1,11 +1,9 @@
-package com.czech.chronos.ui.screens.home
+package com.czech.chronos.ui.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.czech.chronos.network.models.ConvertTime
@@ -21,7 +19,6 @@ import com.czech.chronos.utils.toCurrentTimeList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import java.util.*
 import javax.inject.Inject
 

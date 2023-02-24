@@ -13,15 +13,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.SavedStateHandle
 import com.czech.chronos.ui.components.AppBar
 import com.czech.chronos.ui.components.ConvertResult
-import com.czech.chronos.ui.screens.home.HomeViewModel
 import com.czech.chronos.utils.DateUtil
 import com.czech.chronos.utils.Fonts
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
