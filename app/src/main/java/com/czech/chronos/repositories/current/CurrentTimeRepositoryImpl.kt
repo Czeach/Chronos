@@ -23,16 +23,12 @@ class CurrentTimeRepositoryImpl @Inject constructor(
 			val currentTimeData = response.body()
 
 			try {
-				when (response.isSuccessful) {
-					true -> {
-						if (currentTimeData == null)
-							emit(DataState.data(message = "No result for $location"))
+				if (response.isSuccessful) {
+					if (currentTimeData == null) emit(DataState.data(message = "No result for $location"))
 
-						emit(DataState.data(data = currentTimeData))
-					}
-					false -> {
-						emit(DataState.error(message = "Error ${response.code()}"))
-					}
+					emit(DataState.data(data = currentTimeData))
+				} else {
+					emit(DataState.error(message = "Error ${response.code()}"))
 				}
 			} catch (e: Exception) {
 				emit(

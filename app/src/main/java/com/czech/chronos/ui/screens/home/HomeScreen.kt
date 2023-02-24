@@ -1,4 +1,4 @@
-package com.czech.chronos.ui.screens
+package com.czech.chronos.ui.screens.home
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -17,8 +17,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.czech.chronos.ui.components.ConvertBottomSheetContent
 import com.czech.chronos.ui.components.HomeFeatures
-import com.czech.chronos.ui.screens.home.HomeViewModel
 import com.czech.chronos.utils.DateUtil
+import com.czech.chronos.utils.states.ConvertTimeState
 import com.czech.chronos.utils.states.HomePredictionsState
 import com.czech.chronos.utils.states.TargetPredictionsState
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,7 @@ import java.time.LocalDateTime
 fun HomeScreen(
     onSettingsClicked: () -> Unit,
     onFABClicked: () -> Unit,
-    onConvertClicked: () -> Unit,
+    onConvertClicked: (String, Int) -> Unit,
     viewModel: HomeViewModel
 ) {
 
@@ -83,6 +83,34 @@ fun HomeScreen(
                     viewModel.targetPredictionsList.value = emptyList()
                     viewModel.targetPredictionsState.value = null
                 },
+                onConvertClicked = {
+                    viewModel.convertTime(
+                        homeLocation = homeInput.value.text,
+                        dateTime = "${date.value.text} ${time.value.text}",
+                        targetLocation = targetInput.value.text
+                    )
+                    coroutineScope.launch {
+                        viewModel.convertTimeState.collect {
+                            when(it) {
+                                is ConvertTimeState.Loading -> {
+
+                                }
+                                is ConvertTimeState.Success -> {
+                                    if (it.data != null) {
+                                        val target = it.data.targetLocation
+                                        onConvertClicked(target?.datetime.toString(), target?.gmtOffset?.toInt()!!)
+                                    }
+                                }
+                                is ConvertTimeState.Error -> {
+
+                                }
+                                else -> {
+
+                                }
+                            }
+                        }
+                    }
+                },
                 modifier = Modifier
                     .defaultMinSize(minHeight = 1.dp)
             )
@@ -116,7 +144,7 @@ fun HomeScreen(
 
             viewModel.getSavedLocationsFromDB()
 
-            if (homeInput.value.text.isNotEmpty() && homeInput.value.text.length > 2) {
+            if (homeInput.value.text.isNotEmpty() && (homeInput.value.text.length > 2)) {
                 LaunchedEffect(key1 = Unit) {
                     delay(200)
 
@@ -125,7 +153,7 @@ fun HomeScreen(
 
             }
 
-            if (targetInput.value.text.isNotEmpty() && targetInput.value.text.length >2) {
+            if (targetInput.value.text.isNotEmpty() && (targetInput.value.text.length > 2)) {
                 LaunchedEffect(key1 = Unit) {
                     delay(200)
 
@@ -153,6 +181,13 @@ fun HomeScreen(
                 modifier = Modifier
                     .padding(padding)
             )
+
+//            ObserveConvertTime(
+//                viewModel = viewModel,
+//                navigateToResultScreen = {
+//                    onConvertClicked()
+//                }
+//            )
         }
     }
 }
