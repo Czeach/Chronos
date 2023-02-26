@@ -24,12 +24,13 @@ fun ConvertResult(
 	date: MutableState<String>,
 	time: MutableState<String>,
 	city: MutableState<String>,
-	gmtOffset: MutableState<String>
+	gmtOffset: MutableState<String>,
+	onAddToCalendarClicked: () -> Unit
 ) {
 
 	val constrains = ConstraintSet {
 		val dateTimeColumn = createRefFor("date_time")
-		val buttonsColumn = createRefFor("buttons_column")
+		val buttonsColumn = createRefFor("button")
 
 		constrain(dateTimeColumn) {
 			top.linkTo(parent.top, margin = 40.dp)
@@ -91,56 +92,27 @@ fun ConvertResult(
 					.padding(start = 4.dp)
 			)
 		}
-		Column(
+		Button(
 			modifier = Modifier
-				.layoutId("buttons_column")
+				.layoutId("button")
+				.fillMaxWidth()
+				.padding(start = 56.dp, end = 56.dp),
+			onClick = { onAddToCalendarClicked() },
+			colors = ButtonDefaults.buttonColors(
+				containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.8F)
+			),
+			shape = RoundedCornerShape(10.dp)
 		) {
-			Button(
+			Text(
+				text = "Add to calendar",
+				textAlign = TextAlign.Center,
+				fontSize = 16.sp,
+				fontFamily = Fonts.lexendDeca,
+				fontWeight = FontWeight.W400,
+				color = MaterialTheme.colorScheme.primary,
 				modifier = Modifier
-					.fillMaxWidth()
-					.padding(start = 56.dp, end = 56.dp),
-				onClick = {},
-				colors = ButtonDefaults.buttonColors(
-					containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.8F)
-				),
-				shape = RoundedCornerShape(10.dp)
-			) {
-				Text(
-					text = "Add to calendar",
-					textAlign = TextAlign.Center,
-					fontSize = 16.sp,
-					fontFamily = Fonts.lexendDeca,
-					fontWeight = FontWeight.W400,
-					color = MaterialTheme.colorScheme.primary,
-					modifier = Modifier
-						.padding(top = 14.dp, bottom = 14.dp)
-				)
-			}
-			Spacer(
-				modifier = Modifier
-					.height(16.dp)
+					.padding(top = 14.dp, bottom = 14.dp)
 			)
-			Button(
-				modifier = Modifier
-					.fillMaxWidth()
-					.padding(start = 56.dp, end = 56.dp),
-				onClick = {},
-				colors = ButtonDefaults.buttonColors(
-					containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.8F)
-				),
-				shape = RoundedCornerShape(10.dp)
-			) {
-				Text(
-					text = "Set a reminder",
-					textAlign = TextAlign.Center,
-					fontSize = 16.sp,
-					fontFamily = Fonts.lexendDeca,
-					fontWeight = FontWeight.W400,
-					color = MaterialTheme.colorScheme.primary,
-					modifier = Modifier
-						.padding(top = 14.dp, bottom = 14.dp)
-				)
-			}
 		}
 	}
 }
