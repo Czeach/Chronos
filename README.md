@@ -1,8 +1,9 @@
 # Chronos
-A time-zone converter app.
+A timezone converter app.
 
 ## Description
-This is a native android application written in Kotlin. 
+This is a native android application written in Kotlin. It is a timezone converter app that lets the user save live time of different locations as well as convert time from one
+location to another. It also displays live time of the user's location.
 
 ## Screenshots
 
