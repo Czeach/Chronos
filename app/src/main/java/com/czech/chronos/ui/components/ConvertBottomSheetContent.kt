@@ -27,6 +27,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.czech.chronos.R
 import com.czech.chronos.network.models.PlacePredictions
 import com.czech.chronos.utils.Fonts
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -137,19 +138,24 @@ fun ConvertBottomSheetContent(
 		true,
 	)
 
+	val cal: Calendar = Calendar.getInstance()
+	val mYear: Int = cal.get(Calendar.YEAR)
+	val mMonth: Int = cal.get(Calendar.MONTH)
+	val mDay: Int = cal.get(Calendar.DAY_OF_MONTH)
 	val datePicker = DatePickerDialog(
 		context,
 		if (isSystemInDarkTheme()) R.style.PickerThemeDark else R.style.PickerThemeLight,
 		{_: DatePicker, year: Int, month: Int, day: Int ->
+			val realMonth = month + 1
 			val dayString = if (day < 10) "0$day" else day.toString()
-			val monthString = if (month < 10) "0$month" else month.toString()
+			val monthString = if (realMonth < 10) "0$realMonth" else realMonth.toString()
 			val yearString = year.toString()
 
 			date.value = TextFieldValue("$yearString-$monthString-$dayString")
 		},
-		2000,
-		1,
-		1
+		mYear,
+		mMonth,
+		mDay
 	)
 
 	ConstraintLayout(
