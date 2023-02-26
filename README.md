@@ -4,19 +4,11 @@ A time-zone converter app.
 ## Screenshots
 
 ###   Dark mode
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.44.png" width="125" height="250" />
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.03.png" width="125" height="250" />
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.59.png" width="125" height="250" />
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.08.png" width="125" height="250" />
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.21.png" width="125" height="250" />
+<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.44.png" width="125" height="250" />   <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.03.png" width="125" height="250" />   <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.59.png" width="125" height="250" />   <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.08.png" width="125" height="250" />   <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.21.png" width="125" height="250" />
 
 
 ###   Light mode
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.50.png" width="125" height="250" />
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.04.png" width="125" height="250" />
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.56.png" width="125" height="250" />
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.18.png" width="125" height="250" />
-<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.24.png" width="125" height="250" />
+<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.50.png" width="125" height="250" />   <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.04.png" width="125" height="250" />   <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.56.png" width="125" height="250" />   <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.18.png" width="125" height="250" />   <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.24.png" width="125" height="250" />
 
 
 
@@ -25,7 +17,7 @@ A time-zone converter app.
 
 MIT License
 
-Copyright (c) 2021 Ezichi Amarachi
+Copyright (c) 2022 Ezichi Amarachi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
