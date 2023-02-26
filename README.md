@@ -1,6 +1,15 @@
 # Chronos
 A time-zone converter app.
 
+## Screenshots
+
+###   Dark mode                                                                                                                      Light mode
+<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.44.png" width="125" height="250" />    <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.50.png" width="125" height="250" />
+<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.03.png" width="125" height="250" />    <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.04.png" width="125" height="250" />
+<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.59.png" width="125" height="250" />    <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.49.56.png" width="125" height="250" />
+<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.08.png" width="125" height="250" />    <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.18.png" width="125" height="250" />
+<img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.21.png" width="125" height="250" />    <img src="https://github.com/Czeach/Chronos/blob/main/screenshots/photo_2023-02-26%2019.50.24.png" width="125" height="250" />
+
 ## LICENSE
 ```
 
