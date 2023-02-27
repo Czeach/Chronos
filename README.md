@@ -1,10 +1,15 @@
-# <p style="text-align: center;">Chronos</p>
+<p align="center">
+# Chronos
+Chronos is a native android application built in kotlin and it's UI entirely in Jetpack Compose.
+</p>
 
 ## Description
 
-<p style="text-align: center;">Chronos is a native android application built in kotlin and it's UI entirely in Jetpack Compose. Chronos demonstrates modern Android development with Hilt, Coroutines, Flow, Jetpack (Room, ViewModel, Jetpack Compose), and is based on MVVM architecture.
+<p align="center">
+Chronos demonstrates modern Android development with Hilt, Coroutines, Flow, Jetpack (Room, ViewModel, Jetpack Compose), and is based on MVVM architecture.
 It is a timezone converter app that lets the user save live time of different locations as well as convert time from one
-location to another. It also displays live time of the user's location.</p>
+location to another. It also displays live time of the user's location.
+</p>
 
 ## Screenshots
 
@@ -21,31 +26,31 @@ location to another. It also displays live time of the user's location.</p>
 
 ## Tech stack and Libraries used
 * Minimum SDK level 23
-* Kotlin, 100% Jetpack Compose, [Coroutines] (https://developer.android.com/kotlin/coroutines) + Flow for asynchronous programming
+* Kotlin, 100% Jetpack Compose, [Coroutines](https://developer.android.com/kotlin/coroutines) + Flow for asynchronous programming
 * Jetpack
-    * [Jetpack Compose] (https://developer.android.com/jetpack/compose): Android’s modern toolkit for building native UI
-    * [Navigation Compose] (https://developer.android.com/jetpack/compose/navigation): Navigate between composables while leveraging of the Navigation component’s infrastructure and features
-    * [ViewModel] (https://developer.android.com/topic/libraries/architecture/viewmodel): Encapsulates related business logic and manage UI data in a lifecycle-aware fashion
-    * [Room] (https://developer.android.com/training/data-storage/room): Persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite
-    * [Hilt] (https://developer.android.com/training/dependency-injection/hilt-android): Standard way to incorporate Dagger dependency injection into an Android application that reduces boilerplate code
+    * [Jetpack Compose](https://developer.android.com/jetpack/compose): Android’s modern toolkit for building native UI
+    * [Navigation Compose](https://developer.android.com/jetpack/compose/navigation): Navigate between composables while leveraging of the Navigation component’s infrastructure and features
+    * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel): Encapsulates related business logic and manage UI data in a lifecycle-aware fashion
+    * [Room](https://developer.android.com/training/data-storage/room): Persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite
+    * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android): Standard way to incorporate Dagger dependency injection into an Android application that reduces boilerplate code
 * Architecture
     * MVVM Architecture
     * Repository pattern
-* [Retrofit2] (https://github.com/square/retrofit): Type-safe REST client for Android and Java
-* [Gson] (https://github.com/google/gson): Java library that can be used to convert Java Objects into their JSON representation and vice versa
+* [Retrofit2](https://github.com/square/retrofit): Type-safe REST client for Android and Java
+* [Gson](https://github.com/google/gson): Java library that can be used to convert Java Objects into their JSON representation and vice versa
 
 
 ## Architecture
-Chronos follows [Google's official architecture guidance] (https://developer.android.com/topic/architecture). It is based on the MVVM architecture and the Repository pattern.
+Chronos follows [Google's official architecture guidance](https://developer.android.com/topic/architecture). It is based on the MVVM architecture and the Repository pattern.
 
 ## APIs used
 
 ### Abstract API
-Chronos uses the [Abstract Timezone API] (https://app.abstractapi.com/api/timezone/documentation) for RESTful API services.
+Chronos uses the [Abstract Timezone API](https://app.abstractapi.com/api/timezone/documentation) for RESTful API services.
 It makes use of the ```curren_time``` an ```convert_time``` endpoints from the API.
 
 ### Places API
-Chronos also makes use of [Google's Places API] (https://developers.google.com/maps/documentation/places/web-service/overview).
+Chronos also makes use of [Google's Places API](https://developers.google.com/maps/documentation/places/web-service/overview).
 It uses the place autocomplete service to get place predictions
 
 
