@@ -1,10 +1,11 @@
+# Chronos
+
 <p align="center">
 # Chronos
-Chronos is a native android application built in kotlin and it's UI entirely in Jetpack Compose.
+A native android application built in kotlin with it's UI entirely in Jetpack Compose.
 </p>
 
 ## Description
-
 <p align="center">
 Chronos demonstrates modern Android development with Hilt, Coroutines, Flow, Jetpack (Room, ViewModel, Jetpack Compose), and is based on MVVM architecture.
 It is a timezone converter app that lets the user save live time of different locations as well as convert time from one
@@ -47,7 +48,7 @@ Chronos follows [Google's official architecture guidance](https://developer.andr
 
 ### Abstract API
 Chronos uses the [Abstract Timezone API](https://app.abstractapi.com/api/timezone/documentation) for RESTful API services.
-It makes use of the ```curren_time``` an ```convert_time``` endpoints from the API.
+It makes use of the ```current_time``` an ```convert_time``` endpoints from the API.
 
 ### Places API
 Chronos also makes use of [Google's Places API](https://developers.google.com/maps/documentation/places/web-service/overview).
