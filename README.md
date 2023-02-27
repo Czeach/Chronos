@@ -37,6 +37,8 @@ location to another. It also displays live time of the user's location.
     * Repository pattern
 * [Retrofit2](https://github.com/square/retrofit): Type-safe REST client for Android and Java
 * [Gson](https://github.com/google/gson): Java library that can be used to convert Java Objects into their JSON representation and vice versa
+* [LocalDateTime](https://developer.android.com/reference/java/time/LocalDateTime): Immutable date-time object that represents a date-time
+* [ZonedDateTime](https://developer.android.com/reference/java/time/ZonedDateTime): Immutable representation of a date-time with a time-zone
 
 
 ## Architecture
