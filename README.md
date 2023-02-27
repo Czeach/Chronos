@@ -1,7 +1,5 @@
 # Chronos
-
 <p align="center">
-# Chronos
 A native android application built in kotlin with it's UI entirely in Jetpack Compose.
 </p>
 
