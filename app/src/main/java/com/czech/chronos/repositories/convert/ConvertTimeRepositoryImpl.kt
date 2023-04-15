@@ -8,6 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class ConvertTimeRepositoryImpl @Inject constructor(
@@ -22,16 +24,16 @@ class ConvertTimeRepositoryImpl @Inject constructor(
 		return flow {
 			emit(DataState.loading())
 
-			val response = apiService.convertTime(
-				BuildConfig.API_KEY,
-				baseLocation,
-				baseDatetime,
-				targetLocation
-			)
-
-			val convertTimeData = response.body()
-
 			try {
+				val response = apiService.convertTime(
+					BuildConfig.API_KEY,
+					baseLocation,
+					baseDatetime,
+					targetLocation
+				)
+
+				val convertTimeData = response.body()
+
 				if (response.isSuccessful) {
 					if (convertTimeData == null) emit(DataState.data(message = "Error converting from $baseLocation time to $targetLocation time"))
 
@@ -39,7 +41,13 @@ class ConvertTimeRepositoryImpl @Inject constructor(
 				} else {
 					emit(DataState.error(message = "Error ${response.code()}"))
 				}
-			} catch (e: Exception) {
+			} catch (e: HttpException) {
+				emit(
+					DataState.error(
+						message = e.message ?: "An error occurred"
+					)
+				)
+			} catch (e: IOException) {
 				emit(
 					DataState.error(
 						message = e.message ?: "An error occurred"

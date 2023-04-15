@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/app_name"
+    android:minWidth="46dp"
+    android:minHeight="46dp"
+    android:previewImage="@drawable/chronos_btn_purple"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="5"
+    android:targetCellHeight="3"
+    android:widgetCategory="home_screen"/>

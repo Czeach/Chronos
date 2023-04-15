@@ -163,12 +163,12 @@ fun ConvertBottomSheetContent(
 		modifier = modifier
 			.wrapContentHeight()
 			.fillMaxWidth()
-			.background(MaterialTheme.colorScheme.inverseSurface)
+			.background(MaterialTheme.colorScheme.background.copy(alpha = 0.95F))
 			.padding(bottom = 80.dp)
 	) {
 		Text(
 			text = "Convert Timezone",
-			color = MaterialTheme.colorScheme.primary,
+			color = MaterialTheme.colorScheme.inversePrimary,
 			fontSize = 18.sp,
 			fontFamily = Fonts.lexendDeca,
 			fontWeight = FontWeight.W400,
@@ -177,7 +177,7 @@ fun ConvertBottomSheetContent(
 		)
 		Text(
 			text = "Enter time, date and location to begin.",
-			color = MaterialTheme.colorScheme.primary,
+			color = MaterialTheme.colorScheme.inversePrimary,
 			fontSize = 14.sp,
 			fontFamily = Fonts.exo,
 			fontWeight = FontWeight.W400,
@@ -186,7 +186,7 @@ fun ConvertBottomSheetContent(
 		)
 		Text(
 			text = "Enter Home Location",
-			color = MaterialTheme.colorScheme.primary,
+			color = MaterialTheme.colorScheme.inversePrimary,
 			fontSize = 14.sp,
 			fontFamily = Fonts.exo,
 			fontWeight = FontWeight.W400,
@@ -225,7 +225,7 @@ fun ConvertBottomSheetContent(
 			),
 			shape = RoundedCornerShape(6.dp),
 			colors = TextFieldDefaults.textFieldColors(
-				containerColor = MaterialTheme.colorScheme.inverseSurface.copy(blue = 0.90F),
+				containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15F),
 				focusedIndicatorColor = Color.Transparent,
 				unfocusedIndicatorColor = Color.Transparent,
 			),
@@ -234,7 +234,7 @@ fun ConvertBottomSheetContent(
 		)
 		Text(
 			text = "Enter time and date",
-			color = MaterialTheme.colorScheme.primary,
+			color = MaterialTheme.colorScheme.inversePrimary,
 			fontSize = 14.sp,
 			fontFamily = Fonts.exo,
 			fontWeight = FontWeight.W400,
@@ -268,7 +268,7 @@ fun ConvertBottomSheetContent(
 				),
 				shape = RoundedCornerShape(6.dp),
 				colors = TextFieldDefaults.textFieldColors(
-					containerColor = MaterialTheme.colorScheme.inverseSurface.copy(blue = 0.90F),
+					containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15F),
 					focusedIndicatorColor = Color.Transparent,
 					unfocusedIndicatorColor = Color.Transparent,
 					disabledIndicatorColor = Color.Transparent,
@@ -308,7 +308,7 @@ fun ConvertBottomSheetContent(
 				),
 				shape = RoundedCornerShape(6.dp),
 				colors = TextFieldDefaults.textFieldColors(
-					containerColor = MaterialTheme.colorScheme.inverseSurface.copy(blue = 0.90F),
+					containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15F),
 					focusedIndicatorColor = Color.Transparent,
 					unfocusedIndicatorColor = Color.Transparent,
 					disabledIndicatorColor = Color.Transparent,
@@ -325,7 +325,7 @@ fun ConvertBottomSheetContent(
 
 		Text(
 			text = "Enter Target Location",
-			color = MaterialTheme.colorScheme.primary,
+			color = MaterialTheme.colorScheme.inversePrimary,
 			fontSize = 14.sp,
 			fontFamily = Fonts.exo,
 			fontWeight = FontWeight.W400,
@@ -363,7 +363,7 @@ fun ConvertBottomSheetContent(
 			),
 			shape = RoundedCornerShape(6.dp),
 			colors = TextFieldDefaults.textFieldColors(
-				containerColor = MaterialTheme.colorScheme.inverseSurface.copy(blue = 0.9F),
+				containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15F),
 				focusedIndicatorColor = Color.Transparent,
 				unfocusedIndicatorColor = Color.Transparent,
 			),
@@ -375,7 +375,7 @@ fun ConvertBottomSheetContent(
 				.layoutId("convert_button"),
 			onClick = { onConvertClicked() },
 			colors = ButtonDefaults.buttonColors(
-				containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.65F)
+				containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.55F)
 			),
 			shape = RoundedCornerShape(10.dp)
 		) {

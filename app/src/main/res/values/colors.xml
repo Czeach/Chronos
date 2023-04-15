@@ -17,4 +17,74 @@
     <color name="grey900">#5E5E5E</color>
     <color name="teal200">#48C38A</color>
     <color name="yellow200">#F5C23E</color>
+
+
+    // Light
+    <color name="lightPrimary">@color/material_dynamic_primary40</color>
+    <color name="lightOnPrimary">@color/material_dynamic_primary100</color>
+    <color name="lightInversePrimary">@color/material_dynamic_primary80</color>
+    <color name="lightPrimaryContainer">@color/material_dynamic_primary90</color>
+    <color name="lightOnPrimaryContainer">@color/material_dynamic_primary10</color>
+    <color name="lightSecondary">@color/material_dynamic_secondary40</color>
+    <color name="lightOnSecondary">@color/material_dynamic_secondary100</color>
+    <color name="lightSecondaryContainer">@color/material_dynamic_secondary90</color>
+    <color name="lightOnSecondaryContainer">@color/material_dynamic_secondary10</color>
+    <color name="lightTertiary">@color/material_dynamic_tertiary40</color>
+    <color name="lightOnTertiary">@color/material_dynamic_tertiary100</color>
+    <color name="lightTertiaryContainer">@color/material_dynamic_tertiary90</color>
+    <color name="lightOnTertiaryContainer">@color/material_dynamic_tertiary10</color>
+    <color name="lightBackground">@color/material_dynamic_neutral99</color>
+    <color name="lightOnBackground">@color/material_dynamic_neutral10</color>
+    <color name="lightSurface">@color/material_dynamic_neutral99</color>
+    <color name="lightOnSurface">@color/material_dynamic_neutral10</color>
+    <color name="lightSurfaceVariant">@color/material_dynamic_neutral_variant90</color>
+    <color name="lightOnSurfaceVariant">@color/material_dynamic_neutral_variant30</color>
+    <color name="lightInverseSurface">@color/material_dynamic_neutral20</color>
+    <color name="lightInverseOnSurface">@color/material_dynamic_neutral95</color>
+    <color name="lightOutline">@color/material_dynamic_neutral_variant50</color>
+    <color name="lightError">@color/m3_sys_color_light_error</color>
+    <color name="lightOnError">@color/m3_sys_color_light_on_error</color>
+    <color name="lightErrorContainer">@color/m3_sys_color_light_error_container</color>
+    <color name="lightOnErrorContainer">@color/m3_sys_color_light_on_error_container</color>
+
+    <color name="lightTextColorPrimary">@color/m3_default_color_primary_text</color>
+    <color name="lightTextColorPrimaryInverse">@color/m3_dark_default_color_primary_text</color>
+    <color name="lightTextColorSecondary">@color/m3_default_color_secondary_text</color>
+    <color name="lightTextColorSecondaryInverse">@color/m3_dark_default_color_secondary_text</color>
+
+
+
+    // Dark
+    <color name="darkPrimary">@color/material_dynamic_primary80</color>
+    <color name="darkOnPrimary">@color/material_dynamic_primary20</color>
+    <color name="darkInversePrimary">@color/material_dynamic_primary40</color>
+    <color name="darkPrimaryContainer">@color/material_dynamic_primary30</color>
+    <color name="darkOnPrimaryContainer">@color/material_dynamic_primary90</color>
+    <color name="darkSecondary">@color/material_dynamic_secondary80</color>
+    <color name="darkOnSecondary">@color/material_dynamic_secondary20</color>
+    <color name="darkSecondaryContainer">@color/material_dynamic_secondary30</color>
+    <color name="darkOnSecondaryContainer">@color/material_dynamic_secondary90</color>
+    <color name="darkTertiary">@color/material_dynamic_tertiary80</color>
+    <color name="darkOnTertiary">@color/material_dynamic_tertiary20</color>
+    <color name="darkTertiaryContainer">@color/material_dynamic_tertiary30</color>
+    <color name="darkOnTertiaryContainer">@color/material_dynamic_tertiary90</color>
+    <color name="darkBackground">@color/material_dynamic_neutral10</color>
+    <color name="darkOnBackground">@color/material_dynamic_neutral90</color>
+    <color name="darkSurface">@color/material_dynamic_neutral10</color>
+    <color name="darkOnSurface">@color/material_dynamic_neutral90</color>
+    <color name="darkSurfaceVariant">@color/material_dynamic_neutral_variant30</color>
+    <color name="darkOnSurfaceVariant">@color/material_dynamic_neutral_variant80</color>
+    <color name="darkInverseSurface">@color/material_dynamic_neutral90</color>
+    <color name="darkInverseOnSurface">@color/material_dynamic_neutral20</color>
+    <color name="darkOutline">@color/material_dynamic_neutral_variant60</color>
+
+    <color name="darkError">@color/m3_sys_color_dark_error</color>
+    <color name="darkOnError">@color/m3_sys_color_dark_on_error</color>
+    <color name="darkErrorContainer">@color/m3_sys_color_dark_error_container</color>
+    <color name="darkOnErrorContainer">@color/m3_sys_color_dark_on_error_container</color>
+
+    <color name="darkTextColorPrimary">@color/m3_dark_default_color_primary_text</color>
+    <color name="darkTextColorPrimaryInverse">@color/m3_default_color_primary_text</color>
+    <color name="darkTextColorSecondary">@color/m3_dark_default_color_secondary_text</color>
+    <color name="darkTextColorSecondaryInverse">@color/m3_default_color_secondary_text</color>
 </resources>

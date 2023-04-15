@@ -126,4 +126,7 @@ dependencies {
     kapt("androidx.room:room-compiler:2.4.3")
     annotationProcessor("androidx.room:room-compiler:2.4.3")
 
+    // Glance
+    implementation "androidx.glance:glance-appwidget:1.0.0-alpha05"
+
 }

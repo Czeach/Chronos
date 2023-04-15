@@ -9,13 +9,12 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.core.view.ViewCompat
 
 private val DarkColorScheme = darkColorScheme(
     background = Navy500,
     primary = White500,
     secondary = Red200,
-    inversePrimary = White200,
+    inversePrimary = White900,
     tertiary = Grey200,
     surface = Navy700,
     inverseSurface = Purple200,
@@ -65,7 +64,7 @@ private val LightColorScheme = lightColorScheme(
 fun ChronosTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = false,
+    dynamicColor: Boolean = true,
     content: @Composable() () -> Unit
 ) {
 

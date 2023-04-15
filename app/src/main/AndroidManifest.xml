@@ -26,6 +26,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".glance.AppWidgetBroadcastReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".glance.SavedPlacesGlanceWidgetReceiver"
+            android:enabled="@bool/glance_appwidget_available"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/saved_places_widget_glance" />
+        </receiver>
     </application>
 
 </manifest>

@@ -8,6 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class CurrentTimeRepositoryImpl @Inject constructor(
@@ -18,11 +20,11 @@ class CurrentTimeRepositoryImpl @Inject constructor(
 		return flow {
 			emit(DataState.loading())
 
-			val response = apiService.getCurrentTime(BuildConfig.API_KEY, location)
-
-			val currentTimeData = response.body()
-
 			try {
+				val response = apiService.getCurrentTime(BuildConfig.API_KEY, location)
+
+				val currentTimeData = response.body()
+
 				if (response.isSuccessful) {
 					if (currentTimeData == null) emit(DataState.data(message = "No result for $location"))
 
@@ -30,7 +32,13 @@ class CurrentTimeRepositoryImpl @Inject constructor(
 				} else {
 					emit(DataState.error(message = "Error ${response.code()}"))
 				}
-			} catch (e: Exception) {
+			} catch (e: HttpException) {
+				emit(
+					DataState.error(
+						message = e.message ?: "An error occurred"
+					)
+				)
+			} catch (e: IOException) {
 				emit(
 					DataState.error(
 						message = e.message ?: "An error occurred"

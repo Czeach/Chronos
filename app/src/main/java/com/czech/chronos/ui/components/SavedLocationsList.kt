@@ -99,39 +99,39 @@ fun SavedLocationsItem(
 	) {
 		Row(
 			horizontalArrangement = Arrangement.SpaceBetween,
-			modifier = modifier
+			modifier = Modifier
 				.fillMaxWidth()
 				.fillMaxHeight()
 		) {
 			Column(
 				horizontalAlignment = Alignment.Start,
-				modifier = modifier
+				modifier = Modifier
 			) {
 				Text(
 					text = data.requestedLocation.toString(),
 					color = MaterialTheme.colorScheme.inversePrimary,
 					fontSize = 20.sp,
 					fontFamily = Fonts.exo,
-					fontWeight = FontWeight.W400,
-					modifier = modifier
+					fontWeight = FontWeight.W600,
+					modifier = Modifier
 				)
 				Text(
 					text = difference,
-					color = MaterialTheme.colorScheme.tertiary,
+					color = MaterialTheme.colorScheme.primary,
 					fontSize = 12.sp,
 					fontFamily = Fonts.exo,
 					fontWeight = FontWeight.W500,
-					modifier = modifier
+					modifier = Modifier
 						.padding(top = 1.dp)
 				)
 			}
 			Text(
 				text = timeFormatter.format(locationTime),
-				color = MaterialTheme.colorScheme.primary,
+				color = MaterialTheme.colorScheme.inversePrimary,
 				fontSize = 28.sp,
 				fontFamily = Fonts.lexendDeca,
-				fontWeight = FontWeight.W400,
-				modifier = modifier
+				fontWeight = FontWeight.W600,
+				modifier = Modifier
 			)
 		}
 	}

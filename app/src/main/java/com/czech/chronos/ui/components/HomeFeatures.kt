@@ -189,7 +189,7 @@ fun HomeFeatures(
             contentAlignment = Alignment.Center,
             modifier = modifier
                 .layoutId("convert_time_bar")
-                .background(MaterialTheme.colorScheme.inverseSurface)
+                .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.25F))
                 .clickable(true) {
                     openBottomSheet()
                 }
@@ -197,10 +197,10 @@ fun HomeFeatures(
             Text(
                 text = "Convert Time Zone",
                 color = MaterialTheme.colorScheme.primary,
-                fontSize = 12.sp,
+                fontSize = 14.sp,
                 textAlign = TextAlign.Center,
                 fontFamily = Fonts.exo,
-                fontWeight = FontWeight.W400,
+                fontWeight = FontWeight.W600,
             )
         }
     }
