@@ -23,7 +23,6 @@ import kotlinx.coroutines.withContext
 import java.time.*
 import kotlin.math.absoluteValue
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SavedLocationsList(
 	list: List<CurrentTime>,
@@ -44,7 +43,6 @@ fun SavedLocationsList(
 	}
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SavedLocationsItem(
 	data: CurrentTime,

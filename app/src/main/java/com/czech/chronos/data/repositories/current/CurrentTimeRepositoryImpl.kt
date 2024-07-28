@@ -1,9 +1,10 @@
-package com.czech.chronos.repositories.convert
+package com.czech.chronos.data.repositories.current
 
 import com.czech.chronos.BuildConfig
 import com.czech.chronos.network.ApiService
-import com.czech.chronos.network.models.ConvertTime
+import com.czech.chronos.network.models.CurrentTime
 import com.czech.chronos.utils.DataState
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,32 +13,24 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class ConvertTimeRepositoryImpl @Inject constructor(
-	private val apiService: ApiService
-): ConvertTimeRepository {
+class CurrentTimeRepositoryImpl @Inject constructor(
+	private val apiService: ApiService,
+	private val dispatcher: CoroutineDispatcher
+): CurrentTimeRepository {
 
-	override fun convertTime(
-		baseLocation: String,
-		baseDatetime: String,
-		targetLocation: String
-	): Flow<DataState<ConvertTime>> {
+	override fun getCurrentTime(location: String): Flow<DataState<CurrentTime>> {
 		return flow {
 			emit(DataState.loading())
 
 			try {
-				val response = apiService.convertTime(
-					BuildConfig.API_KEY,
-					baseLocation,
-					baseDatetime,
-					targetLocation
-				)
+				val response = apiService.getCurrentTime(BuildConfig.API_KEY, location)
 
-				val convertTimeData = response.body()
+				val currentTimeData = response.body()
 
 				if (response.isSuccessful) {
-					if (convertTimeData == null) emit(DataState.data(message = "Error converting from $baseLocation time to $targetLocation time"))
+					if (currentTimeData == null) emit(DataState.success(message = "No result for $location"))
 
-					emit(DataState.data(data = convertTimeData))
+					emit(DataState.success(data = currentTimeData))
 				} else {
 					emit(DataState.error(message = "Error ${response.code()}"))
 				}
@@ -54,6 +47,6 @@ class ConvertTimeRepositoryImpl @Inject constructor(
 					)
 				)
 			}
-		}.flowOn(Dispatchers.IO)
+		}.flowOn(dispatcher)
 	}
 }

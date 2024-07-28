@@ -2,9 +2,7 @@ package com.czech.chronos.ui.screens
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.provider.CalendarContract
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import com.czech.chronos.ui.components.AppBar
 import com.czech.chronos.ui.components.ConvertResult
+import com.czech.chronos.ui.screens.home.HomeViewModel
 import com.czech.chronos.utils.DateUtil
 import com.czech.chronos.utils.Fonts
 import java.time.LocalDateTime
@@ -29,7 +28,6 @@ import java.time.temporal.TemporalAccessor
 import java.util.*
 import kotlin.math.absoluteValue
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConvertScreen(
@@ -60,58 +58,57 @@ fun ConvertScreen(
 
 			val context = LocalContext.current
 
-			if (viewModel.convertTimeResult.value != null) {
-				val result = viewModel.convertTimeResult.value?.targetLocation
-				val originalFormat = LocalDateTime.parse(result?.datetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-				val time = remember {
-					mutableStateOf(originalFormat.format(DateUtil.timeFormat))
-				}
-				val date = remember {
-					mutableStateOf(originalFormat.format(DateUtil.longDateFormat))
-				}
-				val city = remember {
-					mutableStateOf(result?.requestedLocation.toString())
-				}
-
-				val originalOffset = result?.gmtOffset?.toInt()
-				val gmtOffset = remember {
-					mutableStateOf("")
-				}
-				if (originalOffset != null) {
-					when {
-						originalOffset in -9..0 -> {
-							gmtOffset.value = "GMT -0${originalOffset.absoluteValue}:00"
-						}
-						originalOffset < -9 -> {
-							gmtOffset.value = "GMT -${originalOffset.absoluteValue}:00"
-						}
-						originalOffset in 1..9 -> {
-							gmtOffset.value = "GMT +0${originalOffset.absoluteValue}:00"
-						}
-						originalOffset > 9 -> {
-							gmtOffset.value = "GMT +${originalOffset.absoluteValue}:00"
-						}
-					}
-				}
-				ConvertResult(
-					date = date,
-					time = time,
-					city = city,
-					gmtOffset = gmtOffset,
-					onAddToCalendarClicked = {
-						addToCalendar(
-							context = context,
-							originalFormat = originalFormat
-						)
-					}
-				)
-			}
+//			if (viewModel.convertTimeResult.value != null) {
+//				val result = viewModel.convertTimeResult.value?.targetLocation
+//				val originalFormat = LocalDateTime.parse(result?.datetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//				val time = remember {
+//					mutableStateOf(originalFormat.format(DateUtil.timeFormat))
+//				}
+//				val date = remember {
+//					mutableStateOf(originalFormat.format(DateUtil.longDateFormat))
+//				}
+//				val city = remember {
+//					mutableStateOf(result?.requestedLocation.toString())
+//				}
+//
+//				val originalOffset = result?.gmtOffset?.toInt()
+//				val gmtOffset = remember {
+//					mutableStateOf("")
+//				}
+//				if (originalOffset != null) {
+//					when {
+//						originalOffset in -9..0 -> {
+//							gmtOffset.value = "GMT -0${originalOffset.absoluteValue}:00"
+//						}
+//						originalOffset < -9 -> {
+//							gmtOffset.value = "GMT -${originalOffset.absoluteValue}:00"
+//						}
+//						originalOffset in 1..9 -> {
+//							gmtOffset.value = "GMT +0${originalOffset.absoluteValue}:00"
+//						}
+//						originalOffset > 9 -> {
+//							gmtOffset.value = "GMT +${originalOffset.absoluteValue}:00"
+//						}
+//					}
+//				}
+//				ConvertResult(
+//					date = date,
+//					time = time,
+//					city = city,
+//					gmtOffset = gmtOffset,
+//					onAddToCalendarClicked = {
+//						addToCalendar(
+//							context = context,
+//							originalFormat = originalFormat
+//						)
+//					}
+//				)
+//			}
 		}
 	}
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 private fun addToCalendar(context: Context, originalFormat:  LocalDateTime) {
 
 	val intent = Intent(Intent.ACTION_INSERT)
@@ -130,7 +127,6 @@ private fun addToCalendar(context: Context, originalFormat:  LocalDateTime) {
 
 	startActivity(context, Intent.createChooser(intent, ""), null)
 }
-@RequiresApi(Build.VERSION_CODES.O)
 private fun getMonthNumber(monthName: String?): Int {
 	val dtFormatter = DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH)
 	val temporalAccessor: TemporalAccessor = dtFormatter.parse(monthName)

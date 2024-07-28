@@ -18,6 +18,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.czech.chronos.R
@@ -31,7 +32,7 @@ fun SearchBar(
     resetCurrentTime: () -> Unit,
     hideKeyboard: Boolean = false,
     hint: String,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
 
     var isHintDisplayed by remember {

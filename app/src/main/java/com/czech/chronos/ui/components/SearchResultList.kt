@@ -26,7 +26,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 @SuppressLint("StateFlowValueCalledInComposition")
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SearchResultList(
     list: List<CurrentTime>,
@@ -51,7 +50,6 @@ fun SearchResultList(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SearchResultItem(
     data: CurrentTime,

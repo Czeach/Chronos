@@ -1,10 +1,11 @@
-package com.czech.chronos.repositories.places
+package com.czech.chronos.data.repositories.places
 
 import com.czech.chronos.BuildConfig
 import com.czech.chronos.network.PlacesApiService
 import com.czech.chronos.network.models.PlacePredictions
 import com.czech.chronos.utils.Constants
 import com.czech.chronos.utils.DataState
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,7 +14,8 @@ import java.net.ConnectException
 import javax.inject.Inject
 
 class PlacesRepositoryImpl @Inject constructor(
-	private val placesApiService: PlacesApiService
+	private val placesApiService: PlacesApiService,
+	private val dispatcher: CoroutineDispatcher
 ): PlacesRepository {
 
 	override fun predictPlace(input: String): Flow<DataState<PlacePredictions>> {
@@ -32,9 +34,9 @@ class PlacesRepositoryImpl @Inject constructor(
 			try {
 				when (response.isSuccessful) {
 					true -> {
-						if (predictions == null) emit(DataState.data(message = "Can't find city"))
+						if (predictions == null) emit(DataState.success(message = "Can't find city"))
 
-						emit(DataState.data(data = predictions))
+						emit(DataState.success(data = predictions))
 					}
 					false -> {
 						emit(DataState.error(message = "Error ${response.code()}"))
@@ -53,6 +55,6 @@ class PlacesRepositoryImpl @Inject constructor(
 					)
 				)
 			}
-		}.flowOn(Dispatchers.IO)
+		}.flowOn(dispatcher)
 	}
 }

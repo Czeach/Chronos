@@ -1,3 +1,9 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -7,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Chronos"
-include ':app'
+include(":app")

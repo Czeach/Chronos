@@ -1,4 +1,4 @@
-package com.czech.chronos.utils.states
+package com.czech.chronos.data.states
 
 import com.czech.chronos.network.models.ConvertTime
 

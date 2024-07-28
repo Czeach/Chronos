@@ -1,4 +1,4 @@
-package com.czech.chronos.repositories.places
+package com.czech.chronos.data.repositories.places
 
 import com.czech.chronos.network.models.PlacePredictions
 import com.czech.chronos.utils.DataState

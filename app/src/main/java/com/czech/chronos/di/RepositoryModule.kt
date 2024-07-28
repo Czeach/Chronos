@@ -2,12 +2,15 @@ package com.czech.chronos.di
 
 import com.czech.chronos.network.ApiService
 import com.czech.chronos.network.PlacesApiService
-import com.czech.chronos.repositories.convert.ConvertTimeRepository
-import com.czech.chronos.repositories.convert.ConvertTimeRepositoryImpl
-import com.czech.chronos.repositories.current.CurrentTimeRepository
-import com.czech.chronos.repositories.current.CurrentTimeRepositoryImpl
-import com.czech.chronos.repositories.places.PlacesRepository
-import com.czech.chronos.repositories.places.PlacesRepositoryImpl
+import com.czech.chronos.data.repositories.convert.ConvertTimeRepository
+import com.czech.chronos.data.repositories.convert.ConvertTimeRepositoryImpl
+import com.czech.chronos.data.repositories.current.CurrentTimeRepository
+import com.czech.chronos.data.repositories.current.CurrentTimeRepositoryImpl
+import com.czech.chronos.data.repositories.current.SavedTimeRepository
+import com.czech.chronos.data.repositories.current.SavedTimeRepositoryImpl
+import com.czech.chronos.data.repositories.places.PlacesRepository
+import com.czech.chronos.data.repositories.places.PlacesRepositoryImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,32 +18,25 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @[Module InstallIn(SingletonComponent::class)]
-object RepositoryModule {
+abstract class RepositoryModule {
 
-    @[Provides Singleton]
-    fun providePlacesRepository(
-        placesApiService: PlacesApiService
-    ): PlacesRepository {
-        return PlacesRepositoryImpl(
-            placesApiService = placesApiService
-        )
-    }
+    @[Binds Singleton]
+    abstract fun providePlacesRepository(
+        placesRepositoryImpl: PlacesRepositoryImpl
+    ): PlacesRepository
 
-    @[Provides Singleton]
-    fun provideCurrentTimeRepository(
-        apiService: ApiService
-    ): CurrentTimeRepository {
-        return CurrentTimeRepositoryImpl(
-            apiService = apiService
-        )
-    }
+    @[Binds Singleton]
+    abstract fun provideCurrentTimeRepository(
+        currentTimeRepositoryImpl: CurrentTimeRepositoryImpl
+    ): CurrentTimeRepository
 
-    @[Provides Singleton]
-    fun provideConvertTimeRepository(
-        apiService: ApiService
-    ): ConvertTimeRepository {
-        return ConvertTimeRepositoryImpl(
-            apiService = apiService
-        )
-    }
+    @[Binds Singleton]
+    abstract fun provideConvertTimeRepository(
+        convertTimeRepositoryImpl: ConvertTimeRepositoryImpl
+    ): ConvertTimeRepository
+
+    @[Binds Singleton]
+    abstract fun provideSavedTimeRepository(
+        savedTimeRepositoryImpl: SavedTimeRepositoryImpl
+    ): SavedTimeRepository
 }

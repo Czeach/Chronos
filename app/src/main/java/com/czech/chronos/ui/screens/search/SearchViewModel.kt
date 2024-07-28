@@ -1,38 +1,39 @@
 package com.czech.chronos.ui.screens.search
 
 import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.czech.chronos.room.useCases.CurrentTimeDaoUseCase
-import com.czech.chronos.room.CurrentTimeEntity
+import com.czech.chronos.data.repositories.current.CurrentTimeRepository
+import com.czech.chronos.data.repositories.current.SavedTimeRepository
+import com.czech.chronos.data.repositories.places.PlacesRepository
+import com.czech.chronos.data.states.CurrentTimeState
+import com.czech.chronos.data.states.PredictionsState
+import com.czech.chronos.data.states.SavedTimesState
 import com.czech.chronos.network.models.CurrentTime
-import com.czech.chronos.repositories.current.CurrentTimeRepository
-import com.czech.chronos.repositories.places.PlacesRepository
-import com.czech.chronos.utils.states.CurrentTimeState
-import com.czech.chronos.utils.states.PredictionsState
+import com.czech.chronos.room.CurrentTimeEntity
+import com.czech.chronos.room.useCases.CurrentTimeDaoUseCase
 import com.czech.chronos.utils.toCurrentTimeList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import java.util.*
 import javax.inject.Inject
 
 @SuppressLint("SimpleDateFormat")
-@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val placesRepository: PlacesRepository,
-    private val currentTimeRepository: CurrentTimeRepository,
-    private val currentTimeDaoUseCase: CurrentTimeDaoUseCase
+	private val placesRepository: PlacesRepository,
+	private val currentTimeRepository: CurrentTimeRepository,
+	private val savedTimeRepository: SavedTimeRepository
 ): ViewModel() {
 
-    var inputState = mutableStateOf(TextFieldValue(""))
     val predictionsState = MutableStateFlow<PredictionsState?>(null)
-    val currentTimeState = MutableStateFlow<CurrentTimeState?>(null)
+    private val _currentTimeState = MutableStateFlow<CurrentTimeState?>(null)
+    val currentTimeState: StateFlow<CurrentTimeState?> = _currentTimeState
 
     val isInDB = MutableStateFlow(false)
     val currentTimeFromDB = MutableStateFlow(listOf<CurrentTime>())
@@ -59,29 +60,38 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun insertCurrentTimeIntoDB(currentTime: CurrentTimeEntity, checked: Boolean) {
-        viewModelScope.launch {
-            currentTime.checked = checked
-            currentTimeDaoUseCase.insertCurrentTime(currentTime)
-        }
-    }
+//    fun insertCurrentTimeIntoDB(currentTime: CurrentTimeEntity, checked: Boolean) {
+//        viewModelScope.launch {
+//            currentTime.checked = checked
+//            currentTimeDaoUseCase.insertCurrentTime(currentTime)
+//        }
+//    }
 
-    fun deleteCurrentTimeFromDB(location: String) {
-        viewModelScope.launch {
-            currentTimeDaoUseCase.deleteCurrentTime(location)
-            getCurrentTimeListFromDB()
-        }
-    }
+//    fun deleteCurrentTimeFromDB(location: String) {
+//        viewModelScope.launch {
+//            currentTimeDaoUseCase.deleteCurrentTime(location)
+//            getCurrentTimeListFromDB()
+//        }
+//    }
 
-    fun isCurrentTimeInDB(location: String) {
-        viewModelScope.launch {
-            isInDB.value = currentTimeDaoUseCase.exists(location)
-        }
-    }
+//    fun isCurrentTimeInDB(location: String) {
+//        viewModelScope.launch {
+//            isInDB.value = currentTimeDaoUseCase.exists(location)
+//        }
+//    }
 
     fun getCurrentTimeListFromDB() {
         viewModelScope.launch {
-            currentTimeFromDB.value = currentTimeDaoUseCase.getAllCurrentTimes().toCurrentTimeList()
+            savedTimeRepository.getSavedTime().collect {
+                when {
+                    it.isSuccess -> {
+                        _currentTimeState.value = CurrentTimeState.Success(data = it.data?.last())
+                    }
+                    it.isError -> {
+                        _currentTimeState.value = it.message?.let { it1 -> CurrentTimeState.Error(message = it1) }
+                    }
+                }
+            }
         }
     }
 
@@ -89,16 +99,11 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             currentTimeRepository.getCurrentTime(location).collect {
                 when {
-                    it.isLoading -> {
-                        currentTimeState.value = CurrentTimeState.Loading
+                    it.isError-> {
+                        _currentTimeState.value = CurrentTimeState.Error(message = it.message.toString())
                     }
-                    it.data == null-> {
-                        currentTimeState.value = CurrentTimeState.Error(message = it.message.toString())
-                    }
-                    else -> {
-                        it.data.let { data ->
-                            currentTimeState.value = CurrentTimeState.Success(data = data)
-                        }
+                    it.isSuccess -> {
+                        _currentTimeState.value = CurrentTimeState.Success(data = it.data)
                     }
                 }
             }

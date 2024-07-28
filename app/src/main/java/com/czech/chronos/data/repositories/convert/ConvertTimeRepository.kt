@@ -1,4 +1,4 @@
-package com.czech.chronos.repositories.convert
+package com.czech.chronos.data.repositories.convert
 
 import com.czech.chronos.network.models.ConvertTime
 import com.czech.chronos.utils.DataState

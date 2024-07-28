@@ -1,8 +1,7 @@
-package com.czech.chronos.ui.screens
+package com.czech.chronos.ui.screens.home
 
 import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -15,12 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.czech.chronos.data.states.SavedTimesState
 import com.czech.chronos.ui.components.ConvertBottomSheetContent
 import com.czech.chronos.ui.components.HomeFeatures
 import com.czech.chronos.utils.DateUtil
-import com.czech.chronos.utils.states.ConvertTimeState
-import com.czech.chronos.utils.states.HomePredictionsState
-import com.czech.chronos.utils.states.TargetPredictionsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -29,7 +26,6 @@ import java.time.LocalDateTime
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     onSettingsClicked: () -> Unit,
@@ -71,17 +67,17 @@ fun HomeScreen(
                 homeInput = homeInput,
                 targetInput = targetInput,
                 context = context,
-                homePredictions = viewModel.homePredictionsList.value,
-                targetPredictions = viewModel.targetPredictionsList.value,
+                homePredictions = listOf(),
+                targetPredictions = listOf(),
                 onHomePredictionClick = { location ->
                     homeInput.value = TextFieldValue(location)
-                    viewModel.homePredictionsList.value = emptyList()
-                    viewModel.homePredictionsState.value = null
+//                    viewModel.homePredictionsList.value = emptyList()
+//                    viewModel.homePredictionsState.value = null
                 },
                 onTargetPredictionClick = { location ->
                     targetInput.value = TextFieldValue(location)
-                    viewModel.targetPredictionsList.value = emptyList()
-                    viewModel.targetPredictionsState.value = null
+//                    viewModel.targetPredictionsList.value = emptyList()
+//                    viewModel.targetPredictionsState.value = null
                 },
                 onConvertClicked = {
                     viewModel.convertTime(
@@ -90,25 +86,25 @@ fun HomeScreen(
                         targetLocation = targetInput.value.text
                     )
                     coroutineScope.launch {
-                        viewModel.convertTimeState.collect {
-                            when(it) {
-                                is ConvertTimeState.Loading -> {
-
-                                }
-                                is ConvertTimeState.Success -> {
-                                    if (it.data != null) {
-                                        viewModel.convertTimeResult.value = it.data
-                                        onConvertClicked()
-                                    }
-                                }
-                                is ConvertTimeState.Error -> {
-
-                                }
-                                else -> {
-
-                                }
-                            }
-                        }
+//                        viewModel.convertTimeState.collect {
+//                            when(it) {
+//                                is ConvertTimeState.Loading -> {
+//
+//                                }
+//                                is ConvertTimeState.Success -> {
+//                                    if (it.data != null) {
+//                                        viewModel.convertTimeResult.value = it.data
+//                                        onConvertClicked()
+//                                    }
+//                                }
+//                                is ConvertTimeState.Error -> {
+//
+//                                }
+//                                else -> {
+//
+//                                }
+//                            }
+//                        }
                     }
                 },
                 modifier = Modifier
@@ -142,8 +138,6 @@ fun HomeScreen(
                 }
             }
 
-            viewModel.getSavedLocationsFromDB()
-
             if (homeInput.value.text.isNotEmpty() && (homeInput.value.text.length > 2)) {
                 LaunchedEffect(key1 = Unit) {
                     delay(200)
@@ -164,6 +158,26 @@ fun HomeScreen(
                 viewModel = viewModel
             )
 
+            viewModel.getSavedLocations()
+
+            val state = viewModel.savedTimeState.collectAsState().value
+
+            val locations = when (state) {
+                is SavedTimesState.Success -> state.data
+                else -> emptyList()
+            }
+
+            val errorMsg = when (state) {
+                is SavedTimesState.Error -> state.message
+                else -> null
+            }
+            
+            LaunchedEffect(errorMsg) {
+                if (!errorMsg.isNullOrBlank()) {
+                    Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+                }
+            }
+
             HomeFeatures(
                 timeText = localTime,
                 dateText = localDate,
@@ -177,7 +191,7 @@ fun HomeScreen(
                             bottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
                     }
                 },
-                locations = viewModel.savedLocations.collectAsState().value,
+                locations = locations,
                 modifier = Modifier
                     .padding(padding)
             )
@@ -185,39 +199,38 @@ fun HomeScreen(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ObservePredictions(
     viewModel: HomeViewModel
 ) {
-    when (val state = viewModel.homePredictionsState.collectAsState().value) {
-        is HomePredictionsState.Loading -> {
-
-        }
-        is HomePredictionsState.Success -> {
-            if (state.data != null) {
-                viewModel.homePredictionsList.value = state.data
-            }
-
-        }
-        else -> {
-
-        }
-    }
-
-    when (val state = viewModel.targetPredictionsState.collectAsState().value) {
-        is TargetPredictionsState.Loading -> {
-
-        }
-        is TargetPredictionsState.Success -> {
-            if (state.data != null) {
-                viewModel.targetPredictionsList.value = state.data
-            }
-
-        }
-        else -> {
-
-        }
-    }
+//    when (val state = viewModel.homePredictionsState.collectAsState().value) {
+//        is HomePredictionsState.Loading -> {
+//
+//        }
+//        is HomePredictionsState.Success -> {
+//            if (state.data != null) {
+//                viewModel.homePredictionsList.value = state.data
+//            }
+//
+//        }
+//        else -> {
+//
+//        }
+//    }
+//
+//    when (val state = viewModel.targetPredictionsState.collectAsState().value) {
+//        is TargetPredictionsState.Loading -> {
+//
+//        }
+//        is TargetPredictionsState.Success -> {
+//            if (state.data != null) {
+//                viewModel.targetPredictionsList.value = state.data
+//            }
+//
+//        }
+//        else -> {
+//
+//        }
+//    }
 }
 
